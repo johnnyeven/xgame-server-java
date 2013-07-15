@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.xgame.server.common.database.DatabaseRouter;
-import com.xgame.server.common.protocol.ProtocolRouter;
+import com.xgame.server.common.protocol.*;;
 
 public class LoginServer
 {
@@ -23,6 +23,7 @@ public class LoginServer
     public LoginServer()
     {
 		router = new ProtocolRouter();
+		router.Bind((short)0x20, ProtocolRequestQuickStart.class);
 		
 		DatabaseRouter.getInstance();
 		
@@ -46,21 +47,42 @@ public class LoginServer
     		public void completed(AsynchronousSocketChannel result,Object attachment)
     		{
                 final AsynchronousSocketChannel finnalResult=result;
-    			server.accept(null, this);
     			
     			try
     			{
     				buffer.clear();
     				result.read(buffer, null, new CompletionHandler<Integer, Object>() {
-    					
     					public void completed(Integer result1, Object result2)
     					{
-    						//处理buffer
-    						buffer.flip();
-    						
-    						
-    						buffer.clear();
-    						finnalResult.read(buffer, null, this);
+    						if(result1 > 0)
+    						{
+	    						//处理buffer
+	    						buffer.flip();
+	    						byte[] byteData = buffer.array();
+	    						int packageLength = buffer.getInt();
+	    						short protocolId = buffer.getShort();
+	    						
+	    						ProtocolParam parameter = new ProtocolParam();
+	    						parameter.client = finnalResult;
+	    						parameter.receiveDataLength = result1;
+	    						parameter.receiveData = buffer;
+	    						parameter.offset = 6;
+	    						router.Trigger(protocolId, parameter);
+	    						
+	    						buffer.clear();
+	    						finnalResult.read(buffer, null, this);
+    						}
+    						else
+    						{
+    							try
+    							{
+    								finnalResult.close();
+    							}
+    							catch(IOException e)
+    							{
+    								e.printStackTrace();
+    							}
+    						}
     					}
     					
     					public void failed(Throwable exc, Object result2)
@@ -74,6 +96,10 @@ public class LoginServer
     			catch(Exception e)
     			{
     				e.printStackTrace();
+    			}
+    			finally
+    			{
+        			server.accept(null, this);
     			}
     		}
     		
