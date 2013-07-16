@@ -58,7 +58,6 @@ public class LoginServer
     						{
 	    						//¥¶¿Ìbuffer
 	    						buffer.flip();
-	    						byte[] byteData = buffer.array();
 	    						int packageLength = buffer.getInt();
 	    						short protocolId = buffer.getShort();
 	    						

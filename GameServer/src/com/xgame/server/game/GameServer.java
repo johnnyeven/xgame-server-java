@@ -12,6 +12,7 @@ import java.util.Map;
 
 import com.xgame.server.common.database.DatabaseRouter;
 import com.xgame.server.common.protocol.ProtocolRouter;
+import com.xgame.server.common.protocol.*;
 
 public class GameServer
 {
@@ -23,6 +24,7 @@ public class GameServer
 	public GameServer()
 	{
 		router = new ProtocolRouter();
+        router.Bind((short)0x0040, ProtocolRequestAccountRole.class);
 		
 		DatabaseRouter.getInstance();
 		
@@ -57,6 +59,7 @@ public class GameServer
     						{
 	    						//¥¶¿Ìbuffer
 	    						buffer.flip();
+	    						int packageLength = buffer.getInt();
 	    						short protocolId = buffer.getShort();
 	    						
 	    						ProtocolParam parameter = new ProtocolParam();
@@ -118,7 +121,7 @@ public class GameServer
 
 	public static void main(String[] args)
 	{
-		
+		new GameServer().startCompletionPort();
 	}
 
 }
