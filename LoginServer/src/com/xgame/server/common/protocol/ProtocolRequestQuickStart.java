@@ -1,14 +1,18 @@
 package com.xgame.server.common.protocol;
 
 import java.security.MessageDigest;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.UUID;
 
+import com.xgame.server.CommandCenter;
 import com.xgame.server.common.database.DatabaseRouter;
 import com.xgame.server.login.ProtocolParam;
 import com.xgame.server.common.protocol.EnumProtocol;
+import com.xgame.server.common.PackageItem;
+import com.xgame.server.common.ServerPackage;
 
 public class ProtocolRequestQuickStart implements IProtocol
 {
@@ -45,12 +49,21 @@ public class ProtocolRequestQuickStart implements IProtocol
 			
 			try
 			{
-				Statement st = DatabaseRouter.getInstance().getDbConnection().createStatement();
 				String sql = "insert into pulse_account(account_name, account_pass) values ('" + name + "', '" + pass + "')";
-				st.executeUpdate(sql);
+				PreparedStatement st = DatabaseRouter.getInstance().getDbConnection().prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+				st.executeUpdate();
 				ResultSet rs = st.getGeneratedKeys();
 				rs.next();
 				int insertId = rs.getInt(1);
+				
+				ServerPackage pack = new ServerPackage();
+				pack.success = EnumProtocol.ACK_CONFIRM;
+				pack.protocolId = (short)0x0020;
+				pack.parameter.add(new PackageItem(4, insertId));
+				pack.parameter.add(new PackageItem(name.length(), name));
+				pack.parameter.add(new PackageItem(pass.length(), pass));
+				
+				CommandCenter.send(parameter.client, pack);
 			}
 			catch (SQLException e)
 			{

@@ -23,7 +23,7 @@ public class LoginServer
     public LoginServer()
     {
 		router = new ProtocolRouter();
-		router.Bind((short)0x20, ProtocolRequestQuickStart.class);
+		router.Bind((short)0x0020, ProtocolRequestQuickStart.class);
 		
 		DatabaseRouter.getInstance();
 		
@@ -89,7 +89,6 @@ public class LoginServer
     					{
     						exc.printStackTrace();
     						buffer.clear();
-    						finnalResult.read(buffer, null, this);
     					}
     				});
     			}
