@@ -11,7 +11,6 @@ import java.util.List;
 import java.util.Map;
 
 import com.xgame.server.common.database.DatabaseRouter;
-import com.xgame.server.common.protocol.ProtocolRouter;
 import com.xgame.server.common.protocol.*;
 
 public class GameServer
@@ -25,6 +24,8 @@ public class GameServer
 	{
 		router = new ProtocolRouter();
         router.Bind((short)0x0040, ProtocolRequestAccountRole.class);
+        router.Bind((short)0x0050, ProtocolRegisterAccountRole.class);
+        router.Bind((short)0x0060, ProtocolRequestHotkey.class);
 		
 		DatabaseRouter.getInstance();
 		

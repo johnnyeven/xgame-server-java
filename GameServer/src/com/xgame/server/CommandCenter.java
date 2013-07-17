@@ -27,7 +27,15 @@ public class CommandCenter
 		for(int i = 0; i < pack.parameter.size(); i++)
 		{
 			PackageItem item = pack.parameter.get(i);
-			buffer.putInt(item.length);
+			if(item.item instanceof String)
+			{
+				byte[] str = ((String)item.item).getBytes(Charset.forName("UTF-8"));
+				buffer.putInt(str.length);
+			}
+			else
+			{
+				buffer.putInt(item.length);
+			}
 			dataLength += 4;
 			
 			if(item.item instanceof String)
@@ -38,7 +46,7 @@ public class CommandCenter
 				strVal = (String)item.item;
 				byte[] strBytes = strVal.getBytes(Charset.forName("UTF-8"));
 				buffer.put(strBytes, 0, strBytes.length);
-				dataLength += strVal.length();
+				dataLength += strBytes.length;
 			}
 			else if(item.item instanceof Integer)
 			{
