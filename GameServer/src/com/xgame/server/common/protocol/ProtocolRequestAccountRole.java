@@ -18,17 +18,17 @@ public class ProtocolRequestAccountRole implements IProtocol
 	{
 		ProtocolParam parameter = (ProtocolParam)param;
 		
-		int guid = Integer.MIN_VALUE;
+		long guid = Long.MIN_VALUE;
 		for(int i = parameter.offset; i < parameter.receiveDataLength; )
 		{
 			int length = parameter.receiveData.getInt();
 			int type = parameter.receiveData.get();
 			switch(type)
 			{
-				case EnumProtocol.TYPE_INT:
-					if(guid == Integer.MIN_VALUE)
+				case EnumProtocol.TYPE_LONG:
+					if(guid == Long.MIN_VALUE)
 					{
-						guid = parameter.receiveData.getInt();
+						guid = parameter.receiveData.getLong();
 					}
 					break;
 			}
@@ -36,7 +36,7 @@ public class ProtocolRequestAccountRole implements IProtocol
 		}
 		System.out.println("[RequestAccountRole] Guid=" + guid);
 		
-		if(guid != Integer.MIN_VALUE)
+		if(guid != Long.MIN_VALUE)
 		{
 			try
 			{

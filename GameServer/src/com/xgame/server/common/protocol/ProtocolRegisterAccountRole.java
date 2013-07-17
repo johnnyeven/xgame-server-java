@@ -20,7 +20,7 @@ public class ProtocolRegisterAccountRole implements IProtocol
 	{
 		ProtocolParam parameter = (ProtocolParam)param;
 		
-		int guid = Integer.MIN_VALUE;
+		long guid = Long.MIN_VALUE;
 		String nickName = null;
 		
 		for(int i = parameter.offset; i < parameter.receiveDataLength; )
@@ -29,10 +29,10 @@ public class ProtocolRegisterAccountRole implements IProtocol
 			int type = parameter.receiveData.get();
 			switch(type)
 			{
-				case EnumProtocol.TYPE_INT:
-					if(guid == Integer.MIN_VALUE)
+				case EnumProtocol.TYPE_LONG:
+					if(guid == Long.MIN_VALUE)
 					{
-						guid = parameter.receiveData.getInt();
+						guid = parameter.receiveData.getLong();
 					}
 					break;
 				case EnumProtocol.TYPE_STRING:

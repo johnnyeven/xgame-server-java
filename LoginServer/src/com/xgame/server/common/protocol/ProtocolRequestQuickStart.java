@@ -54,12 +54,12 @@ public class ProtocolRequestQuickStart implements IProtocol
 				st.executeUpdate();
 				ResultSet rs = st.getGeneratedKeys();
 				rs.next();
-				int insertId = rs.getInt(1);
+				long insertId = rs.getLong(1);
 				
 				ServerPackage pack = new ServerPackage();
 				pack.success = EnumProtocol.ACK_CONFIRM;
 				pack.protocolId = (short)0x0020;
-				pack.parameter.add(new PackageItem(4, insertId));
+				pack.parameter.add(new PackageItem(8, insertId));
 				pack.parameter.add(new PackageItem(name.length(), name));
 				pack.parameter.add(new PackageItem(pass.length(), pass));
 				

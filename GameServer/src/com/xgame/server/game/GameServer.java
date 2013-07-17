@@ -17,7 +17,7 @@ public class GameServer
 {
 	private ProtocolRouter router;
     private AsynchronousServerSocketChannel server;
-    public Map<String, List<AsynchronousSocketChannel>> map= new HashMap<String, List<AsynchronousSocketChannel>>(); 
+    public Map<Long, List<AsynchronousSocketChannel>> map= new HashMap<Long, List<AsynchronousSocketChannel>>(); 
     public final static int PORT = 9050;
 
 	public GameServer()
