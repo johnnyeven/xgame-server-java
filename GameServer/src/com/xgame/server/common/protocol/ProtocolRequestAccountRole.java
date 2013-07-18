@@ -5,6 +5,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import com.xgame.server.CommandCenter;
+import com.xgame.server.common.CharacterProperty;
 import com.xgame.server.common.PackageItem;
 import com.xgame.server.common.ServerPackage;
 import com.xgame.server.common.database.DatabaseRouter;
@@ -48,22 +49,43 @@ public class ProtocolRequestAccountRole implements IProtocol
 				pack.protocolId = 0x0040;
 				if(rs.first())
 				{
-					pack.parameter.add(new PackageItem(8, rs.getLong("account_id")));
+					long accountId = rs.getLong("account_id");
+					pack.parameter.add(new PackageItem(8, accountId));
 					
 					String nickName = rs.getString("nick_name");
 					pack.parameter.add(new PackageItem(nickName.length(), nickName));
 					
-					pack.parameter.add(new PackageItem(8, rs.getLong("account_cash")));
-					pack.parameter.add(new PackageItem(4, rs.getInt("direction")));
-					pack.parameter.add(new PackageItem(4, rs.getInt("current_health")));
-					pack.parameter.add(new PackageItem(4, rs.getInt("max_health")));
-					pack.parameter.add(new PackageItem(4, rs.getInt("current_mana")));
-					pack.parameter.add(new PackageItem(4, rs.getInt("max_mana")));
-					pack.parameter.add(new PackageItem(4, rs.getInt("current_energy")));
-					pack.parameter.add(new PackageItem(4, rs.getInt("max_energy")));
-					pack.parameter.add(new PackageItem(4, rs.getInt("current_x")));
-					pack.parameter.add(new PackageItem(4, rs.getInt("current_y")));
+					long accountCash = rs.getLong("account_cash");
+					pack.parameter.add(new PackageItem(8, accountCash));
 					
+					int direction = rs.getInt("direction");
+					pack.parameter.add(new PackageItem(4, direction));
+					
+					int currentHealth = rs.getInt("current_health");
+					pack.parameter.add(new PackageItem(4, currentHealth));
+
+					int maxHealth = rs.getInt("max_health");
+					pack.parameter.add(new PackageItem(4, maxHealth));
+
+					int currentMana = rs.getInt("current_mana");
+					pack.parameter.add(new PackageItem(4, currentMana));
+
+					int maxMana = rs.getInt("max_mana");
+					pack.parameter.add(new PackageItem(4, maxMana));
+
+					int currentEnergy = rs.getInt("current_energy");
+					pack.parameter.add(new PackageItem(4, currentEnergy));
+
+					int maxEnergy = rs.getInt("max_energy");
+					pack.parameter.add(new PackageItem(4, maxEnergy));
+
+					int currentX = rs.getInt("current_x");
+					pack.parameter.add(new PackageItem(4, currentX));
+
+					int currentY = rs.getInt("current_y");
+					pack.parameter.add(new PackageItem(4, currentY));
+					
+					CharacterProperty property = new CharacterProperty();
 				}
 				else
 				{

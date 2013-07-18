@@ -10,6 +10,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.xgame.server.common.CharacterProperty;
 import com.xgame.server.common.database.DatabaseRouter;
 import com.xgame.server.common.protocol.*;
 
@@ -17,7 +18,7 @@ public class GameServer
 {
 	private ProtocolRouter router;
     private AsynchronousServerSocketChannel server;
-    public Map<Long, List<AsynchronousSocketChannel>> map= new HashMap<Long, List<AsynchronousSocketChannel>>(); 
+    public static Map<AsynchronousSocketChannel, CharacterProperty> map= new HashMap<AsynchronousSocketChannel, CharacterProperty>(); 
     public final static int PORT = 9050;
 
 	public GameServer()
