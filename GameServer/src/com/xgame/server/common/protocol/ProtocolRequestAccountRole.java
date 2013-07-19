@@ -9,6 +9,7 @@ import com.xgame.server.common.CharacterProperty;
 import com.xgame.server.common.PackageItem;
 import com.xgame.server.common.ServerPackage;
 import com.xgame.server.common.database.DatabaseRouter;
+import com.xgame.server.game.GameServer;
 import com.xgame.server.game.ProtocolParam;
 
 public class ProtocolRequestAccountRole implements IProtocol
@@ -52,6 +53,8 @@ public class ProtocolRequestAccountRole implements IProtocol
 					long accountId = rs.getLong("account_id");
 					pack.parameter.add(new PackageItem(8, accountId));
 					
+					int level = rs.getInt("level");
+					
 					String nickName = rs.getString("nick_name");
 					pack.parameter.add(new PackageItem(nickName.length(), nickName));
 					
@@ -60,6 +63,10 @@ public class ProtocolRequestAccountRole implements IProtocol
 					
 					int direction = rs.getInt("direction");
 					pack.parameter.add(new PackageItem(4, direction));
+					
+					int action = rs.getInt("action");
+					
+					int speed = rs.getInt("speed");
 					
 					int currentHealth = rs.getInt("current_health");
 					pack.parameter.add(new PackageItem(4, currentHealth));
@@ -85,7 +92,29 @@ public class ProtocolRequestAccountRole implements IProtocol
 					int currentY = rs.getInt("current_y");
 					pack.parameter.add(new PackageItem(4, currentY));
 					
+					int mapId = rs.getInt("map_id");
+					
 					CharacterProperty property = new CharacterProperty();
+					property.accountId = accountId;
+					property.level = level;
+					property.name = nickName;
+					property.speed = speed;
+					property.accountCash = accountCash;
+					property.direction = direction;
+					property.action = action;
+					property.mapId = mapId;
+					property.currentX = currentX;
+					property.currentY = currentY;
+					property.healthMax = maxHealth;
+					property.health = currentHealth;
+					property.manaMax = maxMana;
+					property.mana = currentMana;
+					property.energyMax = maxEnergy;
+					property.energy = currentEnergy;
+					property.channel = parameter.client;
+					
+					GameServer.map.put(parameter.client, property);
+					
 				}
 				else
 				{

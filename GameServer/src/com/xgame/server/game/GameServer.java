@@ -7,18 +7,19 @@ import java.nio.channels.AsynchronousServerSocketChannel;
 import java.nio.channels.AsynchronousSocketChannel;
 import java.nio.channels.CompletionHandler;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import com.xgame.server.common.CharacterProperty;
 import com.xgame.server.common.database.DatabaseRouter;
 import com.xgame.server.common.protocol.*;
+import info.tregmine.quadtree.*;
 
 public class GameServer
 {
 	private ProtocolRouter router;
     private AsynchronousServerSocketChannel server;
     public static Map<AsynchronousSocketChannel, CharacterProperty> map= new HashMap<AsynchronousSocketChannel, CharacterProperty>(); 
+    public static QuadTree<CharacterProperty> container = new QuadTree<CharacterProperty>();
     public final static int PORT = 9050;
 
 	public GameServer()
