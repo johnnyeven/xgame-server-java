@@ -5,12 +5,12 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import com.xgame.server.CommandCenter;
-import com.xgame.server.common.CharacterProperty;
 import com.xgame.server.common.PackageItem;
 import com.xgame.server.common.ServerPackage;
 import com.xgame.server.common.database.DatabaseRouter;
 import com.xgame.server.game.GameServer;
 import com.xgame.server.game.ProtocolParam;
+import com.xgame.server.objects.Player;
 
 public class ProtocolRequestAccountRole implements IProtocol
 {
@@ -94,7 +94,7 @@ public class ProtocolRequestAccountRole implements IProtocol
 					
 					int mapId = rs.getInt("map_id");
 					
-					CharacterProperty property = new CharacterProperty();
+					Player property = new Player();
 					property.accountId = accountId;
 					property.level = level;
 					property.name = nickName;
@@ -113,7 +113,7 @@ public class ProtocolRequestAccountRole implements IProtocol
 					property.energy = currentEnergy;
 					property.channel = parameter.client;
 					
-					GameServer.map.put(parameter.client, property);
+//					GameServer.map.put(parameter.client, property);
 					
 				}
 				else

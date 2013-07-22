@@ -1,11 +1,11 @@
-package com.xgame.server.common;
+package com.xgame.server.objects;
 
 import java.nio.channels.AsynchronousSocketChannel;
 
 import com.xgame.server.enums.Direction;
 import com.xgame.server.enums.Action;
 
-public class CharacterProperty
+public class Player
 {
 	public long accountId = Long.MIN_VALUE;
     public int level = 0;
