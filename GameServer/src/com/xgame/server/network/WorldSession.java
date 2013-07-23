@@ -1,6 +1,7 @@
 package com.xgame.server.network;
 
 import java.io.IOException;
+import java.nio.ByteBuffer;
 import java.nio.channels.AsynchronousSocketChannel;
 import java.util.ArrayList;
 import java.util.List;
@@ -17,6 +18,7 @@ public class WorldSession
 	private AsynchronousSocketChannel channel;
 	private String address;
 	private long generateTime;
+	private ByteBuffer readBuffer;
 	
 	public WorldSession(long id, AsynchronousSocketChannel c, long time)
 	{
@@ -32,6 +34,15 @@ public class WorldSession
 		}
 		generateTime = time;
 		recvQueue = new ArrayList<ProtocolPackage>();
+	}
+	
+	public void startRecv()
+	{
+		if(channel.isOpen())
+		{
+			readBuffer = BufferPool.getInstance().getBuffer();
+			channel.read(readBuffer, this, AIOSocketMgr.getInstance().getReadHandler());
+		}
 	}
 	
 	public void addParameterQueue(ProtocolPackage pack)
