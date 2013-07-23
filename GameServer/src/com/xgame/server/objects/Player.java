@@ -4,6 +4,7 @@ import java.nio.channels.AsynchronousSocketChannel;
 
 import com.xgame.server.enums.Direction;
 import com.xgame.server.enums.Action;
+import com.xgame.server.network.WorldSession;
 
 public class Player
 {
@@ -25,4 +26,5 @@ public class Player
     public int energy = Integer.MIN_VALUE;
     
     public AsynchronousSocketChannel channel;
+	public WorldSession session;
 }

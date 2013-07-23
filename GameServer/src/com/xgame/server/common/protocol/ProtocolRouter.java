@@ -4,11 +4,36 @@ import java.util.HashMap;
 
 public class ProtocolRouter
 {
+	private static ProtocolRouter instance = null;
+	private static boolean allowInstance = false;
+	
 	private HashMap<Short, Class<?>> protocolList;
 	
-	public ProtocolRouter()
+	public ProtocolRouter() throws Exception
 	{
+		if(!allowInstance)
+		{
+			throw new Exception();
+		}
 		protocolList = new HashMap<Short, Class<?>>();
+	}
+	
+	public static ProtocolRouter getInstance()
+	{
+		if(instance == null)
+		{
+			allowInstance = true;
+			try
+			{
+				instance = new ProtocolRouter();
+			}
+			catch (Exception e)
+			{
+				e.printStackTrace();
+			}
+			allowInstance = false;
+		}
+		return instance;
 	}
 	
 	public void Bind(Short key, Class<?> value)

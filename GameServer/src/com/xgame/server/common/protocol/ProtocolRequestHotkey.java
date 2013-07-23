@@ -8,7 +8,7 @@ import com.xgame.server.CommandCenter;
 import com.xgame.server.common.PackageItem;
 import com.xgame.server.common.ServerPackage;
 import com.xgame.server.common.database.DatabaseRouter;
-import com.xgame.server.game.ProtocolParam;
+import com.xgame.server.game.ProtocolPackage;
 
 public class ProtocolRequestHotkey implements IProtocol
 {
@@ -16,7 +16,7 @@ public class ProtocolRequestHotkey implements IProtocol
 	@Override
 	public void Execute(Object param)
 	{
-		ProtocolParam parameter = (ProtocolParam)param;
+		ProtocolPackage parameter = (ProtocolPackage)param;
 		
 		long accountId = Long.MIN_VALUE;
 		for(int i = parameter.offset; i < parameter.receiveDataLength; )

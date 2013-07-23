@@ -9,7 +9,7 @@ import com.xgame.server.common.PackageItem;
 import com.xgame.server.common.ServerPackage;
 import com.xgame.server.common.database.DatabaseRouter;
 import com.xgame.server.game.GameServer;
-import com.xgame.server.game.ProtocolParam;
+import com.xgame.server.game.ProtocolPackage;
 import com.xgame.server.objects.Player;
 
 public class ProtocolRequestAccountRole implements IProtocol
@@ -18,7 +18,7 @@ public class ProtocolRequestAccountRole implements IProtocol
 	@Override
 	public void Execute(Object param)
 	{
-		ProtocolParam parameter = (ProtocolParam)param;
+		ProtocolPackage parameter = (ProtocolPackage)param;
 		
 		long guid = Long.MIN_VALUE;
 		for(int i = parameter.offset; i < parameter.receiveDataLength; )

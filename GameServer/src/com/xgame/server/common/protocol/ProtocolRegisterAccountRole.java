@@ -10,7 +10,7 @@ import com.xgame.server.CommandCenter;
 import com.xgame.server.common.PackageItem;
 import com.xgame.server.common.ServerPackage;
 import com.xgame.server.common.database.DatabaseRouter;
-import com.xgame.server.game.ProtocolParam;
+import com.xgame.server.game.ProtocolPackage;
 
 public class ProtocolRegisterAccountRole implements IProtocol
 {
@@ -18,7 +18,7 @@ public class ProtocolRegisterAccountRole implements IProtocol
 	@Override
 	public void Execute(Object param)
 	{
-		ProtocolParam parameter = (ProtocolParam)param;
+		ProtocolPackage parameter = (ProtocolPackage)param;
 		
 		long guid = Long.MIN_VALUE;
 		String nickName = null;

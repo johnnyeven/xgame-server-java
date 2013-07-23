@@ -6,12 +6,14 @@ import java.nio.ByteBuffer;
 import java.nio.channels.AsynchronousServerSocketChannel;
 import java.nio.channels.AsynchronousSocketChannel;
 import java.nio.channels.CompletionHandler;
+import java.util.Date;
 
 import com.xgame.server.common.protocol.ProtocolRegisterAccountRole;
 import com.xgame.server.common.protocol.ProtocolRequestAccountRole;
 import com.xgame.server.common.protocol.ProtocolRequestHotkey;
 import com.xgame.server.common.protocol.ProtocolRouter;
-import com.xgame.server.game.ProtocolParam;
+import com.xgame.server.game.ProtocolPackage;
+import com.xgame.server.game.World;
 
 public class AIOSocketMgr
 {
@@ -38,10 +40,9 @@ public class AIOSocketMgr
 			e.printStackTrace();
 		}
 		
-		router = new ProtocolRouter();
-        router.Bind((short)0x0040, ProtocolRequestAccountRole.class);
-        router.Bind((short)0x0050, ProtocolRegisterAccountRole.class);
-        router.Bind((short)0x0060, ProtocolRequestHotkey.class);
+		ProtocolRouter.getInstance().Bind((short)0x0040, ProtocolRequestAccountRole.class);
+		ProtocolRouter.getInstance().Bind((short)0x0050, ProtocolRegisterAccountRole.class);
+		ProtocolRouter.getInstance().Bind((short)0x0060, ProtocolRequestHotkey.class);
 	}
 	
 	public static AIOSocketMgr getInstance()
@@ -66,13 +67,15 @@ public class AIOSocketMgr
     {
     	System.out.println("服务器已启动");
     	
-    	server.accept(null, new CompletionHandler<AsynchronousSocketChannel, Object>() {
+    	server.accept(server, new CompletionHandler<AsynchronousSocketChannel, Object>() {
     		
     		ByteBuffer buffer = ByteBuffer.allocate(65535);
     		public void completed(AsynchronousSocketChannel result,Object attachment)
     		{
+				final WorldSession s = new WorldSession(1, result, new Date().getTime());
                 final AsynchronousSocketChannel finnalResult=result;
-    			
+
+				World.getInstance().addSession(s);
     			try
     			{
     				buffer.clear();
@@ -86,12 +89,14 @@ public class AIOSocketMgr
 	    						int packageLength = buffer.getInt();
 	    						short protocolId = buffer.getShort();
 	    						
-	    						ProtocolParam parameter = new ProtocolParam();
+	    						ProtocolPackage parameter = new ProtocolPackage();
+	    						parameter.protocolId = protocolId;
 	    						parameter.client = finnalResult;
 	    						parameter.receiveDataLength = result1;
-	    						parameter.receiveData = buffer;
+	    						parameter.receiveData = buffer.duplicate();
 	    						parameter.offset = 6;
-	    						router.Trigger(protocolId, parameter);
+	    						
+	    						s.addParameterQueue(parameter);
 	    						
 	    						buffer.clear();
 	    						finnalResult.read(buffer, null, this);
