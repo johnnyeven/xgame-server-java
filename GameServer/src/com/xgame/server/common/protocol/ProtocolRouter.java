@@ -54,7 +54,7 @@ public class ProtocolRouter
 		return protocolList.containsKey(key);
 	}
 	
-	public void Trigger(Short key, Object param)
+	public void Trigger(Short key, Object param1, Object param2)
 	{
 		if(protocolList.containsKey(key))
 		{
@@ -62,7 +62,7 @@ public class ProtocolRouter
 			try
 			{
 				IProtocol protocol = (IProtocol)reflection.newInstance();
-				protocol.Execute(param);
+				protocol.Execute(param1, param2);
 			}
 			catch(Exception e)
 			{

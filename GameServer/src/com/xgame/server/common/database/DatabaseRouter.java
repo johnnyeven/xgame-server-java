@@ -2,19 +2,18 @@ package com.xgame.server.common.database;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Map.Entry;
 
 public class DatabaseRouter
 {
 	private static DatabaseRouter instance;
 	private static boolean allowInstance = false;
 	
-	private Connection dbConnection;
-	
-	private static final String DRIVER = "com.mysql.jdbc.Driver";
-	private static final String CONNECT_STRING = "jdbc:mysql://localhost/";
-	private static final String DATABASE_NAME = "pulse_db_game";
-	private static final String USERNAME = "root";
-	private static final String PASSWORD = "84@41%%wi96^4";
+	private Map<String, DatabaseConfig> configSet;
+	private Map<String, Connection> connectionSet;
 	
 	public DatabaseRouter()
 	{
@@ -31,19 +30,47 @@ public class DatabaseRouter
 			return;
 		}
 		
-		try
+		configSet = new HashMap<String, DatabaseConfig>();
+		configSet.put("accountdb", new DatabaseConfig(
+				"accountdb",
+				"com.mysql.jdbc.Driver",
+				"jdbc:mysql://localhost/",
+				"pulse_db_platform",
+				"root",
+				"84@41%%wi96^4"
+				));
+		configSet.put("gamedb", new DatabaseConfig(
+				"accountdb",
+				"com.mysql.jdbc.Driver",
+				"jdbc:mysql://localhost/",
+				"pulse_db_game",
+				"root",
+				"84@41%%wi96^4"
+				));
+		
+		connectionSet = new HashMap<String, Connection>();
+		
+		Iterator<Entry<String, DatabaseConfig>> it = configSet.entrySet().iterator();
+		while(it.hasNext())
 		{
-			Class.forName(DRIVER);
+			Entry<String, DatabaseConfig> e = it.next();
+			DatabaseConfig config = e.getValue();
 			
-			dbConnection = DriverManager.getConnection(CONNECT_STRING + DATABASE_NAME + "?useUnicode=true&characterEncoding=UTF-8", USERNAME, PASSWORD);
-			if(dbConnection.isClosed())
+			try
 			{
-				throw new Exception();
+				Class.forName(config.driver);
+				
+				Connection c = DriverManager.getConnection(config.connectString + config.databaseName + "?useUnicode=true&characterEncoding=UTF-8", config.username, config.password);
+				if(c.isClosed())
+				{
+					throw new Exception();
+				}
+				connectionSet.put(e.getKey(), c);
 			}
-		}
-		catch(Exception e)
-		{
-			e.printStackTrace();
+			catch(Exception exp)
+			{
+				exp.printStackTrace();
+			}
 		}
 	}
 
@@ -58,9 +85,9 @@ public class DatabaseRouter
 		return instance;
 	}
 
-	public Connection getDbConnection()
+	public Connection getConnection(String name)
 	{
-		return dbConnection;
+		return connectionSet.get(name);
 	}
 
 }

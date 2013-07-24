@@ -27,6 +27,7 @@ public final class EnumProtocol
     public static final int ACTION_INIT_CHARACTER = 4;
     public static final int ACTION_REGISTER_CHARACTER = 5;
     public static final int ACTION_REQUEST_HOTKEY = 6;
+    public static final int ACTION_BIND_SESSION = 7;
 
     public static final int ACK_CONFIRM = 1;
     public static final int ACK_ERROR = 0;

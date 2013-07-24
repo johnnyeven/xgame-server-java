@@ -9,14 +9,16 @@ import com.xgame.server.common.PackageItem;
 import com.xgame.server.common.ServerPackage;
 import com.xgame.server.common.database.DatabaseRouter;
 import com.xgame.server.game.ProtocolPackage;
+import com.xgame.server.network.WorldSession;
 
 public class ProtocolRequestHotkey implements IProtocol
 {
 
 	@Override
-	public void Execute(Object param)
+	public void Execute(Object param1, Object param2)
 	{
-		ProtocolPackage parameter = (ProtocolPackage)param;
+		ProtocolPackage parameter = (ProtocolPackage)param1;
+		WorldSession session = (WorldSession)param2;
 		
 		long accountId = Long.MIN_VALUE;
 		for(int i = parameter.offset; i < parameter.receiveDataLength; )
@@ -41,7 +43,7 @@ public class ProtocolRequestHotkey implements IProtocol
 			try
 			{
 				String sql = "SELECT *  FROM `game_hotkey_config` WHERE `account_id` = " + accountId;
-				PreparedStatement st = DatabaseRouter.getInstance().getDbConnection().prepareStatement(sql);
+				PreparedStatement st = DatabaseRouter.getInstance().getConnection("gamedb").prepareStatement(sql);
 				ResultSet rs = st.executeQuery();
 				ServerPackage pack = new ServerPackage();
 				pack.success = EnumProtocol.ACK_CONFIRM;
@@ -55,7 +57,7 @@ public class ProtocolRequestHotkey implements IProtocol
 				{
 					String initConfig = "<skill><hotkey code=\"112\" class=\"skill.Skill1\" /><hotkey code=\"113\" class=\"skill.Sheild1\" /></skill>";
 					sql = "INSERT INTO `game_hotkey_config`(`config`)VALUES('" + initConfig + "')";
-					PreparedStatement st1 = DatabaseRouter.getInstance().getDbConnection().prepareStatement(sql);
+					PreparedStatement st1 = DatabaseRouter.getInstance().getConnection("gamedb").prepareStatement(sql);
 					st1.executeUpdate();
 					pack.parameter.add(new PackageItem(initConfig.length(), initConfig));
 				}

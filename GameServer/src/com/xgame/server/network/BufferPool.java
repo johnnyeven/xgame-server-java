@@ -13,7 +13,7 @@ public class BufferPool
 																			.getLog(BufferPool.class);
 
 	private static int							maxBufferPoolSize	= 1000;
-	private static int							minBufferPoolSize	= 1000;
+	private static int							minBufferPoolSize	= 100;
 	private static int							writeBufferSize		= 64;
 
 	private static BufferPool					bufferPool			= new BufferPool();
@@ -80,6 +80,7 @@ public class BufferPool
 			this.createCount.decrementAndGet();
 		} else
 		{
+			bb.clear();
 			this.queue.add(bb);
 			this.usableCount.incrementAndGet();
 		}

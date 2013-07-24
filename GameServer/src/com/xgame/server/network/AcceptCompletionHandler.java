@@ -2,6 +2,7 @@ package com.xgame.server.network;
 
 import java.io.IOException;
 import java.net.StandardSocketOptions;
+import java.nio.ByteBuffer;
 import java.nio.channels.AsynchronousSocketChannel;
 import java.nio.channels.CompletionHandler;
 import java.util.Date;
@@ -9,6 +10,7 @@ import java.util.Date;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import com.xgame.server.common.AuthSessionPackage;
 import com.xgame.server.game.World;
 
 public class AcceptCompletionHandler implements CompletionHandler<AsynchronousSocketChannel, AIOSocketMgr>
@@ -24,10 +26,10 @@ public class AcceptCompletionHandler implements CompletionHandler<AsynchronousSo
         	socketChannel.setOption(StandardSocketOptions.TCP_NODELAY, true);
         	socketChannel.setOption(StandardSocketOptions.SO_SNDBUF, 10 * 1024);
         	socketChannel.setOption(StandardSocketOptions.SO_RCVBUF, 10 * 1024);
-
-			WorldSession s = new WorldSession(++AIOSocketMgr.counter, socketChannel, new Date().getTime());
-			World.getInstance().addSessionQueue(s);
-			s.startRecv();
+        	
+        	ByteBuffer buffer = BufferPool.getInstance().getBuffer();
+        	
+        	socketChannel.read(buffer, new AuthSessionPackage(buffer, socketChannel), param.getAuthHandler());
 		}
 		catch (IOException e)
 		{

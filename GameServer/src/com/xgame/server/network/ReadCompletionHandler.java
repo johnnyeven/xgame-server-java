@@ -37,9 +37,8 @@ public class ReadCompletionHandler implements
 			
 			attachment.addParameterQueue(parameter);
 			
-			buffer.clear();
+			BufferPool.getInstance().releaseBuffer(buffer);
 			attachment.startRecv();
-//			finnalResult.read(buffer, null, this);
 		}
 		else
 		{
@@ -51,13 +50,17 @@ public class ReadCompletionHandler implements
 			{
 				e.printStackTrace();
 			}
+			finally
+			{
+				BufferPool.getInstance().releaseBuffer(attachment.getReadBuffer());
+			}
 		}
 	}
 
 	@Override
 	public void failed(Throwable exc, WorldSession attachment)
 	{
-		
+		BufferPool.getInstance().releaseBuffer(attachment.getReadBuffer());
 	}
 
 }

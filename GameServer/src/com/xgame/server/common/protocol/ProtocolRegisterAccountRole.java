@@ -6,19 +6,25 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 import com.xgame.server.CommandCenter;
 import com.xgame.server.common.PackageItem;
 import com.xgame.server.common.ServerPackage;
 import com.xgame.server.common.database.DatabaseRouter;
 import com.xgame.server.game.ProtocolPackage;
+import com.xgame.server.network.WorldSession;
 
 public class ProtocolRegisterAccountRole implements IProtocol
 {
-
+	private static Log log = LogFactory.getLog(ProtocolRegisterAccountRole.class);
+	
 	@Override
-	public void Execute(Object param)
+	public void Execute(Object param1, Object param2)
 	{
-		ProtocolPackage parameter = (ProtocolPackage)param;
+		ProtocolPackage parameter = (ProtocolPackage)param1;
+		WorldSession session = (WorldSession)param2;
 		
 		long guid = Long.MIN_VALUE;
 		String nickName = null;
@@ -53,7 +59,7 @@ public class ProtocolRegisterAccountRole implements IProtocol
 			}
 			i += (length + 5);
 		}
-		System.out.println("[RegisterAccountRole] Guid=" + guid + ", NickName=" + nickName);
+		log.info("[RegisterAccountRole] Guid=" + guid + ", NickName=" + nickName);
 		
 		if(guid != Integer.MIN_VALUE && nickName != null)
 		{
@@ -61,7 +67,7 @@ public class ProtocolRegisterAccountRole implements IProtocol
 			{
 				String sql = "INSERT INTO game_account(account_guid, nick_name, current_health, max_health, current_mana, max_mana, current_energy, max_energy, current_x, current_y)values";
 				sql += "(" + guid + ", '" + nickName + "', 200, 200, 85, 85, 100, 100, 700, 700)";
-				PreparedStatement st = DatabaseRouter.getInstance().getDbConnection().prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+				PreparedStatement st = DatabaseRouter.getInstance().getConnection("gamedb").prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 				st.executeUpdate();
 				
 				ResultSet rs = st.getGeneratedKeys();

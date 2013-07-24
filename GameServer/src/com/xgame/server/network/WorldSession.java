@@ -93,7 +93,7 @@ public class WorldSession
 		while(!recvQueue.isEmpty())
 		{
 			pack = recvQueue.remove(0);
-			ProtocolRouter.getInstance().Trigger(pack.protocolId, pack);
+			ProtocolRouter.getInstance().Trigger(pack.protocolId, pack, this);
 		}
 		return true;
 	}

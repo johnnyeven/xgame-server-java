@@ -10,15 +10,17 @@ import com.xgame.server.common.ServerPackage;
 import com.xgame.server.common.database.DatabaseRouter;
 import com.xgame.server.game.GameServer;
 import com.xgame.server.game.ProtocolPackage;
+import com.xgame.server.network.WorldSession;
 import com.xgame.server.objects.Player;
 
 public class ProtocolRequestAccountRole implements IProtocol
 {
 
 	@Override
-	public void Execute(Object param)
+	public void Execute(Object param1, Object param2)
 	{
-		ProtocolPackage parameter = (ProtocolPackage)param;
+		ProtocolPackage parameter = (ProtocolPackage)param1;
+		WorldSession session = (WorldSession)param2;
 		
 		long guid = Long.MIN_VALUE;
 		for(int i = parameter.offset; i < parameter.receiveDataLength; )
@@ -43,7 +45,7 @@ public class ProtocolRequestAccountRole implements IProtocol
 			try
 			{
 				String sql = "SELECT *  FROM `game_account` WHERE `account_guid` = " + guid;
-				PreparedStatement st = DatabaseRouter.getInstance().getDbConnection().prepareStatement(sql);
+				PreparedStatement st = DatabaseRouter.getInstance().getConnection("gamedb").prepareStatement(sql);
 				ResultSet rs = st.executeQuery();
 				ServerPackage pack = new ServerPackage();
 				pack.success = EnumProtocol.ACK_CONFIRM;

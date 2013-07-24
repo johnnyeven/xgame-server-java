@@ -26,6 +26,7 @@ public class AIOSocketMgr
     private AsynchronousServerSocketChannel server;
     private AcceptCompletionHandler acceptHandler;
     private ReadCompletionHandler readHandler;
+    private AuthSessionCompletionHandler authHandler;
     public final static String HOST = "127.0.0.1";
     public final static int PORT = 9050;
     public static int counter = 0;
@@ -48,6 +49,7 @@ public class AIOSocketMgr
 			
 			acceptHandler = new AcceptCompletionHandler();
 			readHandler = new ReadCompletionHandler(this);
+			authHandler = new AuthSessionCompletionHandler();
 		}
 		catch(IOException e)
 		{
@@ -176,5 +178,10 @@ public class AIOSocketMgr
 	public ReadCompletionHandler getReadHandler()
 	{
 		return readHandler;
+	}
+
+	public AuthSessionCompletionHandler getAuthHandler()
+	{
+		return authHandler;
 	}
 }
