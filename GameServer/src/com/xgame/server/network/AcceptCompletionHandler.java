@@ -25,8 +25,8 @@ public class AcceptCompletionHandler implements CompletionHandler<AsynchronousSo
         	socketChannel.setOption(StandardSocketOptions.SO_SNDBUF, 10 * 1024);
         	socketChannel.setOption(StandardSocketOptions.SO_RCVBUF, 10 * 1024);
 
-			WorldSession s = new WorldSession(1, socketChannel, new Date().getTime());
-			World.getInstance().addSession(s);
+			WorldSession s = new WorldSession(++AIOSocketMgr.counter, socketChannel, new Date().getTime());
+			World.getInstance().addSessionQueue(s);
 			s.startRecv();
 		}
 		catch (IOException e)

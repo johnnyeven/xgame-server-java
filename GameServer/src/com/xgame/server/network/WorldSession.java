@@ -69,6 +69,16 @@ public class WorldSession
 		return accountId;
 	}
 	
+	public AsynchronousSocketChannel getChannel()
+	{
+		return channel;
+	}
+
+	public ByteBuffer getReadBuffer()
+	{
+		return readBuffer;
+	}
+
 	public boolean update(long timeDiff)
 	{
 		if(channel != null)

@@ -8,7 +8,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 import com.xgame.server.common.IntervalTimer;
+import com.xgame.server.network.AcceptCompletionHandler;
 import com.xgame.server.network.WorldSession;
 
 enum WorldTimers
@@ -32,6 +36,7 @@ public class World
 	private long serverStartTime;
 	private List<WorldSession> sessionQueue;
 	private IntervalTimer timers[];
+    private static Log log = LogFactory.getLog(World.class);
 	
 	public World() throws Exception
 	{
@@ -141,6 +146,7 @@ public class World
 			timers[WorldTimers.TIMER_SESSIONS.ordinal()].reset();
 			
 			updateSessions(timeDiff);
+			
 		}
 		
 		if(timers[WorldTimers.TIMER_OBJECTS.ordinal()].over())

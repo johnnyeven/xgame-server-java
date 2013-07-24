@@ -1,6 +1,7 @@
 package com.xgame.server.network;
 
 import java.io.IOException;
+import java.nio.ByteBuffer;
 import java.nio.channels.CompletionHandler;
 
 import com.xgame.server.game.ProtocolPackage;
@@ -22,13 +23,14 @@ public class ReadCompletionHandler implements
 		if(result > 0)
 		{
 			//¥¶¿Ìbuffer
+			ByteBuffer buffer = attachment.getReadBuffer();
 			buffer.flip();
 			int packageLength = buffer.getInt();
 			short protocolId = buffer.getShort();
 			
 			ProtocolPackage parameter = new ProtocolPackage();
 			parameter.protocolId = protocolId;
-			parameter.client = finnalResult;
+			parameter.client = attachment.getChannel();
 			parameter.receiveDataLength = result;
 			parameter.receiveData = buffer.duplicate();
 			parameter.offset = 6;
@@ -36,13 +38,14 @@ public class ReadCompletionHandler implements
 			attachment.addParameterQueue(parameter);
 			
 			buffer.clear();
-			finnalResult.read(buffer, null, this);
+			attachment.startRecv();
+//			finnalResult.read(buffer, null, this);
 		}
 		else
 		{
 			try
 			{
-				finnalResult.close();
+				attachment.getChannel().close();
 			}
 			catch(IOException e)
 			{
