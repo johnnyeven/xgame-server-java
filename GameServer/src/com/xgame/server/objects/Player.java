@@ -6,7 +6,7 @@ import com.xgame.server.enums.Direction;
 import com.xgame.server.enums.Action;
 import com.xgame.server.network.WorldSession;
 
-public class Player
+public class Player extends WorldObject
 {
 	public long accountId = Long.MIN_VALUE;
     public int level = 0;

@@ -73,6 +73,8 @@ public class ProtocolRegisterAccountRole implements IProtocol
 				ResultSet rs = st.getGeneratedKeys();
 				rs.first();
 				long lastInsertId = rs.getLong(1);
+				
+				// TODO 创建Player对象
 
 				ServerPackage pack = new ServerPackage();
 				pack.success = EnumProtocol.ACK_CONFIRM;

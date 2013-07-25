@@ -29,7 +29,7 @@ public class LoginServer
 		
 		try
 		{
-			server = AsynchronousServerSocketChannel.open().bind(new InetSocketAddress("127.0.0.1",PORT), 100);
+			server = AsynchronousServerSocketChannel.open().bind(new InetSocketAddress("192.168.0.104", PORT), 100);
 		}
 		catch(IOException e)
 		{
