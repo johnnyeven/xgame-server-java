@@ -1,7 +1,11 @@
 package com.xgame.server.objects;
 
 import java.nio.channels.AsynchronousSocketChannel;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
+import com.xgame.server.common.database.DatabaseRouter;
 import com.xgame.server.enums.Direction;
 import com.xgame.server.enums.Action;
 import com.xgame.server.network.WorldSession;
@@ -27,4 +31,28 @@ public class Player extends WorldObject
     
     public AsynchronousSocketChannel channel;
 	public WorldSession session;
+	
+	public boolean loadFromDatabase()
+	{
+		if(accountId == Long.MIN_VALUE)
+		{
+			return false;
+		}
+		try
+		{
+			String sql = "SELECT * FROM `game_account` WHERE `account_id`=" + accountId;
+			PreparedStatement st = DatabaseRouter.getInstance().getConnection("gamedb").prepareStatement(sql);
+			ResultSet rs = st.executeQuery();
+			
+			if(rs.first())
+			{
+				setMapId(rs.getInt("map_id"));
+			}
+		}
+		catch (SQLException e)
+		{
+			e.printStackTrace();
+		}
+		return true;
+	}
 }

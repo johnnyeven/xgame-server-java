@@ -15,6 +15,7 @@ import com.xgame.server.common.ServerPackage;
 import com.xgame.server.common.database.DatabaseRouter;
 import com.xgame.server.game.ProtocolPackage;
 import com.xgame.server.network.WorldSession;
+import com.xgame.server.objects.Player;
 
 public class ProtocolRegisterAccountRole implements IProtocol
 {
@@ -75,6 +76,9 @@ public class ProtocolRegisterAccountRole implements IProtocol
 				long lastInsertId = rs.getLong(1);
 				
 				// TODO 创建Player对象
+				Player p = new Player();
+				p.accountId = lastInsertId;
+				p.loadFromDatabase();
 
 				ServerPackage pack = new ServerPackage();
 				pack.success = EnumProtocol.ACK_CONFIRM;
