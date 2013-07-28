@@ -1,5 +1,8 @@
 package com.xgame.server.objects;
 
+import com.xgame.server.game.Map;
+import com.xgame.server.game.MapManager;
+
 public class WorldObject
 {
 	private long guid;
@@ -10,6 +13,10 @@ public class WorldObject
 	public WorldObject()
 	{
 		
+	}
+	public Map getMap()
+	{
+		return MapManager.getInstance().getMap(getMapId());
 	}
 	public long getGuid()
 	{

@@ -11,6 +11,8 @@ import org.apache.commons.logging.LogFactory;
 import org.w3c.dom.Document;
 import org.xml.sax.SAXException;
 
+import com.xgame.server.objects.Player;
+
 public class Map
 {
 	protected int id;
@@ -44,5 +46,10 @@ public class Map
 			return;
 		}
 		gridContainer[x][y] = g;
+	}
+	
+	public void Add(Player p)
+	{
+		
 	}
 }

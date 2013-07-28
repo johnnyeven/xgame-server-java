@@ -55,7 +55,7 @@ public class WorldSession
 		if(p != null)
 		{
 			player = p;
-			player.session = this;
+			player.setSession(this);
 		}
 	}
 	

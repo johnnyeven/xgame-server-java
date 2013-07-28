@@ -113,7 +113,7 @@ public class ProtocolRequestAccountRole implements IProtocol
 					property.mana = currentMana;
 					property.energyMax = maxEnergy;
 					property.energy = currentEnergy;
-					property.channel = parameter.client;
+					property.setChannel(parameter.client);
 					
 //					GameServer.map.put(parameter.client, property);
 					

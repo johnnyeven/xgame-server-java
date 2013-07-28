@@ -78,7 +78,11 @@ public class ProtocolRegisterAccountRole implements IProtocol
 				// TODO 创建Player对象
 				Player p = new Player();
 				p.accountId = lastInsertId;
-				p.loadFromDatabase();
+				session.setPlayer(p);
+				if(!p.loadFromDatabase())
+				{
+					
+				}
 
 				ServerPackage pack = new ServerPackage();
 				pack.success = EnumProtocol.ACK_CONFIRM;
