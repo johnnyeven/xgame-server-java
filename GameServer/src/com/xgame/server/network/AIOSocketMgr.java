@@ -22,7 +22,6 @@ import com.xgame.server.game.World;
 
 public class AIOSocketMgr
 {
-	private ProtocolRouter router;
     private AsynchronousServerSocketChannel server;
     private AcceptCompletionHandler acceptHandler;
     private ReadCompletionHandler readHandler;
