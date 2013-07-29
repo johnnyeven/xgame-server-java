@@ -13,6 +13,7 @@ import com.xgame.server.CommandCenter;
 import com.xgame.server.common.PackageItem;
 import com.xgame.server.common.ServerPackage;
 import com.xgame.server.common.database.DatabaseRouter;
+import com.xgame.server.game.MapManager;
 import com.xgame.server.game.ProtocolPackage;
 import com.xgame.server.network.WorldSession;
 import com.xgame.server.objects.Player;
@@ -80,6 +81,11 @@ public class ProtocolRegisterAccountRole implements IProtocol
 				p.accountId = lastInsertId;
 				session.setPlayer(p);
 				if(!p.loadFromDatabase())
+				{
+					
+				}
+				
+				if(!MapManager.getInstance().getMap(p.getMapId()).add(p))
 				{
 					
 				}

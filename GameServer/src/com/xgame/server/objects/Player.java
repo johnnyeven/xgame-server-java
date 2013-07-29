@@ -4,6 +4,7 @@ import java.nio.channels.AsynchronousSocketChannel;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Date;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -19,13 +20,13 @@ public class Player extends WorldObject
 	public long accountId = Long.MIN_VALUE;
     public int level = 0;
     public String name = "";
-    public int speed = 0;
+    public float speed = 0;
     public long accountCash = Long.MIN_VALUE;
     public int direction = Direction.DOWN;
     public int action = Action.STOP;
     public int mapId = Integer.MIN_VALUE;
-    public int currentX = Integer.MIN_VALUE;
-    public int currentY = Integer.MIN_VALUE;
+    public double currentX = Double.MIN_VALUE;
+    public double currentY = Double.MIN_VALUE;
     public int healthMax = Integer.MIN_VALUE;
     public int health = Integer.MIN_VALUE;
     public int manaMax = Integer.MIN_VALUE;
@@ -45,11 +46,6 @@ public class Player extends WorldObject
 			log.error("loadFromDatabase() accountId没有初始化");
 			return false;
 		}
-		if(accountId != session.getAccountId())
-		{
-			log.error("loadFromDatabase() accountId与WorldSession使用的accountId不匹配");
-			return false;
-		}
 		try
 		{
 			String sql = "SELECT * FROM `game_account` WHERE `account_id`=" + accountId;
@@ -59,9 +55,39 @@ public class Player extends WorldObject
 			if(rs.first())
 			{
 				setMapId(rs.getInt("map_id"));
+				level = rs.getInt("level");
+				name = rs.getString("nick_name");
+				accountCash = rs.getLong("account_cash");
+				direction = rs.getInt("direction");
+				action = rs.getInt("action");
+				speed = rs.getInt("speed") / 100;
+				health = rs.getInt("current_health");
+				healthMax = rs.getInt("max_health");
+				mana = rs.getInt("current_mana");
+				manaMax = rs.getInt("max_mana");
+				energy = rs.getInt("current_energy");
+				energyMax = rs.getInt("max_energy");
+				currentX = rs.getDouble("current_x");
+				currentY = rs.getDouble("current_y");
+			}
+			else
+			{
+				log.error("loadFromDatabase() 没有找到对应的角色数据 accountId=" + accountId);
+				return false;
+			}
+			long accountGuid = rs.getLong("account_guid");
+			if(accountGuid != session.getAccountId())
+			{
+				log.error("loadFromDatabase() accountId与WorldSession使用的accountId不匹配");
+				return false;
 			}
 			
-			Map m = getMap();
+			getMap();
+			
+			sql = "UPDATE `game_account` SET `account_lastlogin`=" + new Date().getTime() + " WHERE `account_id`=" + accountId;
+			st.executeUpdate(sql);
+			
+			rs.close();
 		}
 		catch (SQLException e)
 		{

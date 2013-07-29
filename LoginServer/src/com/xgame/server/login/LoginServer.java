@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.xgame.server.common.database.DatabaseRouter;
-import com.xgame.server.common.protocol.*;;
+import com.xgame.server.common.protocol.*;
 
 public class LoginServer
 {
@@ -29,7 +29,7 @@ public class LoginServer
 		
 		try
 		{
-			server = AsynchronousServerSocketChannel.open().bind(new InetSocketAddress("192.168.0.104", PORT), 100);
+			server = AsynchronousServerSocketChannel.open().bind(new InetSocketAddress("127.0.0.1", PORT), 100);
 		}
 		catch(IOException e)
 		{

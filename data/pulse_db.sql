@@ -28,9 +28,11 @@ CREATE  TABLE IF NOT EXISTS `pulse_db_game`.`game_account` (
   `max_mana` INT NOT NULL DEFAULT 85 ,
   `current_energy` INT NOT NULL DEFAULT 100 ,
   `max_energy` INT NOT NULL DEFAULT 100 ,
-  `current_x` INT NOT NULL DEFAULT 700 ,
-  `current_y` INT NOT NULL DEFAULT 700 ,
+  `current_x` DOUBLE NOT NULL DEFAULT 700 ,
+  `current_y` DOUBLE NOT NULL DEFAULT 700 ,
   `map_id` INT NOT NULL DEFAULT 1003 ,
+  `account_lastlogin` BIGINT NOT NULL DEFAULT 0 ,
+  `account_lastlogout` BIGINT NOT NULL DEFAULT 0 ,
   PRIMARY KEY (`account_id`) ,
   UNIQUE INDEX `guid` (`account_guid` ASC) )
 ENGINE = MyISAM
