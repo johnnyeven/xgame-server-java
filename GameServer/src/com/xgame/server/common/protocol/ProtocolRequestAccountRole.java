@@ -4,6 +4,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 import com.xgame.server.CommandCenter;
 import com.xgame.server.common.PackageItem;
 import com.xgame.server.common.ServerPackage;
@@ -15,6 +18,7 @@ import com.xgame.server.objects.Player;
 
 public class ProtocolRequestAccountRole implements IProtocol
 {
+	private static Log log = LogFactory.getLog(ProtocolRequestAccountRole.class);
 
 	@Override
 	public void Execute(Object param1, Object param2)
@@ -38,7 +42,7 @@ public class ProtocolRequestAccountRole implements IProtocol
 			}
 			i += (length + 5);
 		}
-		System.out.println("[RequestAccountRole] Guid=" + guid);
+		log.info("[RequestAccountRole] Guid=" + guid);
 		
 		if(guid != Long.MIN_VALUE)
 		{
@@ -114,9 +118,6 @@ public class ProtocolRequestAccountRole implements IProtocol
 					property.energyMax = maxEnergy;
 					property.energy = currentEnergy;
 					property.setChannel(parameter.client);
-					
-//					GameServer.map.put(parameter.client, property);
-					
 				}
 				else
 				{

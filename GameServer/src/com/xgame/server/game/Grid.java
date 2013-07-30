@@ -1,6 +1,7 @@
 package com.xgame.server.game;
 
 import java.util.HashMap;
+import java.util.UUID;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -11,7 +12,7 @@ public class Grid
 {
 	private int x;
 	private int y;
-	private HashMap<Long, WorldObject> objectMap;
+	private HashMap<UUID, WorldObject> objectMap;
 	
 	private static Log log = LogFactory.getLog(Grid.class);
 	
@@ -19,14 +20,14 @@ public class Grid
 	{
 		this.x = x;
 		this.y = y;
-		objectMap = new HashMap<Long, WorldObject>();
+		objectMap = new HashMap<UUID, WorldObject>();
 	}
 	
 	public Grid()
 	{
 		x = 0;
 		y = 0;
-		objectMap = new HashMap<Long, WorldObject>();
+		objectMap = new HashMap<UUID, WorldObject>();
 	}
 
 	public int getX()

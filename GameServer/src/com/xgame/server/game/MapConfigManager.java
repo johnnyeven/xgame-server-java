@@ -8,6 +8,7 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
 import org.w3c.dom.Document;
+import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
 public class MapConfigManager
@@ -37,10 +38,9 @@ public class MapConfigManager
 		}
 		else
 		{
-			MapConfig c;
 			try
 			{
-				c = loadMapConfig(id);
+				MapConfig c = loadMapConfig(id);
 				configContainer.put(id, c);
 				return c;
 			}
@@ -57,8 +57,11 @@ public class MapConfigManager
 		DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
 		DocumentBuilder dbBuilder = dbFactory.newDocumentBuilder();
 		Document doc = dbBuilder.parse("data/map/" + id + ".xml");
-
+		
 		MapConfig c = new MapConfig();
+		c.id = Integer.parseInt(doc.getElementsByTagName("id").item(0).getTextContent());
+		c.width = Integer.parseInt(doc.getElementsByTagName("width").item(0).getTextContent());
+		c.height = Integer.parseInt(doc.getElementsByTagName("height").item(0).getTextContent());
 		return c;
 	}
 }

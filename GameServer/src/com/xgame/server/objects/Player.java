@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Date;
+import java.util.UUID;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -81,10 +82,20 @@ public class Player extends WorldObject
 				log.error("loadFromDatabase() accountId与WorldSession使用的accountId不匹配");
 				return false;
 			}
+			String gameGuid = rs.getString("game_guid");
+			String guidSql = "";
+			if(!gameGuid.isEmpty())
+			{
+				setGuid(UUID.fromString(gameGuid));
+			}
+			else
+			{
+				guidSql = "`game_guid`='" + getGuid().toString().toUpperCase() + "', ";
+			}
 			
 			getMap();
 			
-			sql = "UPDATE `game_account` SET `account_lastlogin`=" + new Date().getTime() + " WHERE `account_id`=" + accountId;
+			sql = "UPDATE `game_account` SET " + guidSql + " `account_lastlogin`=" + new Date().getTime() + " WHERE `account_id`=" + accountId;
 			st.executeUpdate(sql);
 			
 			rs.close();

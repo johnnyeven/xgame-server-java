@@ -35,13 +35,7 @@ public class Map
 		int gridCountX = (int)Math.floor(config.width / GRID_WIDTH);
 		int gridCountY = (int)Math.floor(config.height / GRID_HEIGHT);
 		
-		for(int i = 0; i < gridCountX; i++)
-		{
-			for(int j = 0; j < gridCountY; j++)
-			{
-				setGrid(null, i, j);
-			}
-		}
+		gridContainer = new Grid[gridCountX][gridCountY];
 	}
 	
 	public static CoordinatePair getCoordinatePair(double x, double y)

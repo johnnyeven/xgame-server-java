@@ -15,6 +15,7 @@ DROP TABLE IF EXISTS `pulse_db_game`.`game_account` ;
 
 CREATE  TABLE IF NOT EXISTS `pulse_db_game`.`game_account` (
   `account_id` BIGINT(20) NOT NULL AUTO_INCREMENT ,
+  `game_guid` CHAR(36) NOT NULL DEFAULT '' ,
   `account_guid` BIGINT(20) NOT NULL ,
   `level` INT NOT NULL DEFAULT 1 ,
   `nick_name` CHAR(32) NOT NULL ,
@@ -28,8 +29,8 @@ CREATE  TABLE IF NOT EXISTS `pulse_db_game`.`game_account` (
   `max_mana` INT NOT NULL DEFAULT 85 ,
   `current_energy` INT NOT NULL DEFAULT 100 ,
   `max_energy` INT NOT NULL DEFAULT 100 ,
-  `current_x` DOUBLE NOT NULL DEFAULT 700 ,
-  `current_y` DOUBLE NOT NULL DEFAULT 700 ,
+  `current_x` DOUBLE(12,2) NOT NULL DEFAULT 700 ,
+  `current_y` DOUBLE(12,2) NOT NULL DEFAULT 700 ,
   `map_id` INT NOT NULL DEFAULT 1003 ,
   `account_lastlogin` BIGINT NOT NULL DEFAULT 0 ,
   `account_lastlogout` BIGINT NOT NULL DEFAULT 0 ,

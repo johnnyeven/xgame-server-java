@@ -4,6 +4,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 import com.xgame.server.CommandCenter;
 import com.xgame.server.common.PackageItem;
 import com.xgame.server.common.ServerPackage;
@@ -13,6 +16,7 @@ import com.xgame.server.network.WorldSession;
 
 public class ProtocolRequestHotkey implements IProtocol
 {
+	private static Log log = LogFactory.getLog(ProtocolRegisterAccountRole.class);
 
 	@Override
 	public void Execute(Object param1, Object param2)
@@ -36,7 +40,7 @@ public class ProtocolRequestHotkey implements IProtocol
 			}
 			i += (length + 5);
 		}
-		System.out.println("[RequestHotkey] AccountId=" + accountId);
+		log.info("[RequestHotkey] AccountId=" + accountId);
 		
 		if(accountId != Long.MIN_VALUE)
 		{
