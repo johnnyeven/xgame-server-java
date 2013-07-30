@@ -2,6 +2,8 @@ package com.xgame.server.common.protocol;
 
 public final class EnumProtocol
 {
+    public static final int CONTROLLER_SCENE = 5;
+    public static final int CONTROLLER_BASE = 4;
     public static final int CONTROLLER_BATTLE = 3;
     public static final int CONTROLLER_MSG = 2;
     public static final int CONTROLLER_MOVE = 1;
@@ -28,6 +30,8 @@ public final class EnumProtocol
     public static final int ACTION_REGISTER_CHARACTER = 5;
     public static final int ACTION_REQUEST_HOTKEY = 6;
     public static final int ACTION_BIND_SESSION = 7;
+    //SCENE
+    public static final int ACTION_VERIFY_MAP = 0;
 
     public static final int ACK_CONFIRM = 1;
     public static final int ACK_ERROR = 0;
