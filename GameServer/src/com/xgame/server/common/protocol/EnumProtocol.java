@@ -30,8 +30,10 @@ public final class EnumProtocol
     public static final int ACTION_REGISTER_CHARACTER = 5;
     public static final int ACTION_REQUEST_HOTKEY = 6;
     public static final int ACTION_BIND_SESSION = 7;
-    //SCENE
+    //BASE
     public static final int ACTION_VERIFY_MAP = 0;
+    //SCENE
+    public static final int ACTION_SHOW_PLAYER = 0;
 
     public static final int ACK_CONFIRM = 1;
     public static final int ACK_ERROR = 0;
@@ -42,4 +44,5 @@ public final class EnumProtocol
     public static final int TYPE_STRING = 2;
     public static final int TYPE_FLOAT = 3;
     public static final int TYPE_BOOL = 4;
+    public static final int TYPE_DOUBLE = 5;
 }

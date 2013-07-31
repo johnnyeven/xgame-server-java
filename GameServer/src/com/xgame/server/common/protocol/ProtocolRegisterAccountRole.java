@@ -79,6 +79,7 @@ public class ProtocolRegisterAccountRole implements IProtocol
 				// TODO 创建Player对象
 				Player p = new Player();
 				p.accountId = lastInsertId;
+				p.setChannel(parameter.client);
 				session.setPlayer(p);
 				if(!p.loadFromDatabase())
 				{
@@ -87,7 +88,8 @@ public class ProtocolRegisterAccountRole implements IProtocol
 				
 				if(!MapManager.getInstance().getMap(p.getMapId()).add(p))
 				{
-					
+					log.error("Map::add() 失败，Player=" + p.name);
+					return;
 				}
 				
 				ServerPackage verifyMap = new ServerPackage();
@@ -96,7 +98,6 @@ public class ProtocolRegisterAccountRole implements IProtocol
 				verifyMap.parameter.add(new PackageItem(4, p.getMapId()));
 				verifyMap.parameter.add(new PackageItem(4, p.direction));
 				CommandCenter.send(parameter.client, verifyMap);
-				
 
 				ServerPackage pack = new ServerPackage();
 				pack.success = EnumProtocol.ACK_CONFIRM;
@@ -111,8 +112,8 @@ public class ProtocolRegisterAccountRole implements IProtocol
 				pack.parameter.add(new PackageItem(4, 85));
 				pack.parameter.add(new PackageItem(4, 100));
 				pack.parameter.add(new PackageItem(4, 100));
-				pack.parameter.add(new PackageItem(4, 700));
-				pack.parameter.add(new PackageItem(4, 700));
+				pack.parameter.add(new PackageItem(8, (double)700));
+				pack.parameter.add(new PackageItem(8, (double)700));
 				CommandCenter.send(parameter.client, pack);
 				
 				rs.close();

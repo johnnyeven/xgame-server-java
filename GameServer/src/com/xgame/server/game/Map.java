@@ -1,6 +1,9 @@
 package com.xgame.server.game;
 
 import java.io.IOException;
+import java.util.Iterator;
+import java.util.UUID;
+import java.util.Map.Entry;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -11,8 +14,13 @@ import org.apache.commons.logging.LogFactory;
 import org.w3c.dom.Document;
 import org.xml.sax.SAXException;
 
+import com.xgame.server.CommandCenter;
 import com.xgame.server.common.CoordinatePair;
+import com.xgame.server.common.PackageItem;
+import com.xgame.server.common.ServerPackage;
+import com.xgame.server.common.protocol.EnumProtocol;
 import com.xgame.server.objects.Player;
+import com.xgame.server.objects.WorldObject;
 
 public class Map
 {
@@ -53,12 +61,65 @@ public class Map
 		gridContainer[x][y] = g;
 	}
 	
+	private Grid getGrid(int x, int y)
+	{
+		if(x >= gridX || y >= gridY)
+		{
+			log.error("setGrid() ´íÎóµÄGrid×ø±ê x=" + x + ", y=" + y);
+			return null;
+		}
+		return gridContainer[x][y];
+	}
+	
 	public boolean add(Player p)
 	{
 		CoordinatePair coordinate = getCoordinatePair(p.getX(), p.getY());
-		Grid g = new Grid();
+		
+		Grid g = getGrid((int)coordinate.getX(), (int)coordinate.getY());
+		if(g == null)
+		{
+			g = new Grid((int)coordinate.getX(), (int)coordinate.getY());
+			setGrid(g, (int)coordinate.getX(), (int)coordinate.getY());
+		}
 		g.addWorldObject(p);
-		setGrid(g, (int)coordinate.getX(), (int)coordinate.getY());
+		
+		updateVisibility(p, g);
 		return true;
+	}
+	
+	private void updateVisibility(Player p, Grid g)
+	{
+		Iterator<Entry<UUID, WorldObject>> it = g.getWorldObjectIterator();
+		Entry<UUID, WorldObject> en;
+		Player other;
+		while(it.hasNext())
+		{
+			en = it.next();
+			if(en.getValue() instanceof Player && en.getValue() != p)
+			{
+				other = (Player)en.getValue();
+				if(!other.getChannel().isOpen())
+				{
+					continue;
+				}
+				
+				ServerPackage pack = new ServerPackage();
+				pack.success = EnumProtocol.ACK_CONFIRM;
+				pack.protocolId = EnumProtocol.ACTION_SHOW_PLAYER << 8 | EnumProtocol.CONTROLLER_SCENE;
+				pack.parameter.add(new PackageItem(8, p.accountId));
+				pack.parameter.add(new PackageItem(p.name.length(), p.name));
+				pack.parameter.add(new PackageItem(8, p.accountCash));
+				pack.parameter.add(new PackageItem(4, p.direction));
+				pack.parameter.add(new PackageItem(4, p.health));
+				pack.parameter.add(new PackageItem(4, p.healthMax));
+				pack.parameter.add(new PackageItem(4, p.mana));
+				pack.parameter.add(new PackageItem(4, p.manaMax));
+				pack.parameter.add(new PackageItem(4, p.energy));
+				pack.parameter.add(new PackageItem(4, p.energyMax));
+				pack.parameter.add(new PackageItem(8, p.getX()));
+				pack.parameter.add(new PackageItem(8, p.getY()));
+				CommandCenter.send(other.getChannel(), pack);
+			}
+		}
 	}
 }

@@ -1,6 +1,8 @@
 package com.xgame.server.game;
 
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map.Entry;
 import java.util.UUID;
 
 import org.apache.commons.logging.Log;
@@ -58,6 +60,33 @@ public class Grid
 			return;
 		}
 		objectMap.put(o.getGuid(), o);
+	}
+	
+	public WorldObject getWorldObject(UUID guid)
+	{
+		if(objectMap.containsKey(guid))
+		{
+			return objectMap.get(guid);
+		}
+		log.warn("getWorldObject() 不存在，UUID=" + guid.toString());
+		return null;
+	}
+	
+	public void removeWorldObject(UUID guid)
+	{
+		if(objectMap.containsKey(guid))
+		{
+			objectMap.remove(guid);
+		}
+		else
+		{
+			log.warn("getWorldObject() 不存在，UUID=" + guid.toString());
+		}
+	}
+	
+	public Iterator<Entry<UUID, WorldObject>> getWorldObjectIterator()
+	{
+		return objectMap.entrySet().iterator();
 	}
 
 }

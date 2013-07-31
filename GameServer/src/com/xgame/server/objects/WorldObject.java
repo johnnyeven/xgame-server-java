@@ -9,12 +9,14 @@ public class WorldObject
 {
 	private UUID guid;
 	private int mapId;
-	private int x;
-	private int y;
+	private double currentX;
+	private double currentY;
 	
 	public WorldObject()
 	{
 		guid = UUID.randomUUID();
+		currentX = Double.MIN_VALUE;
+		currentY = Double.MIN_VALUE;
 	}
 	
 	public Map getMap()
@@ -42,24 +44,24 @@ public class WorldObject
 		this.mapId = mapId;
 	}
 	
-	public int getX()
+	public double getX()
 	{
-		return x;
+		return currentX;
 	}
 	
-	public void setX(int x)
+	public void setX(double x)
 	{
-		this.x = x;
+		currentX = x;
 	}
 	
-	public int getY()
+	public double getY()
 	{
-		return y;
+		return currentY;
 	}
 	
-	public void setY(int y)
+	public void setY(double y)
 	{
-		this.y = y;
+		currentY = y;
 	}
 
 }

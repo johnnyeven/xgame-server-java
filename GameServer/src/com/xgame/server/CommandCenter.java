@@ -3,6 +3,11 @@ package com.xgame.server;
 import java.nio.ByteBuffer;
 import java.nio.channels.AsynchronousSocketChannel;
 import java.nio.charset.Charset;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Future;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 import com.xgame.server.common.PackageItem;
 import com.xgame.server.common.ServerPackage;
@@ -10,6 +15,7 @@ import com.xgame.server.common.protocol.EnumProtocol;
 
 public class CommandCenter
 {
+	private static Log log = LogFactory.getLog(CommandCenter.class);
 
 	public static void send(AsynchronousSocketChannel channel, ServerPackage pack)
 	{
@@ -24,6 +30,7 @@ public class CommandCenter
 		String strVal;
 		Integer intVal;
 		Long longVal;
+		Double doubleVal;
 		for(int i = 0; i < pack.parameter.size(); i++)
 		{
 			PackageItem item = pack.parameter.get(i);
@@ -66,13 +73,31 @@ public class CommandCenter
 				buffer.putLong(longVal);
 				dataLength += 8;
 			}
+			else if(item.item instanceof Double)
+			{
+				buffer.put((byte)EnumProtocol.TYPE_DOUBLE);
+				dataLength += 1;
+				
+				doubleVal = (double)item.item;
+				buffer.putDouble(doubleVal);
+				dataLength += 8;
+			}
 		}
 		buffer.putInt(0, dataLength);
 		dataLength += 4;
 		buffer.flip();
 		buffer.limit(dataLength);
 		
-		channel.write(buffer);
+		Future<Integer> f = channel.write(buffer);
+		try
+		{
+			int length = f.get();
+			log.debug("send() Length=" + length);
+		}
+		catch (InterruptedException | ExecutionException e)
+		{
+			e.printStackTrace();
+		}
 	}
 
 }

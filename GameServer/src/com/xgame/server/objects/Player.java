@@ -25,9 +25,6 @@ public class Player extends WorldObject
     public long accountCash = Long.MIN_VALUE;
     public int direction = Direction.DOWN;
     public int action = Action.STOP;
-    public int mapId = Integer.MIN_VALUE;
-    public double currentX = Double.MIN_VALUE;
-    public double currentY = Double.MIN_VALUE;
     public int healthMax = Integer.MIN_VALUE;
     public int health = Integer.MIN_VALUE;
     public int manaMax = Integer.MIN_VALUE;
@@ -68,8 +65,8 @@ public class Player extends WorldObject
 				manaMax = rs.getInt("max_mana");
 				energy = rs.getInt("current_energy");
 				energyMax = rs.getInt("max_energy");
-				currentX = rs.getDouble("current_x");
-				currentY = rs.getDouble("current_y");
+				setX(rs.getDouble("current_x"));
+				setY(rs.getDouble("current_y"));
 			}
 			else
 			{

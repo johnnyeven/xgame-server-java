@@ -92,10 +92,10 @@ public class ProtocolRequestAccountRole implements IProtocol
 					int maxEnergy = rs.getInt("max_energy");
 					pack.parameter.add(new PackageItem(4, maxEnergy));
 
-					int currentX = rs.getInt("current_x");
+					double currentX = rs.getDouble("current_x");
 					pack.parameter.add(new PackageItem(4, currentX));
 
-					int currentY = rs.getInt("current_y");
+					double currentY = rs.getDouble("current_y");
 					pack.parameter.add(new PackageItem(4, currentY));
 					
 					int mapId = rs.getInt("map_id");
@@ -108,9 +108,9 @@ public class ProtocolRequestAccountRole implements IProtocol
 					property.accountCash = accountCash;
 					property.direction = direction;
 					property.action = action;
-					property.mapId = mapId;
-					property.currentX = currentX;
-					property.currentY = currentY;
+					property.setMapId(mapId);
+					property.setX(currentX);
+					property.setX(currentY);
 					property.healthMax = maxHealth;
 					property.health = currentHealth;
 					property.manaMax = maxMana;
