@@ -83,8 +83,40 @@ public class Map
 		}
 		g.addWorldObject(p);
 		
+		//发送玩家初始化数据
+		sendPlayerData(p);
+		//同屏其他玩家可见
 		updateVisibility(p, g);
+		//可见同屏其他玩家
+		updateOtherVisibility(p, g);
 		return true;
+	}
+	
+	private void sendPlayerData(Player p)
+	{
+		ServerPackage verifyMap = new ServerPackage();
+		verifyMap.success = EnumProtocol.ACK_CONFIRM;
+		verifyMap.protocolId = EnumProtocol.ACTION_VERIFY_MAP << 8 | EnumProtocol.CONTROLLER_BASE;
+		verifyMap.parameter.add(new PackageItem(4, p.getMapId()));
+		verifyMap.parameter.add(new PackageItem(4, p.direction));
+		CommandCenter.send(p.getChannel(), verifyMap);
+
+		ServerPackage pack = new ServerPackage();
+		pack.success = EnumProtocol.ACK_CONFIRM;
+		pack.protocolId = 0x0050;
+		pack.parameter.add(new PackageItem(8, p.accountId));
+		pack.parameter.add(new PackageItem(p.name.length(), p.name));
+		pack.parameter.add(new PackageItem(8, (long)0));
+		pack.parameter.add(new PackageItem(4, 0));
+		pack.parameter.add(new PackageItem(4, 200));
+		pack.parameter.add(new PackageItem(4, 200));
+		pack.parameter.add(new PackageItem(4, 85));
+		pack.parameter.add(new PackageItem(4, 85));
+		pack.parameter.add(new PackageItem(4, 100));
+		pack.parameter.add(new PackageItem(4, 100));
+		pack.parameter.add(new PackageItem(8, (double)700));
+		pack.parameter.add(new PackageItem(8, (double)700));
+		CommandCenter.send(p.getChannel(), pack);
 	}
 	
 	private void updateVisibility(Player p, Grid g)
@@ -121,5 +153,10 @@ public class Map
 				CommandCenter.send(other.getChannel(), pack);
 			}
 		}
+	}
+	
+	private void updateOtherVisibility(Player p, Grid g)
+	{
+		
 	}
 }

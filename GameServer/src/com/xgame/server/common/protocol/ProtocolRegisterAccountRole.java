@@ -92,30 +92,6 @@ public class ProtocolRegisterAccountRole implements IProtocol
 					return;
 				}
 				
-				ServerPackage verifyMap = new ServerPackage();
-				verifyMap.success = EnumProtocol.ACK_CONFIRM;
-				verifyMap.protocolId = EnumProtocol.ACTION_VERIFY_MAP << 8 | EnumProtocol.CONTROLLER_BASE;
-				verifyMap.parameter.add(new PackageItem(4, p.getMapId()));
-				verifyMap.parameter.add(new PackageItem(4, p.direction));
-				CommandCenter.send(parameter.client, verifyMap);
-
-				ServerPackage pack = new ServerPackage();
-				pack.success = EnumProtocol.ACK_CONFIRM;
-				pack.protocolId = 0x0050;
-				pack.parameter.add(new PackageItem(8, lastInsertId));
-				pack.parameter.add(new PackageItem(nickName.length(), nickName));
-				pack.parameter.add(new PackageItem(8, (long)0));
-				pack.parameter.add(new PackageItem(4, 0));
-				pack.parameter.add(new PackageItem(4, 200));
-				pack.parameter.add(new PackageItem(4, 200));
-				pack.parameter.add(new PackageItem(4, 85));
-				pack.parameter.add(new PackageItem(4, 85));
-				pack.parameter.add(new PackageItem(4, 100));
-				pack.parameter.add(new PackageItem(4, 100));
-				pack.parameter.add(new PackageItem(8, (double)700));
-				pack.parameter.add(new PackageItem(8, (double)700));
-				CommandCenter.send(parameter.client, pack);
-				
 				rs.close();
 			} catch (SQLException e)
 			{
