@@ -1,4 +1,4 @@
-package com.xgame.server.network;
+package com.xgame.server.pool;
 
 import java.nio.ByteBuffer;
 import java.util.concurrent.ConcurrentLinkedQueue;

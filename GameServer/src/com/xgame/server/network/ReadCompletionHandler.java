@@ -5,6 +5,7 @@ import java.nio.ByteBuffer;
 import java.nio.channels.CompletionHandler;
 
 import com.xgame.server.game.ProtocolPackage;
+import com.xgame.server.pool.BufferPool;
 
 public class ReadCompletionHandler implements
 		CompletionHandler<Integer, WorldSession>

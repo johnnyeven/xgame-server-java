@@ -9,6 +9,7 @@ import java.util.List;
 import com.xgame.server.common.protocol.ProtocolRouter;
 import com.xgame.server.game.ProtocolPackage;
 import com.xgame.server.objects.Player;
+import com.xgame.server.pool.BufferPool;
 
 public class WorldSession
 {

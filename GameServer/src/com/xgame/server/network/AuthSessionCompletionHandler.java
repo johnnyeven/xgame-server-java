@@ -20,6 +20,7 @@ import com.xgame.server.common.database.DatabaseRouter;
 import com.xgame.server.common.protocol.EnumProtocol;
 import com.xgame.server.game.ProtocolPackage;
 import com.xgame.server.game.World;
+import com.xgame.server.pool.BufferPool;
 
 public class AuthSessionCompletionHandler implements
 		CompletionHandler<Integer, AuthSessionPackage>

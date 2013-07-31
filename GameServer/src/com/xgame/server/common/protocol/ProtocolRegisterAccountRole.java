@@ -17,6 +17,7 @@ import com.xgame.server.game.MapManager;
 import com.xgame.server.game.ProtocolPackage;
 import com.xgame.server.network.WorldSession;
 import com.xgame.server.objects.Player;
+import com.xgame.server.pool.PlayerPool;
 
 public class ProtocolRegisterAccountRole implements IProtocol
 {
@@ -77,7 +78,7 @@ public class ProtocolRegisterAccountRole implements IProtocol
 				long lastInsertId = rs.getLong(1);
 				
 				// TODO 创建Player对象
-				Player p = new Player();
+				Player p = PlayerPool.getInstance().getObject();
 				p.accountId = lastInsertId;
 				p.setChannel(parameter.client);
 				session.setPlayer(p);

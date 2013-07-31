@@ -15,6 +15,7 @@ import com.xgame.server.game.GameServer;
 import com.xgame.server.game.ProtocolPackage;
 import com.xgame.server.network.WorldSession;
 import com.xgame.server.objects.Player;
+import com.xgame.server.pool.PlayerPool;
 
 public class ProtocolRequestAccountRole implements IProtocol
 {
@@ -100,24 +101,24 @@ public class ProtocolRequestAccountRole implements IProtocol
 					
 					int mapId = rs.getInt("map_id");
 					
-					Player property = new Player();
-					property.accountId = accountId;
-					property.level = level;
-					property.name = nickName;
-					property.speed = speed;
-					property.accountCash = accountCash;
-					property.direction = direction;
-					property.action = action;
-					property.setMapId(mapId);
-					property.setX(currentX);
-					property.setX(currentY);
-					property.healthMax = maxHealth;
-					property.health = currentHealth;
-					property.manaMax = maxMana;
-					property.mana = currentMana;
-					property.energyMax = maxEnergy;
-					property.energy = currentEnergy;
-					property.setChannel(parameter.client);
+					Player p = PlayerPool.getInstance().getObject();
+					p.accountId = accountId;
+					p.level = level;
+					p.name = nickName;
+					p.speed = speed;
+					p.accountCash = accountCash;
+					p.direction = direction;
+					p.action = action;
+					p.setMapId(mapId);
+					p.setX(currentX);
+					p.setX(currentY);
+					p.healthMax = maxHealth;
+					p.health = currentHealth;
+					p.manaMax = maxMana;
+					p.mana = currentMana;
+					p.energyMax = maxEnergy;
+					p.energy = currentEnergy;
+					p.setChannel(parameter.client);
 				}
 				else
 				{
