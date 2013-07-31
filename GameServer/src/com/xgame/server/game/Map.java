@@ -32,10 +32,10 @@ public class Map
 		this.id = id;
 		this.config = config;
 		
-		int gridCountX = (int)Math.floor(config.width / GRID_WIDTH);
-		int gridCountY = (int)Math.floor(config.height / GRID_HEIGHT);
+		gridX = (int)Math.floor(config.width / GRID_WIDTH);
+		gridY = (int)Math.floor(config.height / GRID_HEIGHT);
 		
-		gridContainer = new Grid[gridCountX][gridCountY];
+		gridContainer = new Grid[gridX][gridY];
 	}
 	
 	public static CoordinatePair getCoordinatePair(double x, double y)
