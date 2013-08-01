@@ -44,5 +44,9 @@ public class ProtocolRouter
 				e.printStackTrace();
 			}
 		}
+		else
+		{
+			System.out.println("收到一个不认识的协议号, id=" + key);
+		}
 	}
 }

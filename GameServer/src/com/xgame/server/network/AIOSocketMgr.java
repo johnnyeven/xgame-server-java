@@ -13,10 +13,12 @@ import java.util.concurrent.Executors;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import com.xgame.server.common.protocol.EnumProtocol;
 import com.xgame.server.common.protocol.ProtocolRegisterAccountRole;
 import com.xgame.server.common.protocol.ProtocolRequestAccountRole;
 import com.xgame.server.common.protocol.ProtocolRequestHotkey;
 import com.xgame.server.common.protocol.ProtocolRouter;
+import com.xgame.server.common.protocol.ProtocolUpdatePlayerStatus;
 import com.xgame.server.game.ProtocolPackage;
 import com.xgame.server.game.World;
 
@@ -49,15 +51,13 @@ public class AIOSocketMgr
 			acceptHandler = new AcceptCompletionHandler();
 			readHandler = new ReadCompletionHandler(this);
 			authHandler = new AuthSessionCompletionHandler();
+			
+			bindProtocol();
 		}
 		catch(IOException e)
 		{
 			e.printStackTrace();
 		}
-		
-		ProtocolRouter.getInstance().Bind((short)0x0040, ProtocolRequestAccountRole.class);
-		ProtocolRouter.getInstance().Bind((short)0x0050, ProtocolRegisterAccountRole.class);
-		ProtocolRouter.getInstance().Bind((short)0x0060, ProtocolRequestHotkey.class);
 	}
 	
 	public static AIOSocketMgr getInstance()
@@ -76,6 +76,14 @@ public class AIOSocketMgr
 			allowInstance = false;
 		}
 		return instance;
+	}
+	
+	private void bindProtocol()
+	{
+		ProtocolRouter.getInstance().Bind(EnumProtocol.REQUEST_ACCOUNT_ROLE, ProtocolRequestAccountRole.class);
+		ProtocolRouter.getInstance().Bind(EnumProtocol.REGISTER_ACCOUNT_ROLE, ProtocolRegisterAccountRole.class);
+		ProtocolRouter.getInstance().Bind(EnumProtocol.REQUEST_HOTKEY, ProtocolRequestHotkey.class);
+		ProtocolRouter.getInstance().Bind(EnumProtocol.BASE_UPDATE_STATUS, ProtocolUpdatePlayerStatus.class);
 	}
 	
 	public void startCompletionPort()

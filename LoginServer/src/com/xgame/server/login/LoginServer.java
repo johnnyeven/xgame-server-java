@@ -23,7 +23,7 @@ public class LoginServer
     public LoginServer()
     {
 		router = new ProtocolRouter();
-		router.Bind((short)0x0020, ProtocolRequestQuickStart.class);
+		router.Bind(EnumProtocol.QUICK_START, ProtocolRequestQuickStart.class);
 		
 		DatabaseRouter.getInstance();
 		

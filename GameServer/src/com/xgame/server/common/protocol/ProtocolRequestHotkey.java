@@ -17,7 +17,7 @@ import com.xgame.server.pool.ServerPackagePool;
 
 public class ProtocolRequestHotkey implements IProtocol
 {
-	private static Log log = LogFactory.getLog(ProtocolRegisterAccountRole.class);
+	private static Log log = LogFactory.getLog(ProtocolRequestHotkey.class);
 
 	@Override
 	public void Execute(Object param1, Object param2)
@@ -52,7 +52,7 @@ public class ProtocolRequestHotkey implements IProtocol
 				ResultSet rs = st.executeQuery();
 				ServerPackage pack = ServerPackagePool.getInstance().getObject();
 				pack.success = EnumProtocol.ACK_CONFIRM;
-				pack.protocolId = 0x0060;
+				pack.protocolId = EnumProtocol.REQUEST_HOTKEY;
 				if(rs.first())
 				{
 					String config = rs.getString("config");

@@ -41,7 +41,7 @@ public class AuthSessionCompletionHandler implements
 		int packageLength = buffer.getInt();
 		short protocolId = buffer.getShort();
 		
-		if(protocolId == 0x0070)
+		if(protocolId == EnumProtocol.INFO_BIND_SESSION)
 		{
 			String accountName = null;
 			for(int i = 6; i < arg0; )
@@ -90,7 +90,7 @@ public class AuthSessionCompletionHandler implements
 
 					ServerPackage pack = ServerPackagePool.getInstance().getObject();
 					pack.success = EnumProtocol.ACK_CONFIRM;
-					pack.protocolId = 0x0070;
+					pack.protocolId = EnumProtocol.INFO_BIND_SESSION;
 					pack.parameter.add(new PackageItem(4, 1));
 					CommandCenter.send(arg1.channel, pack);
 					
@@ -105,7 +105,7 @@ public class AuthSessionCompletionHandler implements
 		}
 		else
 		{
-			log.error("绑定Session协议号错误，收到的协议号为" + protocolId + ", 应该为" + 0x0070);
+			log.error("绑定Session协议号错误，收到的协议号为" + protocolId + ", 应该为" + EnumProtocol.INFO_BIND_SESSION);
 		}
 	}
 

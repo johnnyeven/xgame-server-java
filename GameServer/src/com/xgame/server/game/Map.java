@@ -110,9 +110,7 @@ public class Map
 		//同屏其他玩家可见
 		updateVisibility(p, g);
 		//可见同屏其他玩家
-		updateOtherVisibility(p, g);
-		//修改Player的状态为正常
-		p.status = PlayerStatus.NORMAL;
+//		updateOtherVisibility(p, g);
 		
 		return true;
 	}
@@ -121,14 +119,14 @@ public class Map
 	{
 		ServerPackage verifyMap = ServerPackagePool.getInstance().getObject();
 		verifyMap.success = EnumProtocol.ACK_CONFIRM;
-		verifyMap.protocolId = EnumProtocol.ACTION_VERIFY_MAP << 8 | EnumProtocol.CONTROLLER_BASE;
+		verifyMap.protocolId = EnumProtocol.BASE_VERIFY_MAP;
 		verifyMap.parameter.add(new PackageItem(4, p.getMapId()));
 		verifyMap.parameter.add(new PackageItem(4, p.direction));
 		CommandCenter.send(p.getChannel(), verifyMap);
 
 		ServerPackage pack = ServerPackagePool.getInstance().getObject();
 		pack.success = EnumProtocol.ACK_CONFIRM;
-		pack.protocolId = 0x0050;
+		pack.protocolId = EnumProtocol.REGISTER_ACCOUNT_ROLE;
 		pack.parameter.add(new PackageItem(8, p.accountId));
 		pack.parameter.add(new PackageItem(p.name.length(), p.name));
 		pack.parameter.add(new PackageItem(8, (long)0));
@@ -146,36 +144,68 @@ public class Map
 	
 	private void updateVisibility(Player p, Grid g)
 	{
-		Iterator<Entry<UUID, WorldObject>> it = g.getWorldObjectIterator();
+		ArrayList<Grid> list = getViewGrid(g);
+		Iterator<Grid> it = list.iterator();
+		Grid currentGrid;
 		Entry<UUID, WorldObject> en;
-		Player other;
+		Player currentPlayer;
 		while(it.hasNext())
 		{
-			en = it.next();
-			if(en.getValue() instanceof Player && en.getValue() != p)
+			currentGrid = it.next();
+			
+			if(currentGrid == null)
 			{
-				other = (Player)en.getValue();
-				if(!other.getChannel().isOpen())
+				continue;
+			}
+			
+			Iterator<Entry<UUID, WorldObject>> gridIt = currentGrid.getWorldObjectIterator();
+			while(gridIt.hasNext())
+			{
+				en = gridIt.next();
+				if(en.getValue() instanceof Player && en.getValue() != p)
 				{
-					continue;
+					currentPlayer = (Player)en.getValue();
+					if(!currentPlayer.getChannel().isOpen())
+					{
+						continue;
+					}
+					
+					ServerPackage pack = ServerPackagePool.getInstance().getObject();
+					pack.success = EnumProtocol.ACK_CONFIRM;
+					pack.protocolId = EnumProtocol.SCENE_SHOW_PLAYER;
+					pack.parameter.add(new PackageItem(8, p.accountId));
+					pack.parameter.add(new PackageItem(p.name.length(), p.name));
+					pack.parameter.add(new PackageItem(8, p.accountCash));
+					pack.parameter.add(new PackageItem(4, p.direction));
+					pack.parameter.add(new PackageItem(4, p.health));
+					pack.parameter.add(new PackageItem(4, p.healthMax));
+					pack.parameter.add(new PackageItem(4, p.mana));
+					pack.parameter.add(new PackageItem(4, p.manaMax));
+					pack.parameter.add(new PackageItem(4, p.energy));
+					pack.parameter.add(new PackageItem(4, p.energyMax));
+					pack.parameter.add(new PackageItem(8, p.getX()));
+					pack.parameter.add(new PackageItem(8, p.getY()));
+					CommandCenter.send(currentPlayer.getChannel(), pack);
+					ServerPackagePool.getInstance().returnObject(pack);
+
+					pack = ServerPackagePool.getInstance().getObject();
+					pack.success = EnumProtocol.ACK_CONFIRM;
+					pack.protocolId = EnumProtocol.SCENE_SHOW_PLAYER;
+					pack.parameter.add(new PackageItem(8, currentPlayer.accountId));
+					pack.parameter.add(new PackageItem(currentPlayer.name.length(), currentPlayer.name));
+					pack.parameter.add(new PackageItem(8, currentPlayer.accountCash));
+					pack.parameter.add(new PackageItem(4, currentPlayer.direction));
+					pack.parameter.add(new PackageItem(4, currentPlayer.health));
+					pack.parameter.add(new PackageItem(4, currentPlayer.healthMax));
+					pack.parameter.add(new PackageItem(4, currentPlayer.mana));
+					pack.parameter.add(new PackageItem(4, currentPlayer.manaMax));
+					pack.parameter.add(new PackageItem(4, currentPlayer.energy));
+					pack.parameter.add(new PackageItem(4, currentPlayer.energyMax));
+					pack.parameter.add(new PackageItem(8, currentPlayer.getX()));
+					pack.parameter.add(new PackageItem(8, currentPlayer.getY()));
+					CommandCenter.send(p.getChannel(), pack);
+					ServerPackagePool.getInstance().returnObject(pack);
 				}
-				
-				ServerPackage pack = ServerPackagePool.getInstance().getObject();
-				pack.success = EnumProtocol.ACK_CONFIRM;
-				pack.protocolId = EnumProtocol.ACTION_SHOW_PLAYER << 8 | EnumProtocol.CONTROLLER_SCENE;
-				pack.parameter.add(new PackageItem(8, p.accountId));
-				pack.parameter.add(new PackageItem(p.name.length(), p.name));
-				pack.parameter.add(new PackageItem(8, p.accountCash));
-				pack.parameter.add(new PackageItem(4, p.direction));
-				pack.parameter.add(new PackageItem(4, p.health));
-				pack.parameter.add(new PackageItem(4, p.healthMax));
-				pack.parameter.add(new PackageItem(4, p.mana));
-				pack.parameter.add(new PackageItem(4, p.manaMax));
-				pack.parameter.add(new PackageItem(4, p.energy));
-				pack.parameter.add(new PackageItem(4, p.energyMax));
-				pack.parameter.add(new PackageItem(8, p.getX()));
-				pack.parameter.add(new PackageItem(8, p.getY()));
-				CommandCenter.send(other.getChannel(), pack);
 			}
 		}
 	}
@@ -208,10 +238,14 @@ public class Map
 					{
 						continue;
 					}
+					if(!p.getChannel().isOpen())
+					{
+						continue;
+					}
 
 					ServerPackage pack = ServerPackagePool.getInstance().getObject();
 					pack.success = EnumProtocol.ACK_CONFIRM;
-					pack.protocolId = EnumProtocol.ACTION_SHOW_PLAYER << 8 | EnumProtocol.CONTROLLER_SCENE;
+					pack.protocolId = EnumProtocol.SCENE_SHOW_PLAYER;
 					pack.parameter.add(new PackageItem(8, currentPlayer.accountId));
 					pack.parameter.add(new PackageItem(currentPlayer.name.length(), currentPlayer.name));
 					pack.parameter.add(new PackageItem(8, currentPlayer.accountCash));

@@ -58,7 +58,7 @@ public class ProtocolRequestQuickStart implements IProtocol
 				
 				ServerPackage pack = new ServerPackage();
 				pack.success = EnumProtocol.ACK_CONFIRM;
-				pack.protocolId = (short)0x0020;
+				pack.protocolId = EnumProtocol.QUICK_START;
 				pack.parameter.add(new PackageItem(8, insertId));
 				pack.parameter.add(new PackageItem(name.length(), name));
 				pack.parameter.add(new PackageItem(pass.length(), pass));

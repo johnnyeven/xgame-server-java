@@ -55,7 +55,7 @@ public class ProtocolRequestAccountRole implements IProtocol
 				ResultSet rs = st.executeQuery();
 				ServerPackage pack = ServerPackagePool.getInstance().getObject();
 				pack.success = EnumProtocol.ACK_CONFIRM;
-				pack.protocolId = 0x0040;
+				pack.protocolId = EnumProtocol.REQUEST_ACCOUNT_ROLE;
 				if(rs.first())
 				{
 					long accountId = rs.getLong("account_id");
