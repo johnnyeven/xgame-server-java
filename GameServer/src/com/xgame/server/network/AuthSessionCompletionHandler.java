@@ -21,6 +21,7 @@ import com.xgame.server.common.protocol.EnumProtocol;
 import com.xgame.server.game.ProtocolPackage;
 import com.xgame.server.game.World;
 import com.xgame.server.pool.BufferPool;
+import com.xgame.server.pool.ServerPackagePool;
 
 public class AuthSessionCompletionHandler implements
 		CompletionHandler<Integer, AuthSessionPackage>
@@ -87,7 +88,7 @@ public class AuthSessionCompletionHandler implements
 					World.getInstance().addSessionQueue(s);
 					s.startRecv();
 
-					ServerPackage pack = new ServerPackage();
+					ServerPackage pack = ServerPackagePool.getInstance().getObject();
 					pack.success = EnumProtocol.ACK_CONFIRM;
 					pack.protocolId = 0x0070;
 					pack.parameter.add(new PackageItem(4, 1));

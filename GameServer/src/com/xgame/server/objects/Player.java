@@ -13,6 +13,7 @@ import org.apache.commons.logging.LogFactory;
 import com.xgame.server.common.database.DatabaseRouter;
 import com.xgame.server.enums.Direction;
 import com.xgame.server.enums.Action;
+import com.xgame.server.enums.PlayerStatus;
 import com.xgame.server.game.Map;
 import com.xgame.server.network.WorldSession;
 
@@ -31,6 +32,7 @@ public class Player extends WorldObject
     public int mana = Integer.MIN_VALUE;
     public int energyMax = Integer.MIN_VALUE;
     public int energy = Integer.MIN_VALUE;
+    public PlayerStatus status = PlayerStatus.PENDING;
     
     private AsynchronousSocketChannel channel;
 	private WorldSession session;

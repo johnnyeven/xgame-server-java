@@ -16,6 +16,7 @@ import com.xgame.server.game.ProtocolPackage;
 import com.xgame.server.network.WorldSession;
 import com.xgame.server.objects.Player;
 import com.xgame.server.pool.PlayerPool;
+import com.xgame.server.pool.ServerPackagePool;
 
 public class ProtocolRequestAccountRole implements IProtocol
 {
@@ -52,7 +53,7 @@ public class ProtocolRequestAccountRole implements IProtocol
 				String sql = "SELECT *  FROM `game_account` WHERE `account_guid` = " + guid;
 				PreparedStatement st = DatabaseRouter.getInstance().getConnection("gamedb").prepareStatement(sql);
 				ResultSet rs = st.executeQuery();
-				ServerPackage pack = new ServerPackage();
+				ServerPackage pack = ServerPackagePool.getInstance().getObject();
 				pack.success = EnumProtocol.ACK_CONFIRM;
 				pack.protocolId = 0x0040;
 				if(rs.first())

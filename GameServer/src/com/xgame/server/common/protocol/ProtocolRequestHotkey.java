@@ -13,6 +13,7 @@ import com.xgame.server.common.ServerPackage;
 import com.xgame.server.common.database.DatabaseRouter;
 import com.xgame.server.game.ProtocolPackage;
 import com.xgame.server.network.WorldSession;
+import com.xgame.server.pool.ServerPackagePool;
 
 public class ProtocolRequestHotkey implements IProtocol
 {
@@ -49,7 +50,7 @@ public class ProtocolRequestHotkey implements IProtocol
 				String sql = "SELECT *  FROM `game_hotkey_config` WHERE `account_id` = " + accountId;
 				PreparedStatement st = DatabaseRouter.getInstance().getConnection("gamedb").prepareStatement(sql);
 				ResultSet rs = st.executeQuery();
-				ServerPackage pack = new ServerPackage();
+				ServerPackage pack = ServerPackagePool.getInstance().getObject();
 				pack.success = EnumProtocol.ACK_CONFIRM;
 				pack.protocolId = 0x0060;
 				if(rs.first())
