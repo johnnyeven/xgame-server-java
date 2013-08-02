@@ -12,15 +12,18 @@ import org.apache.commons.logging.LogFactory;
 import com.xgame.server.common.PackageItem;
 import com.xgame.server.common.ServerPackage;
 import com.xgame.server.common.protocol.EnumProtocol;
+import com.xgame.server.pool.BufferPool;
 
 public class CommandCenter
 {
 	private static Log log = LogFactory.getLog(CommandCenter.class);
+//	private static Future<Integer> f;
+//	private static ByteBuffer cache = BufferPool.getInstance().getBuffer();
 
 	public static void send(AsynchronousSocketChannel channel, ServerPackage pack)
 	{
 		int dataLength = 0;
-		ByteBuffer buffer = ByteBuffer.allocate(1024);
+		ByteBuffer buffer = BufferPool.getInstance().getBuffer();
 		buffer.position(4);
 		
 		buffer.putShort(pack.protocolId);
@@ -87,17 +90,47 @@ public class CommandCenter
 		dataLength += 4;
 		buffer.flip();
 		buffer.limit(dataLength);
-		
+
 		Future<Integer> f = channel.write(buffer);
+		
 		try
 		{
 			int length = f.get();
+			BufferPool.getInstance().releaseBuffer(buffer);
 			log.debug("send() Length=" + length);
 		}
 		catch (InterruptedException | ExecutionException e)
 		{
 			e.printStackTrace();
 		}
+//		if(f.isDone() || f.isCancelled())
+//		{
+//			f = channel.write(buffer);
+//			
+//			try
+//			{
+//				int length = f.get();
+//				BufferPool.getInstance().releaseBuffer(buffer);
+//				log.debug("send() Length=" + length);
+//			}
+//			catch (InterruptedException | ExecutionException e)
+//			{
+//				e.printStackTrace();
+//			}
+//		}
+//		else
+//		{
+//			spliceBuffer(buffer);
+//		}
 	}
+	
+//	private static void spliceBuffer(ByteBuffer b)
+//	{
+//		if(cache == null)
+//		{
+//			cache = BufferPool.getInstance().getBuffer();
+//		}
+//		cache.put(b.array());
+//	}
 
 }
