@@ -9,14 +9,18 @@ import java.util.UUID;
 import java.util.Map.Entry;
 
 import javax.imageio.ImageIO;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+
 import com.xgame.server.CommandCenter;
 import com.xgame.server.common.CoordinatePair;
 import com.xgame.server.common.PackageItem;
 import com.xgame.server.common.ServerPackage;
 import com.xgame.server.common.protocol.EnumProtocol;
 import com.xgame.server.game.astar.Grid;
+import com.xgame.server.game.astar.Node;
+import com.xgame.server.game.astar.SilzAstar;
 import com.xgame.server.objects.Player;
 import com.xgame.server.objects.WorldObject;
 import com.xgame.server.pool.ServerPackagePool;
@@ -69,6 +73,10 @@ public class Map
 					}
 				}
 			}
+			
+			SilzAstar a = new SilzAstar(negativePath, config.blockSizeWidth, config.blockSizeHeight);
+			ArrayList<Node> path = a.find(700, 700, 700, 1000);
+			log.debug(path);
 //			String logString;
 //			for(int i = 0; i < negativePath.length; i++)
 //			{

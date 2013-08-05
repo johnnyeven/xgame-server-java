@@ -10,6 +10,7 @@ public class BinaryHeap
 	
 	public BinaryHeap()
 	{
+		a.add(null);
 	}
 	
 	public boolean justMinFun(Node x, Node y)
