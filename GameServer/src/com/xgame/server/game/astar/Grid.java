@@ -1,4 +1,4 @@
-package com.xgame.server.game;
+package com.xgame.server.game.astar;
 
 import java.util.HashMap;
 import java.util.Iterator;

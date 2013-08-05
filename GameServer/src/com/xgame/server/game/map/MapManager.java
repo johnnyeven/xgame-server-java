@@ -1,4 +1,4 @@
-package com.xgame.server.game;
+package com.xgame.server.game.map;
 
 import java.util.HashMap;
 

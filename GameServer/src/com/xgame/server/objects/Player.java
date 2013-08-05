@@ -14,7 +14,7 @@ import com.xgame.server.common.database.DatabaseRouter;
 import com.xgame.server.enums.Direction;
 import com.xgame.server.enums.Action;
 import com.xgame.server.enums.PlayerStatus;
-import com.xgame.server.game.Map;
+import com.xgame.server.game.map.Map;
 import com.xgame.server.network.WorldSession;
 
 public class Player extends WorldObject

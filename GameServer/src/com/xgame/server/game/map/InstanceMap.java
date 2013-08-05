@@ -1,4 +1,4 @@
-package com.xgame.server.game;
+package com.xgame.server.game.map;
 
 public class InstanceMap extends Map
 {

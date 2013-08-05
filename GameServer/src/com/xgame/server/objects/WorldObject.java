@@ -2,8 +2,8 @@ package com.xgame.server.objects;
 
 import java.util.UUID;
 
-import com.xgame.server.game.Map;
-import com.xgame.server.game.MapManager;
+import com.xgame.server.game.map.Map;
+import com.xgame.server.game.map.MapManager;
 
 public class WorldObject
 {

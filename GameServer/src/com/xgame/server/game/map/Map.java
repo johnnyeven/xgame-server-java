@@ -1,11 +1,16 @@
-package com.xgame.server.game;
+package com.xgame.server.game.map;
 
+import java.awt.image.BufferedImage;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.UUID;
 import java.util.Map.Entry;
 
+import javax.imageio.ImageIO;
+import javax.imageio.stream.ImageInputStream;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -21,6 +26,7 @@ import com.xgame.server.common.PackageItem;
 import com.xgame.server.common.ServerPackage;
 import com.xgame.server.common.protocol.EnumProtocol;
 import com.xgame.server.enums.PlayerStatus;
+import com.xgame.server.game.astar.Grid;
 import com.xgame.server.objects.Player;
 import com.xgame.server.objects.WorldObject;
 import com.xgame.server.pool.ServerPackagePool;
@@ -30,6 +36,7 @@ public class Map
 	protected int id;
 	protected int unloadTimer;
 	private Grid[][] gridContainer;
+	private boolean[][] negativePath;
 	private int gridX;
 	private int gridY;
 	private MapConfig config;
@@ -49,6 +56,54 @@ public class Map
 		gridY = (int)Math.floor(config.height / GRID_HEIGHT);
 		
 		gridContainer = new Grid[gridX][gridY];
+		negativePath = new boolean[config.blockNumHeight][config.blockNumWidth];
+		loadMap();
+	}
+	
+	private void loadMap()
+	{
+		try
+		{
+			BufferedImage img = ImageIO.read(new FileInputStream("data/map/" + id + "/road.png"));
+			double roadScale = (double)img.getWidth() / config.width;
+			long color;
+			long alpha;
+			
+			for(int x = 0; x < config.blockNumWidth; x++)
+			{
+				for(int y = 0; y < config.blockNumHeight; y++)
+				{
+					color = img.getRGB((int)(config.blockSizeWidth * x * roadScale), (int)(config.blockSizeHeight * y * roadScale));
+					alpha = color >> 24;
+					if(alpha != 0)
+					{
+						negativePath[y][x] = true;
+					}
+				}
+			}
+//			String logString;
+//			for(int i = 0; i < negativePath.length; i++)
+//			{
+//				logString = "";
+//				for(int j = 0; j < negativePath[i].length; j++)
+//				{
+//					if(negativePath[i][j])
+//					{
+//						logString += "¡ö";
+//					}
+//					else
+//					{
+//						logString += "¡õ";
+//					}
+//				}
+//				log.debug(logString);
+//			}
+		}
+		catch (IOException e)
+		{
+			e.printStackTrace();
+			return;
+		}
 	}
 	
 	public static CoordinatePair getCoordinatePair(double x, double y)
