@@ -2,7 +2,6 @@ package com.xgame.server.game.map;
 
 import java.awt.image.BufferedImage;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -10,22 +9,13 @@ import java.util.UUID;
 import java.util.Map.Entry;
 
 import javax.imageio.ImageIO;
-import javax.imageio.stream.ImageInputStream;
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.w3c.dom.Document;
-import org.xml.sax.SAXException;
-
 import com.xgame.server.CommandCenter;
 import com.xgame.server.common.CoordinatePair;
 import com.xgame.server.common.PackageItem;
 import com.xgame.server.common.ServerPackage;
 import com.xgame.server.common.protocol.EnumProtocol;
-import com.xgame.server.enums.PlayerStatus;
 import com.xgame.server.game.astar.Grid;
 import com.xgame.server.objects.Player;
 import com.xgame.server.objects.WorldObject;
@@ -41,8 +31,6 @@ public class Map
 	private int gridY;
 	private MapConfig config;
 	
-	private static final int CLIENT_WIDTH = 1028;
-	private static final int CLIENT_HEIGHT = 600;
 	private static final int GRID_WIDTH = 500;
 	private static final int GRID_HEIGHT = 500;
 	private static Log log = LogFactory.getLog(Map.class);
@@ -265,6 +253,7 @@ public class Map
 		}
 	}
 	
+	@SuppressWarnings("unused")
 	private void updateOtherVisibility(Player p, Grid g)
 	{
 		ArrayList<Grid> list = getViewGrid(g);

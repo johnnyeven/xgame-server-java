@@ -12,7 +12,6 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import com.xgame.server.common.IntervalTimer;
-import com.xgame.server.network.AcceptCompletionHandler;
 import com.xgame.server.network.WorldSession;
 
 enum WorldTimers

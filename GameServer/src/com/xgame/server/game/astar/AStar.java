@@ -97,7 +97,6 @@ public class AStar {
 			p2.setY(temp);
 		}
 		int stepX = p2.getX() > p1.getX() ? 1 : (p2.getX() < p1.getX() ? -1 : 0);
-		int stepY = p2.getY() > p1.getY() ? 1 : (p2.getY() < p1.getY() ? -1 : 0);
 		double deltay = (double)(p2.getY() - p1.getY()) / Math.abs(p2.getX() - p1.getX());
 		ArrayList<Point> ret = new ArrayList<Point>();
 		double nowX = p1.getX() + stepX;

@@ -11,14 +11,16 @@ public class SilzAstar
 {
 	private static int WorkMode = 8;
 	private AstarGrid _grid;
-	private int _index;
 	private ArrayList<Node> _path;
 	private AStar astar;
 	private int blockSizeWidth;
 	private int blockSizeHeight;
 	
-	public SilzAstar(boolean[][] mapdata)
+	public SilzAstar(boolean[][] mapdata, int blockSizeWidth, int blockSizeHeight)
 	{
+		this.blockSizeWidth = blockSizeWidth;
+		this.blockSizeHeight = blockSizeHeight;
+		
 		makeGrid(mapdata);
 	}
 	
@@ -37,8 +39,6 @@ public class SilzAstar
 		
 		if (astar.findPath())
 		{
-			_index = 0;
-			
 			astar.floyd();
 			_path = astar.getFloydPath();
 			
