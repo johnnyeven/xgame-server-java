@@ -17,6 +17,7 @@ public class AStar {
 	public AStar(AstarGrid grid)
 	{
 		this._grid = grid;
+		_floydPath = new ArrayList<Node>();
 	}
 	
 	public boolean findPath()

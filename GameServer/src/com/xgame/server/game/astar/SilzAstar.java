@@ -60,7 +60,7 @@ public class SilzAstar
 		{
 			for(px = 0; px < cols; px++)
 			{
-				_grid.setWalkable(px, py, data[py][px] == false);
+				_grid.setWalkable(px, py, data[py][px] == true);
 			}
 		}
 

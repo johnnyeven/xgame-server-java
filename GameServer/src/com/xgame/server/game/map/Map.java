@@ -75,7 +75,7 @@ public class Map
 			}
 			
 			SilzAstar a = new SilzAstar(negativePath, config.blockSizeWidth, config.blockSizeHeight);
-			ArrayList<Node> path = a.find(700, 700, 700, 1000);
+			ArrayList<Node> path = a.find(700, 700, 600, 700);
 			log.debug(path);
 //			String logString;
 //			for(int i = 0; i < negativePath.length; i++)

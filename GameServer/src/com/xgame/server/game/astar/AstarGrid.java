@@ -30,7 +30,7 @@ public class AstarGrid
 	
 	/**
 	 *
-	 * @param   type    0四方向 1八方向 2跳棋
+	 * @param   type     0八方向1四方向 2跳棋
 	 */
 	public void calculateLinks(int type)
 	{
