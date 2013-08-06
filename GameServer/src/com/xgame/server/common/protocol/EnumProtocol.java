@@ -11,8 +11,8 @@ public final class EnumProtocol
     public static final int NPC_CONTROLLER_BATTLE = 13;
     public static final int NPC_CONTROLLER_MOVE = 11;
     //MOVE
-    public static final int ACTION_MOVETO = 0;
-    public static final int ACTION_MOVE = 1;
+    public static final int ACTION_REQUEST_FINDPATH = 0;
+    public static final int ACTION_VERIFY_MOVE = 1;
     //MSG
     public static final int ACTION_PUBLIC_MSG = 0;
     public static final int ACTION_PRIVATE_MSG = 1;
@@ -46,6 +46,8 @@ public final class EnumProtocol
     public static final int TYPE_FLOAT = 3;
     public static final int TYPE_BOOL = 4;
     public static final int TYPE_DOUBLE = 5;
+    //MOVE
+    public static final short REQUEST_FIND_PATH = ACTION_REQUEST_FINDPATH << 8 | CONTROLLER_MOVE;
     //INFO
     public static final short QUICK_START = ACTION_QUICK_START << 8 | CONTROLLER_INFO;
     public static final short REQUEST_ACCOUNT_ROLE = ACTION_REQUEST_CHARACTER << 8 | CONTROLLER_INFO;
