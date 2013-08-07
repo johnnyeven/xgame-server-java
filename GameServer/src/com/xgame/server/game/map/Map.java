@@ -34,6 +34,7 @@ public class Map
 	private int gridX;
 	private int gridY;
 	private MapConfig config;
+	private SilzAstar astar;
 	
 	private static final int GRID_WIDTH = 500;
 	private static final int GRID_HEIGHT = 500;
@@ -74,7 +75,7 @@ public class Map
 				}
 			}
 			
-			SilzAstar a = new SilzAstar(negativePath, config.blockSizeWidth, config.blockSizeHeight);
+			astar = new SilzAstar(negativePath, config.blockSizeWidth, config.blockSizeHeight);
 //			String logString;
 //			for(int i = 0; i < negativePath.length; i++)
 //			{
@@ -332,5 +333,10 @@ public class Map
 			}
 		}
 		return list;
+	}
+
+	public SilzAstar getAstar()
+	{
+		return astar;
 	}
 }
