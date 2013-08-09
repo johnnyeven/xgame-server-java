@@ -17,7 +17,7 @@ import com.xgame.server.pool.ServerPackagePool;
 
 public class ProtocolRequestFindPath implements IProtocol
 {
-	private static Log log = LogFactory.getLog(ProtocolUpdatePlayerStatus.class);
+	private static Log log = LogFactory.getLog(ProtocolRequestFindPath.class);
 
 	@Override
 	public void Execute(Object param1, Object param2)
