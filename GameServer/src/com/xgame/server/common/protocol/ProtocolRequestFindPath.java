@@ -71,7 +71,7 @@ public class ProtocolRequestFindPath implements IProtocol
 			{
 				ServerPackage pack = ServerPackagePool.getInstance().getObject();
 				pack.success = EnumProtocol.ACK_CONFIRM;
-				pack.protocolId = EnumProtocol.REGISTER_ACCOUNT_ROLE;
+				pack.protocolId = EnumProtocol.REQUEST_FIND_PATH;
 				
 				Iterator<Node> it = path.iterator();
 				Node n;
