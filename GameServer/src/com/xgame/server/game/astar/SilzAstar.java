@@ -2,6 +2,9 @@ package com.xgame.server.game.astar;
 
 import java.util.ArrayList;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 /**
  * ...
  * @author sliz	http://game-develop.net/
@@ -15,6 +18,8 @@ public class SilzAstar
 	private AStar astar;
 	private int blockSizeWidth;
 	private int blockSizeHeight;
+	
+	private static Log log = LogFactory.getLog(SilzAstar.class);
 	
 	public SilzAstar(boolean[][] mapdata, int blockSizeWidth, int blockSizeHeight)
 	{

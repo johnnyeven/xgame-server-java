@@ -30,10 +30,11 @@ public class AStar {
 		return search();
 	}
 	
+	@SuppressWarnings("unchecked")
 	public void floyd()
 	{
 		if (_path == null) return;
-		_floydPath.addAll(_path);
+		_floydPath = (ArrayList<Node>) _path.clone();
 		int len = _floydPath.size();
 		if (len > 2){
 			Node vector = new Node(0, 0);
@@ -91,7 +92,7 @@ public class AStar {
 		if (steep)
 		{
 			double temp = p1.getX();
-			p1.setX(p1.getX());
+			p1.setX(p1.getY());
 			p1.setY(temp);
 			temp = p2.getX();
 			p2.setX(p2.getY());
@@ -117,7 +118,9 @@ public class AStar {
 			if (steep)
 			{
 				ret.add(new Point(fy, nowX));
-			} else {
+			}
+			else
+			{
 				ret.add(new Point(nowX, fy));
 			}
 			if (fy != cy)
@@ -134,9 +137,12 @@ public class AStar {
 			nowX += stepX;
 			nowY += deltay;
 		}
-		if (steep){
+		if (steep)
+		{
 			ret.add(new Point(p2.getY(), p2.getX()));
-		} else {
+		}
+		else
+		{
 			ret.add(new Point(p2.getX(), p2.getY()));
 		}
 		return ret;

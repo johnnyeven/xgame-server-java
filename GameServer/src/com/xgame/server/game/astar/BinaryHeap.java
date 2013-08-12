@@ -10,7 +10,7 @@ public class BinaryHeap
 	
 	public BinaryHeap()
 	{
-		a.add(null);
+		a.add(new Node(-1, -1));
 	}
 	
 	public boolean justMinFun(Node x, Node y)
@@ -21,7 +21,7 @@ public class BinaryHeap
 	public void ins(Node value)
 	{
 		int p = a.size();
-		a.add(value);
+		a.add(p, value);
 		int pp = p >> 1;
 		while (p > 1 && justMinFun(a.get(p), a.get(pp)))
 		{

@@ -76,23 +76,23 @@ public class Map
 			}
 			
 			astar = new SilzAstar(negativePath, config.blockSizeWidth, config.blockSizeHeight);
-			String logString;
-			for(int i = 0; i < negativePath.length; i++)
-			{
-				logString = "";
-				for(int j = 0; j < negativePath[i].length; j++)
-				{
-					if(negativePath[i][j])
-					{
-						logString += "¡ö";
-					}
-					else
-					{
-						logString += "¡õ";
-					}
-				}
-				log.debug(logString);
-			}
+//			String logString;
+//			for(int i = 0; i < negativePath.length; i++)
+//			{
+//				logString = "";
+//				for(int j = 0; j < negativePath[i].length; j++)
+//				{
+//					if(negativePath[i][j])
+//					{
+//						logString += "¡ö";
+//					}
+//					else
+//					{
+//						logString += "¡õ";
+//					}
+//				}
+//				log.debug(logString);
+//			}
 		}
 		catch (IOException e)
 		{
