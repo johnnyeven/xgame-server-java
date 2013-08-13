@@ -4,46 +4,48 @@ import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.channels.CompletionHandler;
 
-import com.xgame.server.game.ProtocolPackage;
+import com.xgame.server.common.AuthSessionPackage;
+import com.xgame.server.map.ProtocolPackage;
 import com.xgame.server.pool.BufferPool;
 
 public class ReadCompletionHandler implements
-		CompletionHandler<Integer, WorldSession>
+		CompletionHandler<Integer, AuthSessionPackage>
 {
+	private AIOSocketMgr server;
 	
-    public ReadCompletionHandler()
+    public ReadCompletionHandler(AIOSocketMgr server)
 	{
+		this.server = server;
 	}
 	
 	@Override
 	public void completed(Integer result,
-			WorldSession attachment)
+			AuthSessionPackage attachment)
 	{
 		if(result > 0)
 		{
 			//¥¶¿Ìbuffer
-			ByteBuffer buffer = attachment.getReadBuffer();
+			ByteBuffer buffer = attachment.buffer;
 			buffer.flip();
 			buffer.getInt();
 			short protocolId = buffer.getShort();
 			
 			ProtocolPackage parameter = new ProtocolPackage();
 			parameter.protocolId = protocolId;
-			parameter.client = attachment.getChannel();
+			parameter.client = attachment.channel;
 			parameter.receiveDataLength = result;
 			parameter.receiveData = buffer.duplicate();
 			parameter.offset = 6;
 			
-			attachment.addParameterQueue(parameter);
-			
 			BufferPool.getInstance().releaseBuffer(buffer);
-			attachment.startRecv();
+        	buffer = BufferPool.getInstance().getBuffer();
+			attachment.channel.read(buffer, new AuthSessionPackage(buffer, attachment.channel), this);
 		}
 		else
 		{
 			try
 			{
-				attachment.getChannel().close();
+				attachment.channel.close();
 			}
 			catch(IOException e)
 			{
@@ -51,15 +53,15 @@ public class ReadCompletionHandler implements
 			}
 			finally
 			{
-				BufferPool.getInstance().releaseBuffer(attachment.getReadBuffer());
+				BufferPool.getInstance().releaseBuffer(attachment.buffer);
 			}
 		}
 	}
 
 	@Override
-	public void failed(Throwable exc, WorldSession attachment)
+	public void failed(Throwable exc, AuthSessionPackage attachment)
 	{
-		BufferPool.getInstance().releaseBuffer(attachment.getReadBuffer());
+		BufferPool.getInstance().releaseBuffer(attachment.buffer);
 	}
 
 }

@@ -31,7 +31,8 @@ public class GameServer
 	    System.out.println( " MMMM  MMMM  MMM    MMM  MM   MM  MM   MMM   MM MM");
 	    System.out.println( " MMM    MMM   MMMMMMMMM  MMMMMMMM MM   MMM   MM MMMMMMMM");
 	    System.out.println( "MMMM    MMMM   MMMMMMMM  MMMMMMMM MM   MMM   MM MMMMMMMM");
-	    System.out.println( "                 MMM MM    MM\n\n");
+	    System.out.println( "                 MMM MM    MM\n");
+	    System.out.println( "GameServer\n\n");
 	    
 	    World.getInstance().setInitialWorldSettings();
 	    
