@@ -11,6 +11,7 @@ public class Action
 	public static final int PICKUP = 5;
 	public static final int BE_ATTACKED = 6;
 	public static final int CAUTION = 7;
+	public static final int CORPSE = 8;
 	public static final int[] PlayOnce = {2, 5, 6};
 	public static final int[] PlayOnceToCaution = {2, 6};
 }

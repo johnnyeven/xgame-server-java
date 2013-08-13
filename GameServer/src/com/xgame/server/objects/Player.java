@@ -34,10 +34,16 @@ public class Player extends WorldObject
     public int energy = Integer.MIN_VALUE;
     public PlayerStatus status = PlayerStatus.PENDING;
     
+    private Motion motion;
     private AsynchronousSocketChannel channel;
 	private WorldSession session;
 	
 	private static Log log = LogFactory.getLog(Player.class);
+	
+	public Player()
+	{
+		motion = new Motion(this);
+	}
 	
 	public boolean loadFromDatabase()
 	{
@@ -105,6 +111,12 @@ public class Player extends WorldObject
 		}
 		return true;
 	}
+	
+	public void killPlayer()
+	{
+		//TODO À¿Õˆ¥¶¿Ì
+		action = Action.CORPSE;
+	}
 
 	public WorldSession getSession()
 	{
@@ -124,5 +136,10 @@ public class Player extends WorldObject
 	public void setChannel(AsynchronousSocketChannel channel)
 	{
 		this.channel = channel;
+	}
+
+	public Motion getMotion()
+	{
+		return motion;
 	}
 }

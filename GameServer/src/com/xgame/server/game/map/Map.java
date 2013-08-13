@@ -16,6 +16,7 @@ import org.apache.commons.logging.LogFactory;
 import com.xgame.server.CommandCenter;
 import com.xgame.server.common.CoordinatePair;
 import com.xgame.server.common.PackageItem;
+import com.xgame.server.common.Point;
 import com.xgame.server.common.ServerPackage;
 import com.xgame.server.common.protocol.EnumProtocol;
 import com.xgame.server.game.astar.Grid;
@@ -338,5 +339,13 @@ public class Map
 	public SilzAstar getAstar()
 	{
 		return astar;
+	}
+	
+	public Point block2WorldPosition(int x, int y)
+	{
+		Point p = new Point();
+		p.setX((x + .5) * config.blockSizeWidth);
+		p.setY((y + .5) * config.blockSizeHeight);
+		return p;
 	}
 }
