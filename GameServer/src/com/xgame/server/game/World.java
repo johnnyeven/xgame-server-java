@@ -87,7 +87,7 @@ public class World
 		return null;
 	}
 	
-	private void updateSessions(long timeDiff)
+	public void updateSessions(long timeDiff)
 	{
 		while(!sessionQueue.isEmpty())
 		{
@@ -152,6 +152,20 @@ public class World
 		{
 			timers[WorldTimers.TIMER_OBJECTS.ordinal()].reset();
 			
+		}
+	}
+	
+	public void kickAllPlayer()
+	{
+		Iterator<Entry<Long, WorldSession>> it = sessionMap.entrySet().iterator();
+		Entry<Long, WorldSession> e;
+		WorldSession s;
+		while(it.hasNext())
+		{
+			e = it.next();
+			s = e.getValue();
+			
+			s.dispose();
 		}
 	}
 }

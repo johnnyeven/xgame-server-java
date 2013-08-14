@@ -2,6 +2,9 @@ package com.xgame.server.game;
 
 import java.util.Date;
 
+import com.xgame.server.game.map.MapManager;
+import com.xgame.server.network.AIOSocketMgr;
+
 public class WorldThread implements Runnable
 {
 	private final int WORLD_SLEEP_TIME = 100;
@@ -39,6 +42,11 @@ public class WorldThread implements Runnable
 				prevSleepTime = 0;
 			}
 		}
+		
+		World.getInstance().kickAllPlayer();
+		World.getInstance().updateSessions(1);
+		AIOSocketMgr.getInstance().stopCompletionPort();
+		MapManager.getInstance().unloadAllMaps();
 	}
 
 }

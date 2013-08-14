@@ -18,7 +18,6 @@ import com.xgame.server.common.CoordinatePair;
 import com.xgame.server.common.PackageItem;
 import com.xgame.server.common.ServerPackage;
 import com.xgame.server.common.protocol.EnumProtocol;
-import com.xgame.server.game.astar.Grid;
 import com.xgame.server.game.astar.Node;
 import com.xgame.server.game.astar.SilzAstar;
 import com.xgame.server.objects.Player;
@@ -338,5 +337,21 @@ public class Map
 	public SilzAstar getAstar()
 	{
 		return astar;
+	}
+	
+	public void unloadMap()
+	{
+		negativePath = null;
+		config = null;
+		astar = null;
+		
+		for(int i = 0; i < gridContainer.length; i++)
+		{
+			for(int j = 0; j < gridContainer[i].length; j++)
+			{
+				gridContainer[i][j].removeAll();
+				gridContainer[i][j] = null;
+			}
+		}
 	}
 }

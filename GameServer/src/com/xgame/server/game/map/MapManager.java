@@ -1,6 +1,9 @@
 package com.xgame.server.game.map;
 
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map.Entry;
+import java.util.Set;
 
 public class MapManager
 {
@@ -49,5 +52,19 @@ public class MapManager
 			return mapContainer.get(id);
 		}
 		return null;
+	}
+	
+	public void unloadAllMaps()
+	{
+		Set<Entry<Integer, Map>> s = mapContainer.entrySet();
+		Iterator<Entry<Integer, Map>> i = s.iterator();
+		Entry<Integer, Map> en;
+		Map m;
+		while(i.hasNext())
+		{
+			en = i.next();
+			m = en.getValue();
+			m.unloadMap();
+		}
 	}
 }

@@ -96,6 +96,19 @@ public class AIOSocketMgr
     		e.printStackTrace();
     	}
     }
+	
+	public void stopCompletionPort()
+	{
+		try
+		{
+			server.close();
+			log.info("游戏服务器已关闭");
+		}
+		catch (IOException e)
+		{
+			e.printStackTrace();
+		}
+	}
 
 	public AsynchronousServerSocketChannel getServer()
 	{
