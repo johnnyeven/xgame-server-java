@@ -152,6 +152,8 @@ public class World
 		{
 			timers[WorldTimers.TIMER_OBJECTS.ordinal()].reset();
 			
+			
+			
 		}
 	}
 	
