@@ -1,7 +1,9 @@
 package com.xgame.server.objects.hashmap;
 
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.UUID;
 
 import com.xgame.server.objects.Player;
@@ -15,7 +17,7 @@ public class PlayerMap
 	{
 	}
 
-	public Player get( long guid )
+	public Player get( UUID guid )
 	{
 		if ( hash.containsKey( guid ) )
 		{
@@ -27,6 +29,11 @@ public class PlayerMap
 	public void add( Player p )
 	{
 		hash.put( p.getGuid(), p );
+	}
+
+	public Iterator< Entry< UUID, Player >> getIterator()
+	{
+		return hash.entrySet().iterator();
 	}
 
 	public static PlayerMap getInstance()

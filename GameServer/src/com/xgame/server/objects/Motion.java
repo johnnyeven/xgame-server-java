@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 import com.xgame.server.common.Angle;
 import com.xgame.server.common.Point;
 import com.xgame.server.enums.Action;
@@ -17,6 +20,7 @@ public class Motion
 	private int				currentStep;
 	private Point			nextPoint;
 	private Point			endPoint;
+	private static Log		log	= LogFactory.getLog( Motion.class );
 
 	public Motion( Player p )
 	{
@@ -113,6 +117,7 @@ public class Motion
 			p.setX( x );
 			p.setY( y );
 			p.action = Action.MOVE;
+			log.debug( p.name + " ÒÆ¶¯µ½ x=" + x + ", y=" + y );
 		}
 		else
 		{

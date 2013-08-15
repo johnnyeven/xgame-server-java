@@ -19,6 +19,7 @@ import com.xgame.server.common.PackageItem;
 import com.xgame.server.common.Point;
 import com.xgame.server.common.ServerPackage;
 import com.xgame.server.common.protocol.EnumProtocol;
+import com.xgame.server.enums.PlayerStatus;
 import com.xgame.server.game.astar.SilzAstar;
 import com.xgame.server.objects.Player;
 import com.xgame.server.objects.WorldObject;
@@ -165,6 +166,8 @@ public class Map
 		updateVisibility( p, g );
 		// 可见同屏其他玩家
 		// updateOtherVisibility(p, g);
+		
+		p.status = PlayerStatus.NORMAL;
 
 		return true;
 	}

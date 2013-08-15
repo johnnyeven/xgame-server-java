@@ -69,7 +69,7 @@ public class Player extends WorldObject
 				accountCash = rs.getLong( "account_cash" );
 				direction = rs.getInt( "direction" );
 				action = rs.getInt( "action" );
-				speed = rs.getInt( "speed" ) / 100;
+				speed = rs.getFloat( "speed" );
 				health = rs.getInt( "current_health" );
 				healthMax = rs.getInt( "max_health" );
 				mana = rs.getInt( "current_mana" );

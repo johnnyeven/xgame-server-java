@@ -88,8 +88,9 @@ public class ProtocolRequestFindPath implements IProtocol
 				}
 
 				CommandCenter.send( parameter.client, pack );
+
+				session.getPlayer().getMotion().move( path );
 			}
 		}
 	}
-
 }

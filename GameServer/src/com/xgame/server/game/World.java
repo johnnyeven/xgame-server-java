@@ -13,6 +13,7 @@ import org.apache.commons.logging.LogFactory;
 
 import com.xgame.server.common.IntervalTimer;
 import com.xgame.server.network.WorldSession;
+import com.xgame.server.objects.ObjectManager;
 
 enum WorldTimers
 {
@@ -151,7 +152,8 @@ public class World
 		if ( timers[WorldTimers.TIMER_OBJECTS.ordinal()].over() )
 		{
 			timers[WorldTimers.TIMER_OBJECTS.ordinal()].reset();
-
+			
+			ObjectManager.getInstance().update( timeDiff );
 		}
 	}
 
