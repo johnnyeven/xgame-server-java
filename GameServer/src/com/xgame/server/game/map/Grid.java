@@ -12,24 +12,25 @@ import com.xgame.server.objects.WorldObject;
 
 public class Grid
 {
-	private int x;
-	private int y;
-	private HashMap<UUID, WorldObject> objectMap;
-	
-	private static Log log = LogFactory.getLog(Grid.class);
-	
-	public Grid(int x, int y)
+	private int								x;
+	private int								y;
+	private HashMap< UUID, WorldObject >	objectMap;
+
+	private static Log						log	= LogFactory
+														.getLog( Grid.class );
+
+	public Grid( int x, int y )
 	{
 		this.x = x;
 		this.y = y;
-		objectMap = new HashMap<UUID, WorldObject>();
+		objectMap = new HashMap< UUID, WorldObject >();
 	}
-	
+
 	public Grid()
 	{
 		x = 0;
 		y = 0;
-		objectMap = new HashMap<UUID, WorldObject>();
+		objectMap = new HashMap< UUID, WorldObject >();
 	}
 
 	public int getX()
@@ -37,7 +38,7 @@ public class Grid
 		return x;
 	}
 
-	public void setX(int x)
+	public void setX( int x )
 	{
 		this.x = x;
 	}
@@ -47,49 +48,50 @@ public class Grid
 		return y;
 	}
 
-	public void setY(int y)
+	public void setY( int y )
 	{
 		this.y = y;
 	}
-	
-	public void addWorldObject(WorldObject o)
+
+	public void addWorldObject( WorldObject o )
 	{
-		if(objectMap.containsKey(o.getGuid()))
+		if ( objectMap.containsKey( o.getGuid() ) )
 		{
-			log.warn("addWorldObject() Grid[x=" + x + ", y=" + y + "]Key重复，未添加成功"); 
+			log.warn( "addWorldObject() Grid[x=" + x + ", y=" + y
+					+ "]Key重复，未添加成功" );
 			return;
 		}
-		objectMap.put(o.getGuid(), o);
+		objectMap.put( o.getGuid(), o );
 	}
-	
-	public WorldObject getWorldObject(UUID guid)
+
+	public WorldObject getWorldObject( UUID guid )
 	{
-		if(objectMap.containsKey(guid))
+		if ( objectMap.containsKey( guid ) )
 		{
-			return objectMap.get(guid);
+			return objectMap.get( guid );
 		}
-		log.warn("getWorldObject() 不存在，UUID=" + guid.toString());
+		log.warn( "getWorldObject() 不存在，UUID=" + guid.toString() );
 		return null;
 	}
-	
-	public void removeWorldObject(UUID guid)
+
+	public void removeWorldObject( UUID guid )
 	{
-		if(objectMap.containsKey(guid))
+		if ( objectMap.containsKey( guid ) )
 		{
-			objectMap.remove(guid);
+			objectMap.remove( guid );
 		}
 		else
 		{
-			log.warn("getWorldObject() 不存在，UUID=" + guid.toString());
+			log.warn( "getWorldObject() 不存在，UUID=" + guid.toString() );
 		}
 	}
-	
+
 	public void removeAll()
 	{
 		objectMap.clear();
 	}
-	
-	public Iterator<Entry<UUID, WorldObject>> getWorldObjectIterator()
+
+	public Iterator< Entry< UUID, WorldObject >> getWorldObjectIterator()
 	{
 		return objectMap.entrySet().iterator();
 	}

@@ -4,30 +4,30 @@ import java.util.HashMap;
 
 public class ProtocolRouter
 {
-	private static ProtocolRouter instance = null;
-	private static boolean allowInstance = false;
-	
-	private HashMap<Short, Class<?>> protocolList;
-	
+	private static ProtocolRouter		instance		= null;
+	private static boolean				allowInstance	= false;
+
+	private HashMap< Short, Class< ? >>	protocolList;
+
 	public ProtocolRouter() throws Exception
 	{
-		if(!allowInstance)
+		if ( !allowInstance )
 		{
 			throw new Exception();
 		}
-		protocolList = new HashMap<Short, Class<?>>();
+		protocolList = new HashMap< Short, Class< ? >>();
 	}
-	
+
 	public static ProtocolRouter getInstance()
 	{
-		if(instance == null)
+		if ( instance == null )
 		{
 			allowInstance = true;
 			try
 			{
 				instance = new ProtocolRouter();
 			}
-			catch (Exception e)
+			catch ( Exception e )
 			{
 				e.printStackTrace();
 			}
@@ -35,36 +35,36 @@ public class ProtocolRouter
 		}
 		return instance;
 	}
-	
-	public void Bind(Short key, Class<?> value)
+
+	public void Bind( Short key, Class< ? > value )
 	{
-		protocolList.put(key, value);
+		protocolList.put( key, value );
 	}
-	
-	public void UnBind(Short key)
+
+	public void UnBind( Short key )
 	{
-		if(protocolList.containsKey(key))
+		if ( protocolList.containsKey( key ) )
 		{
-			protocolList.remove(key);
+			protocolList.remove( key );
 		}
 	}
-	
-	public boolean HasBind(Short key)
+
+	public boolean HasBind( Short key )
 	{
-		return protocolList.containsKey(key);
+		return protocolList.containsKey( key );
 	}
-	
-	public void Trigger(Short key, Object param1, Object param2)
+
+	public void Trigger( Short key, Object param1, Object param2 )
 	{
-		if(protocolList.containsKey(key))
+		if ( protocolList.containsKey( key ) )
 		{
-			Class<?> reflection = protocolList.get(key);
+			Class< ? > reflection = protocolList.get( key );
 			try
 			{
-				IProtocol protocol = (IProtocol)reflection.newInstance();
-				protocol.Execute(param1, param2);
+				IProtocol protocol = (IProtocol) reflection.newInstance();
+				protocol.Execute( param1, param2 );
 			}
-			catch(Exception e)
+			catch ( Exception e )
 			{
 				e.printStackTrace();
 			}

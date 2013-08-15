@@ -7,59 +7,59 @@ import com.xgame.server.game.map.MapManager;
 
 public class WorldObject
 {
-	private UUID guid;
-	private int mapId;
-	private double currentX;
-	private double currentY;
-	
+	private UUID	guid;
+	private int		mapId;
+	private double	currentX;
+	private double	currentY;
+
 	public WorldObject()
 	{
 		guid = UUID.randomUUID();
 		currentX = Double.MIN_VALUE;
 		currentY = Double.MIN_VALUE;
 	}
-	
+
 	public Map getMap()
 	{
-		return MapManager.getInstance().getMap(getMapId());
+		return MapManager.getInstance().getMap( getMapId() );
 	}
-	
+
 	public UUID getGuid()
 	{
 		return guid;
 	}
-	
-	public void setGuid(UUID guid)
+
+	public void setGuid( UUID guid )
 	{
 		this.guid = guid;
 	}
-	
+
 	public int getMapId()
 	{
 		return mapId;
 	}
-	
-	public void setMapId(int mapId)
+
+	public void setMapId( int mapId )
 	{
 		this.mapId = mapId;
 	}
-	
+
 	public double getX()
 	{
 		return currentX;
 	}
-	
-	public void setX(double x)
+
+	public void setX( double x )
 	{
 		currentX = x;
 	}
-	
+
 	public double getY()
 	{
 		return currentY;
 	}
-	
-	public void setY(double y)
+
+	public void setY( double y )
 	{
 		currentY = y;
 	}

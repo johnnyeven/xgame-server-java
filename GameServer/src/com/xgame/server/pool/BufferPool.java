@@ -10,7 +10,7 @@ import org.apache.commons.logging.LogFactory;
 public class BufferPool
 {
 	private static Log							log					= LogFactory
-																			.getLog(BufferPool.class);
+																			.getLog( BufferPool.class );
 
 	private static int							maxBufferPoolSize	= 1000;
 	private static int							minBufferPoolSize	= 100;
@@ -20,24 +20,24 @@ public class BufferPool
 
 	private AtomicInteger						usableCount			= new AtomicInteger();
 	private AtomicInteger						createCount			= new AtomicInteger();
-	private ConcurrentLinkedQueue<ByteBuffer>	queue				= new ConcurrentLinkedQueue<ByteBuffer>();
+	private ConcurrentLinkedQueue< ByteBuffer >	queue				= new ConcurrentLinkedQueue< ByteBuffer >();
 
 	static
 	{
 		Integer maxSize = 2000;
-		if (maxSize != null)
+		if ( maxSize != null )
 		{
 			maxBufferPoolSize = maxSize;
 		}
 
 		Integer minSize = 2000;
-		if (minSize != null)
+		if ( minSize != null )
 		{
 			minBufferPoolSize = minSize;
 		}
 
 		Integer bufferSize = 10;
-		if (bufferSize != null)
+		if ( bufferSize != null )
 		{
 			writeBufferSize = bufferSize;
 		}
@@ -45,25 +45,26 @@ public class BufferPool
 
 	private BufferPool()
 	{
-		for (int i = 0; i < minBufferPoolSize; ++i)
+		for ( int i = 0; i < minBufferPoolSize; ++i )
 		{
-			ByteBuffer bb = ByteBuffer.allocateDirect(writeBufferSize * 1024);
-			this.queue.add(bb);
+			ByteBuffer bb = ByteBuffer.allocateDirect( writeBufferSize * 1024 );
+			this.queue.add( bb );
 		}
 
-		this.usableCount.set(minBufferPoolSize);
-		this.createCount.set(minBufferPoolSize);
+		this.usableCount.set( minBufferPoolSize );
+		this.createCount.set( minBufferPoolSize );
 	}
 
 	public ByteBuffer getBuffer()
 	{
 		ByteBuffer bb = this.queue.poll();
 
-		if (bb == null)
+		if ( bb == null )
 		{
-			bb = ByteBuffer.allocateDirect(writeBufferSize * 1024);
+			bb = ByteBuffer.allocateDirect( writeBufferSize * 1024 );
 			this.createCount.incrementAndGet();
-		} else
+		}
+		else
 		{
 			this.usableCount.decrementAndGet();
 		}
@@ -71,17 +72,19 @@ public class BufferPool
 		return bb;
 	}
 
-	public void releaseBuffer(ByteBuffer bb)
+	public void releaseBuffer( ByteBuffer bb )
 	{
-		if (this.createCount.intValue() > maxBufferPoolSize
-				&& (this.usableCount.intValue() > (this.createCount.intValue() / 2)))
+		if ( this.createCount.intValue() > maxBufferPoolSize
+				&& ( this.usableCount.intValue() > ( this.createCount
+						.intValue() / 2 ) ) )
 		{
 			bb = null;
 			this.createCount.decrementAndGet();
-		} else
+		}
+		else
 		{
 			bb.clear();
-			this.queue.add(bb);
+			this.queue.add( bb );
 			this.usableCount.incrementAndGet();
 		}
 	}

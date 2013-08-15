@@ -19,52 +19,54 @@ import com.xgame.server.common.protocol.ProtocolUpdatePlayerStatus;
 
 public class AIOSocketMgr
 {
-    private AsynchronousServerSocketChannel server;
-    private AcceptCompletionHandler acceptHandler;
-    private ReadCompletionHandler readHandler;
-    private AuthSessionCompletionHandler authHandler;
-    public final static String HOST = "127.0.0.1";
-    public final static int PORT = 9050;
-    public static int counter = 0;
-    
-    private static AIOSocketMgr instance = null;
-    private static boolean allowInstance = false;
-    private static Log log = LogFactory.getLog(AIOSocketMgr.class);
-    
+	private AsynchronousServerSocketChannel	server;
+	private AcceptCompletionHandler			acceptHandler;
+	private ReadCompletionHandler			readHandler;
+	private AuthSessionCompletionHandler	authHandler;
+	public final static String				HOST			= "127.0.0.1";
+	public final static int					PORT			= 9050;
+	public static int						counter			= 0;
+
+	private static AIOSocketMgr				instance		= null;
+	private static boolean					allowInstance	= false;
+	private static Log						log				= LogFactory
+																	.getLog( AIOSocketMgr.class );
+
 	public AIOSocketMgr() throws Exception
 	{
-		if(!allowInstance)
+		if ( !allowInstance )
 		{
 			throw new Exception();
 		}
 		try
 		{
-			AsynchronousChannelGroup resourceGroup = AsynchronousChannelGroup.withCachedThreadPool(Executors.newCachedThreadPool(), 8);  
-			server = AsynchronousServerSocketChannel.open(resourceGroup);
-			server.bind(new InetSocketAddress(HOST, PORT), 100);
-			
+			AsynchronousChannelGroup resourceGroup = AsynchronousChannelGroup
+					.withCachedThreadPool( Executors.newCachedThreadPool(), 8 );
+			server = AsynchronousServerSocketChannel.open( resourceGroup );
+			server.bind( new InetSocketAddress( HOST, PORT ), 100 );
+
 			acceptHandler = new AcceptCompletionHandler();
 			readHandler = new ReadCompletionHandler();
 			authHandler = new AuthSessionCompletionHandler();
-			
+
 			bindProtocol();
 		}
-		catch(IOException e)
+		catch ( IOException e )
 		{
 			e.printStackTrace();
 		}
 	}
-	
+
 	public static AIOSocketMgr getInstance()
 	{
-		if(instance == null)
+		if ( instance == null )
 		{
 			allowInstance = true;
 			try
 			{
 				instance = new AIOSocketMgr();
 			}
-			catch (Exception e)
+			catch ( Exception e )
 			{
 				e.printStackTrace();
 			}
@@ -72,39 +74,44 @@ public class AIOSocketMgr
 		}
 		return instance;
 	}
-	
+
 	private void bindProtocol()
 	{
-		ProtocolRouter.getInstance().Bind(EnumProtocol.REQUEST_ACCOUNT_ROLE, ProtocolRequestAccountRole.class);
-		ProtocolRouter.getInstance().Bind(EnumProtocol.REGISTER_ACCOUNT_ROLE, ProtocolRegisterAccountRole.class);
-		ProtocolRouter.getInstance().Bind(EnumProtocol.REQUEST_HOTKEY, ProtocolRequestHotkey.class);
-		ProtocolRouter.getInstance().Bind(EnumProtocol.BASE_UPDATE_STATUS, ProtocolUpdatePlayerStatus.class);
-		ProtocolRouter.getInstance().Bind(EnumProtocol.REQUEST_FIND_PATH, ProtocolRequestFindPath.class);
+		ProtocolRouter.getInstance().Bind( EnumProtocol.REQUEST_ACCOUNT_ROLE,
+				ProtocolRequestAccountRole.class );
+		ProtocolRouter.getInstance().Bind( EnumProtocol.REGISTER_ACCOUNT_ROLE,
+				ProtocolRegisterAccountRole.class );
+		ProtocolRouter.getInstance().Bind( EnumProtocol.REQUEST_HOTKEY,
+				ProtocolRequestHotkey.class );
+		ProtocolRouter.getInstance().Bind( EnumProtocol.BASE_UPDATE_STATUS,
+				ProtocolUpdatePlayerStatus.class );
+		ProtocolRouter.getInstance().Bind( EnumProtocol.REQUEST_FIND_PATH,
+				ProtocolRequestFindPath.class );
 	}
-	
+
 	public void startCompletionPort()
-    {
-    	server.accept(this, acceptHandler);
-    	log.info("服务器已启动");
-    	
-    	try
-    	{
-    		System.in.read();
-    	}
-    	catch(IOException e)
-    	{
-    		e.printStackTrace();
-    	}
-    }
-	
+	{
+		server.accept( this, acceptHandler );
+		log.info( "服务器已启动" );
+
+		try
+		{
+			System.in.read();
+		}
+		catch ( IOException e )
+		{
+			e.printStackTrace();
+		}
+	}
+
 	public void stopCompletionPort()
 	{
 		try
 		{
 			server.close();
-			log.info("游戏服务器已关闭");
+			log.info( "游戏服务器已关闭" );
 		}
-		catch (IOException e)
+		catch ( IOException e )
 		{
 			e.printStackTrace();
 		}
@@ -115,7 +122,7 @@ public class AIOSocketMgr
 		return server;
 	}
 
-	public void setServer(AsynchronousServerSocketChannel server)
+	public void setServer( AsynchronousServerSocketChannel server )
 	{
 		this.server = server;
 	}

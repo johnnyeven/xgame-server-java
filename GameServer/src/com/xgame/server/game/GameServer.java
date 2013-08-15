@@ -43,7 +43,7 @@ public class GameServer
 		AIOSocketMgr.getInstance().startCompletionPort();
 	}
 
-	public static void main(String[] args)
+	public static void main( String[] args )
 	{
 		new GameServer().run();
 	}

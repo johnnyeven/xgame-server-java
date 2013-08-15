@@ -2,45 +2,45 @@ package com.xgame.server.game.astar;
 
 public class Point
 {
-	private double x;
-	private double y;
-	
+	private double	x;
+	private double	y;
+
 	public Point()
 	{
-		x=0;
-		y=0;
+		x = 0;
+		y = 0;
 	}
-	
-	public Point(double x, double y)
+
+	public Point( double x, double y )
 	{
 		this.x = x;
 		this.y = y;
 	}
-	
-	public void setX(double x)
+
+	public void setX( double x )
 	{
 		this.x = x;
 	}
-	
-	public void setY(double y)
+
+	public void setY( double y )
 	{
 		this.y = y;
 	}
-	
+
 	public double getX()
 	{
 		return x;
 	}
-	
+
 	public double getY()
 	{
 		return y;
 	}
-	
-	public double Distance(Point p)
+
+	public double Distance( Point p )
 	{
 		double diffx = p.getX() - this.x;
 		double diffy = p.getY() - this.y;
-		return Math.sqrt(diffx * diffx + diffy * diffy);
+		return Math.sqrt( diffx * diffx + diffy * diffy );
 	}
 }

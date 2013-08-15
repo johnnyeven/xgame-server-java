@@ -14,38 +14,44 @@ import com.xgame.server.common.AuthSessionPackage;
 import com.xgame.server.game.World;
 import com.xgame.server.pool.BufferPool;
 
-public class AcceptCompletionHandler implements CompletionHandler<AsynchronousSocketChannel, AIOSocketMgr>
+public class AcceptCompletionHandler implements
+		CompletionHandler< AsynchronousSocketChannel, AIOSocketMgr >
 {
-    private static Log log = LogFactory.getLog(AcceptCompletionHandler.class);
+	private static Log	log	= LogFactory.getLog( AcceptCompletionHandler.class );
 
 	@Override
-	public void completed(AsynchronousSocketChannel socketChannel, AIOSocketMgr param)
+	public void completed( AsynchronousSocketChannel socketChannel,
+			AIOSocketMgr param )
 	{
 		try
 		{
-			log.info("接受远程主机连接，IP: "+ socketChannel.getRemoteAddress().toString());
-        	socketChannel.setOption(StandardSocketOptions.TCP_NODELAY, true);
-        	socketChannel.setOption(StandardSocketOptions.SO_SNDBUF, 10 * 1024);
-        	socketChannel.setOption(StandardSocketOptions.SO_RCVBUF, 10 * 1024);
-        	
-        	ByteBuffer buffer = BufferPool.getInstance().getBuffer();
-        	
-        	socketChannel.read(buffer, new AuthSessionPackage(buffer, socketChannel), param.getAuthHandler());
+			log.info( "接受远程主机连接，IP: "
+					+ socketChannel.getRemoteAddress().toString() );
+			socketChannel.setOption( StandardSocketOptions.TCP_NODELAY, true );
+			socketChannel
+					.setOption( StandardSocketOptions.SO_SNDBUF, 10 * 1024 );
+			socketChannel
+					.setOption( StandardSocketOptions.SO_RCVBUF, 10 * 1024 );
+
+			ByteBuffer buffer = BufferPool.getInstance().getBuffer();
+
+			socketChannel.read( buffer, new AuthSessionPackage( buffer,
+					socketChannel ), param.getAuthHandler() );
 		}
-		catch (IOException e)
+		catch ( IOException e )
 		{
 			e.printStackTrace();
 		}
 		finally
 		{
-			param.getServer().accept(param, this);
+			param.getServer().accept( param, this );
 		}
 	}
 
 	@Override
-	public void failed(Throwable arg0, AIOSocketMgr arg1)
+	public void failed( Throwable arg0, AIOSocketMgr arg1 )
 	{
-		log.error(arg0.getMessage());
+		log.error( arg0.getMessage() );
 	}
 
 }

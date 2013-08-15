@@ -4,13 +4,13 @@ import java.util.ArrayList;
 
 public class ServerPackage
 {
-	public int success;
-	public short protocolId;
-	public ArrayList<PackageItem> parameter;
-	
+	public int						success;
+	public short					protocolId;
+	public ArrayList< PackageItem >	parameter;
+
 	public ServerPackage()
 	{
-		parameter = new ArrayList<PackageItem>();
+		parameter = new ArrayList< PackageItem >();
 	}
 
 }

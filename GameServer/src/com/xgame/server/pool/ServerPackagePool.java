@@ -8,29 +8,29 @@ import org.apache.commons.logging.LogFactory;
 
 import com.xgame.server.common.ServerPackage;
 
-public class ServerPackagePool implements IPool<ServerPackage>
+public class ServerPackagePool implements IPool< ServerPackage >
 {
-	private static Log							log					= LogFactory
-			.getLog(ServerPackagePool.class);
+	private static Log								log					= LogFactory
+																				.getLog( ServerPackagePool.class );
 
-	private static int							maxBufferPoolSize	= 5000;
-	private static int							minBufferPoolSize	= 2000;
-	
-	private AtomicInteger						usableCount			= new AtomicInteger();
-	private AtomicInteger						createCount			= new AtomicInteger();
-	private ConcurrentLinkedQueue<ServerPackage>	queue			= new ConcurrentLinkedQueue<ServerPackage>();
-	private static ServerPackagePool			instance			= new ServerPackagePool();
+	private static int								maxBufferPoolSize	= 5000;
+	private static int								minBufferPoolSize	= 2000;
+
+	private AtomicInteger							usableCount			= new AtomicInteger();
+	private AtomicInteger							createCount			= new AtomicInteger();
+	private ConcurrentLinkedQueue< ServerPackage >	queue				= new ConcurrentLinkedQueue< ServerPackage >();
+	private static ServerPackagePool				instance			= new ServerPackagePool();
 
 	public ServerPackagePool()
 	{
-		for (int i = 0; i < minBufferPoolSize; ++i)
+		for ( int i = 0; i < minBufferPoolSize; ++i )
 		{
 			ServerPackage p = new ServerPackage();
-			this.queue.add(p);
+			this.queue.add( p );
 		}
 
-		this.usableCount.set(minBufferPoolSize);
-		this.createCount.set(minBufferPoolSize);
+		this.usableCount.set( minBufferPoolSize );
+		this.createCount.set( minBufferPoolSize );
 	}
 
 	@Override
@@ -38,11 +38,12 @@ public class ServerPackagePool implements IPool<ServerPackage>
 	{
 		ServerPackage p = this.queue.poll();
 
-		if (p == null)
+		if ( p == null )
 		{
 			p = new ServerPackage();
 			this.createCount.incrementAndGet();
-		} else
+		}
+		else
 		{
 			this.usableCount.decrementAndGet();
 		}
@@ -51,25 +52,26 @@ public class ServerPackagePool implements IPool<ServerPackage>
 	}
 
 	@Override
-	public void returnObject(ServerPackage p)
+	public void returnObject( ServerPackage p )
 	{
-		if (this.createCount.intValue() > maxBufferPoolSize
-				&& (this.usableCount.intValue() > (this.createCount.intValue() / 2)))
+		if ( this.createCount.intValue() > maxBufferPoolSize
+				&& ( this.usableCount.intValue() > ( this.createCount
+						.intValue() / 2 ) ) )
 		{
 			p = null;
 			this.createCount.decrementAndGet();
 		}
 		else
 		{
-			//清理p
-			this.queue.add(p);
+			// 清理p
+			this.queue.add( p );
 			this.usableCount.incrementAndGet();
 		}
 	}
-	
+
 	public static ServerPackagePool getInstance()
 	{
-		if(instance == null)
+		if ( instance == null )
 		{
 			instance = new ServerPackagePool();
 		}

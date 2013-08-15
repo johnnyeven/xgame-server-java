@@ -13,15 +13,15 @@ import com.xgame.server.pool.BufferPool;
 
 public class WorldSession
 {
-	private long accountId;
-	private List<ProtocolPackage> recvQueue;
-	private Player player;
-	private AsynchronousSocketChannel channel;
-	private String address;
-	private long generateTime;
-	private ByteBuffer readBuffer;
-	
-	public WorldSession(long id, AsynchronousSocketChannel c, long time)
+	private long						accountId;
+	private List< ProtocolPackage >		recvQueue;
+	private Player						player;
+	private AsynchronousSocketChannel	channel;
+	private String						address;
+	private long						generateTime;
+	private ByteBuffer					readBuffer;
+
+	public WorldSession( long id, AsynchronousSocketChannel c, long time )
 	{
 		accountId = id;
 		channel = c;
@@ -29,47 +29,48 @@ public class WorldSession
 		{
 			address = c.getRemoteAddress().toString();
 		}
-		catch (IOException e)
+		catch ( IOException e )
 		{
 			e.printStackTrace();
 		}
 		generateTime = time;
-		recvQueue = new ArrayList<ProtocolPackage>();
+		recvQueue = new ArrayList< ProtocolPackage >();
 	}
-	
+
 	public void startRecv()
 	{
-		if(channel.isOpen())
+		if ( channel.isOpen() )
 		{
 			readBuffer = BufferPool.getInstance().getBuffer();
-			channel.read(readBuffer, this, AIOSocketMgr.getInstance().getReadHandler());
+			channel.read( readBuffer, this, AIOSocketMgr.getInstance()
+					.getReadHandler() );
 		}
 	}
-	
-	public void addParameterQueue(ProtocolPackage pack)
+
+	public void addParameterQueue( ProtocolPackage pack )
 	{
-		recvQueue.add(pack);
+		recvQueue.add( pack );
 	}
-	
-	public void setPlayer(Player p)
+
+	public void setPlayer( Player p )
 	{
-		if(p != null)
+		if ( p != null )
 		{
 			player = p;
-			player.setSession(this);
+			player.setSession( this );
 		}
 	}
-	
+
 	public Player getPlayer()
 	{
 		return player;
 	}
-	
+
 	public long getAccountId()
 	{
 		return accountId;
 	}
-	
+
 	public AsynchronousSocketChannel getChannel()
 	{
 		return channel;
@@ -80,38 +81,38 @@ public class WorldSession
 		return readBuffer;
 	}
 
-	public boolean update(long timeDiff)
+	public boolean update( long timeDiff )
 	{
-		if(channel != null)
+		if ( channel != null )
 		{
-			if(!channel.isOpen())
+			if ( !channel.isOpen() )
 			{
-				
+
 			}
 		}
-		
+
 		ProtocolPackage pack;
-		while(!recvQueue.isEmpty())
+		while ( !recvQueue.isEmpty() )
 		{
-			pack = recvQueue.remove(0);
-			ProtocolRouter.getInstance().Trigger(pack.protocolId, pack, this);
+			pack = recvQueue.remove( 0 );
+			ProtocolRouter.getInstance().Trigger( pack.protocolId, pack, this );
 		}
 		return true;
 	}
 
 	public void dispose()
 	{
-		if(player != null)
+		if ( player != null )
 		{
 			player = null;
 		}
-		if(channel != null)
+		if ( channel != null )
 		{
 			try
 			{
 				channel.close();
 			}
-			catch (IOException e)
+			catch ( IOException e )
 			{
 				e.printStackTrace();
 			}
@@ -120,6 +121,6 @@ public class WorldSession
 				channel = null;
 			}
 		}
-		
+
 	}
 }

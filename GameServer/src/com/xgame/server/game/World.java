@@ -16,48 +16,47 @@ import com.xgame.server.network.WorldSession;
 
 enum WorldTimers
 {
-	TIMER_OBJECTS,
-	TIMER_SESSIONS,
-	TIMER_EVENTS,
-	TIMER_COUNT
+	TIMER_OBJECTS, TIMER_SESSIONS, TIMER_EVENTS, TIMER_COUNT
 }
 
 public class World
 {
-	public static Map<Long, WorldSession> sessionMap = new HashMap<Long, WorldSession>();
-	public static boolean stop = false;
-	public static long loopCounter = 0;
-	
-	private static World instance = null;
-	private static boolean allowInstance = false;
-	
-	private int playerLimit;
-	private long serverStartTime;
-	private List<WorldSession> sessionQueue;
-	private IntervalTimer timers[];
-    private static Log log = LogFactory.getLog(World.class);
-	
+	public static Map< Long, WorldSession >	sessionMap		= new HashMap< Long, WorldSession >();
+	public static boolean					stop			= false;
+	public static long						loopCounter		= 0;
+
+	private static World					instance		= null;
+	private static boolean					allowInstance	= false;
+
+	private int								playerLimit;
+	private long							serverStartTime;
+	private List< WorldSession >			sessionQueue;
+	private IntervalTimer					timers[];
+	private static Log						log				= LogFactory
+																	.getLog( World.class );
+
 	public World() throws Exception
 	{
-		if(!allowInstance)
+		if ( !allowInstance )
 		{
 			throw new Exception();
 		}
 		playerLimit = 100;
 		serverStartTime = new Date().getTime();
-		sessionQueue = new ArrayList<WorldSession>();
+		sessionQueue = new ArrayList< WorldSession >();
 		timers = new IntervalTimer[WorldTimers.TIMER_COUNT.ordinal()];
 	}
-	
+
 	public static World getInstance()
 	{
-		if(instance == null)
+		if ( instance == null )
 		{
 			allowInstance = true;
 			try
 			{
 				instance = new World();
-			} catch (Exception e)
+			}
+			catch ( Exception e )
 			{
 				e.printStackTrace();
 			}
@@ -65,108 +64,108 @@ public class World
 		}
 		return instance;
 	}
-	
-	public void addSessionQueue(WorldSession session)
+
+	public void addSessionQueue( WorldSession session )
 	{
-		sessionQueue.add(session);
+		sessionQueue.add( session );
 	}
-	
-	public void addSession(WorldSession session)
+
+	public void addSession( WorldSession session )
 	{
-		WorldSession old = sessionMap.get(session.getAccountId());
-		sessionMap.put(session.getAccountId(), session);
+		WorldSession old = sessionMap.get( session.getAccountId() );
+		sessionMap.put( session.getAccountId(), session );
 	}
-	
-	public void removeSession(long id)
+
+	public void removeSession( long id )
 	{
-		
+
 	}
-	
-	public WorldSession getSession(long id)
+
+	public WorldSession getSession( long id )
 	{
 		return null;
 	}
-	
-	public void updateSessions(long timeDiff)
+
+	public void updateSessions( long timeDiff )
 	{
-		while(!sessionQueue.isEmpty())
+		while ( !sessionQueue.isEmpty() )
 		{
-			WorldSession s = sessionQueue.remove(0);
-			addSession(s);
+			WorldSession s = sessionQueue.remove( 0 );
+			addSession( s );
 		}
-		
-		Iterator<Entry<Long, WorldSession>> it = sessionMap.entrySet().iterator();
-		Entry<Long, WorldSession> e;
+
+		Iterator< Entry< Long, WorldSession >> it = sessionMap.entrySet()
+				.iterator();
+		Entry< Long, WorldSession > e;
 		WorldSession s;
-		while(it.hasNext())
+		while ( it.hasNext() )
 		{
 			e = it.next();
 			s = e.getValue();
-			if(s == null)
+			if ( s == null )
 			{
 				continue;
 			}
-			
-			if(!s.update(timeDiff))
+
+			if ( !s.update( timeDiff ) )
 			{
 				s.dispose();
-				sessionMap.remove(e.getKey());
+				sessionMap.remove( e.getKey() );
 				s = null;
 			}
 		}
 	}
-	
+
 	public void setInitialWorldSettings()
 	{
 		timers[WorldTimers.TIMER_OBJECTS.ordinal()] = new IntervalTimer();
 		timers[WorldTimers.TIMER_SESSIONS.ordinal()] = new IntervalTimer();
-//		timers[WorldTimers.TIMER_EVENTS.ordinal()] = new IntervalTimer();
+		// timers[WorldTimers.TIMER_EVENTS.ordinal()] = new IntervalTimer();
 	}
-	
-	public void update(long timeDiff)
+
+	public void update( long timeDiff )
 	{
-		for(int i = 0; i < WorldTimers.TIMER_COUNT.ordinal() - 1; i++)
+		for ( int i = 0; i < WorldTimers.TIMER_COUNT.ordinal() - 1; i++ )
 		{
-			if(timers[i] != null)
+			if ( timers[i] != null )
 			{
-				if(timers[i].getCurrent() >= 0)
+				if ( timers[i].getCurrent() >= 0 )
 				{
-					timers[i].update(timeDiff);
+					timers[i].update( timeDiff );
 				}
 				else
 				{
-					timers[i].setCurrent(0);
+					timers[i].setCurrent( 0 );
 				}
 			}
 		}
-		
-		if(timers[WorldTimers.TIMER_SESSIONS.ordinal()].over())
+
+		if ( timers[WorldTimers.TIMER_SESSIONS.ordinal()].over() )
 		{
 			timers[WorldTimers.TIMER_SESSIONS.ordinal()].reset();
-			
-			updateSessions(timeDiff);
-			
+
+			updateSessions( timeDiff );
+
 		}
-		
-		if(timers[WorldTimers.TIMER_OBJECTS.ordinal()].over())
+
+		if ( timers[WorldTimers.TIMER_OBJECTS.ordinal()].over() )
 		{
 			timers[WorldTimers.TIMER_OBJECTS.ordinal()].reset();
-			
-			
-			
+
 		}
 	}
-	
+
 	public void kickAllPlayer()
 	{
-		Iterator<Entry<Long, WorldSession>> it = sessionMap.entrySet().iterator();
-		Entry<Long, WorldSession> e;
+		Iterator< Entry< Long, WorldSession >> it = sessionMap.entrySet()
+				.iterator();
+		Entry< Long, WorldSession > e;
 		WorldSession s;
-		while(it.hasNext())
+		while ( it.hasNext() )
 		{
 			e = it.next();
 			s = e.getValue();
-			
+
 			s.dispose();
 		}
 	}

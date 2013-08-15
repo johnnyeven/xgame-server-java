@@ -9,65 +9,59 @@ import java.util.Map.Entry;
 
 public class DatabaseRouter
 {
-	private static DatabaseRouter instance;
-	private static boolean allowInstance = false;
-	
-	private Map<String, DatabaseConfig> configSet;
-	private Map<String, Connection> connectionSet;
-	
+	private static DatabaseRouter			instance;
+	private static boolean					allowInstance	= false;
+
+	private Map< String, DatabaseConfig >	configSet;
+	private Map< String, Connection >		connectionSet;
+
 	public DatabaseRouter()
 	{
 		try
 		{
-			if(!allowInstance)
+			if ( !allowInstance )
 			{
 				throw new Exception();
 			}
 		}
-		catch(Exception e)
+		catch ( Exception e )
 		{
-			System.out.println("DatabaseRouter禁止实例化");
+			System.out.println( "DatabaseRouter禁止实例化" );
 			return;
 		}
-		
-		configSet = new HashMap<String, DatabaseConfig>();
-		configSet.put("accountdb", new DatabaseConfig(
-				"accountdb",
-				"com.mysql.jdbc.Driver",
-				"jdbc:mysql://localhost/",
-				"pulse_db_platform",
-				"root",
-				"84@41%%wi96^4"
-				));
-		configSet.put("gamedb", new DatabaseConfig(
-				"accountdb",
-				"com.mysql.jdbc.Driver",
-				"jdbc:mysql://localhost/",
-				"pulse_db_game",
-				"root",
-				"84@41%%wi96^4"
-				));
-		
-		connectionSet = new HashMap<String, Connection>();
-		
-		Iterator<Entry<String, DatabaseConfig>> it = configSet.entrySet().iterator();
-		while(it.hasNext())
+
+		configSet = new HashMap< String, DatabaseConfig >();
+		configSet.put( "accountdb", new DatabaseConfig( "accountdb",
+				"com.mysql.jdbc.Driver", "jdbc:mysql://localhost/",
+				"pulse_db_platform", "root", "84@41%%wi96^4" ) );
+		configSet.put( "gamedb", new DatabaseConfig( "accountdb",
+				"com.mysql.jdbc.Driver", "jdbc:mysql://localhost/",
+				"pulse_db_game", "root", "84@41%%wi96^4" ) );
+
+		connectionSet = new HashMap< String, Connection >();
+
+		Iterator< Entry< String, DatabaseConfig >> it = configSet.entrySet()
+				.iterator();
+		while ( it.hasNext() )
 		{
-			Entry<String, DatabaseConfig> e = it.next();
+			Entry< String, DatabaseConfig > e = it.next();
 			DatabaseConfig config = e.getValue();
-			
+
 			try
 			{
-				Class.forName(config.driver);
-				
-				Connection c = DriverManager.getConnection(config.connectString + config.databaseName + "?useUnicode=true&characterEncoding=UTF-8", config.username, config.password);
-				if(c.isClosed())
+				Class.forName( config.driver );
+
+				Connection c = DriverManager.getConnection(
+						config.connectString + config.databaseName
+								+ "?useUnicode=true&characterEncoding=UTF-8",
+						config.username, config.password );
+				if ( c.isClosed() )
 				{
 					throw new Exception();
 				}
-				connectionSet.put(e.getKey(), c);
+				connectionSet.put( e.getKey(), c );
 			}
-			catch(Exception exp)
+			catch ( Exception exp )
 			{
 				exp.printStackTrace();
 			}
@@ -76,7 +70,7 @@ public class DatabaseRouter
 
 	public static DatabaseRouter getInstance()
 	{
-		if(instance == null)
+		if ( instance == null )
 		{
 			allowInstance = true;
 			instance = new DatabaseRouter();
@@ -85,9 +79,9 @@ public class DatabaseRouter
 		return instance;
 	}
 
-	public Connection getConnection(String name)
+	public Connection getConnection( String name )
 	{
-		return connectionSet.get(name);
+		return connectionSet.get( name );
 	}
 
 }

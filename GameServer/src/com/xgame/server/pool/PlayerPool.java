@@ -8,29 +8,29 @@ import org.apache.commons.logging.LogFactory;
 
 import com.xgame.server.objects.Player;
 
-public class PlayerPool implements IPool<Player>
+public class PlayerPool implements IPool< Player >
 {
-	private static Log							log					= LogFactory
-			.getLog(PlayerPool.class);
+	private static Log						log					= LogFactory
+																		.getLog( PlayerPool.class );
 
-	private static int							maxBufferPoolSize	= 5000;
-	private static int							minBufferPoolSize	= 2000;
-	
-	private AtomicInteger						usableCount			= new AtomicInteger();
-	private AtomicInteger						createCount			= new AtomicInteger();
-	private ConcurrentLinkedQueue<Player>		queue				= new ConcurrentLinkedQueue<Player>();
-	private static PlayerPool					instance			= new PlayerPool();
+	private static int						maxBufferPoolSize	= 5000;
+	private static int						minBufferPoolSize	= 2000;
+
+	private AtomicInteger					usableCount			= new AtomicInteger();
+	private AtomicInteger					createCount			= new AtomicInteger();
+	private ConcurrentLinkedQueue< Player >	queue				= new ConcurrentLinkedQueue< Player >();
+	private static PlayerPool				instance			= new PlayerPool();
 
 	private PlayerPool()
 	{
-		for (int i = 0; i < minBufferPoolSize; ++i)
+		for ( int i = 0; i < minBufferPoolSize; ++i )
 		{
 			Player p = new Player();
-			this.queue.add(p);
+			this.queue.add( p );
 		}
 
-		this.usableCount.set(minBufferPoolSize);
-		this.createCount.set(minBufferPoolSize);
+		this.usableCount.set( minBufferPoolSize );
+		this.createCount.set( minBufferPoolSize );
 	}
 
 	@Override
@@ -38,11 +38,12 @@ public class PlayerPool implements IPool<Player>
 	{
 		Player p = this.queue.poll();
 
-		if (p == null)
+		if ( p == null )
 		{
 			p = new Player();
 			this.createCount.incrementAndGet();
-		} else
+		}
+		else
 		{
 			this.usableCount.decrementAndGet();
 		}
@@ -51,25 +52,26 @@ public class PlayerPool implements IPool<Player>
 	}
 
 	@Override
-	public void returnObject(Player p)
+	public void returnObject( Player p )
 	{
-		if (this.createCount.intValue() > maxBufferPoolSize
-				&& (this.usableCount.intValue() > (this.createCount.intValue() / 2)))
+		if ( this.createCount.intValue() > maxBufferPoolSize
+				&& ( this.usableCount.intValue() > ( this.createCount
+						.intValue() / 2 ) ) )
 		{
 			p = null;
 			this.createCount.decrementAndGet();
 		}
 		else
 		{
-			//清理p
-			this.queue.add(p);
+			// 清理p
+			this.queue.add( p );
 			this.usableCount.incrementAndGet();
 		}
 	}
-	
+
 	public static PlayerPool getInstance()
 	{
-		if(instance == null)
+		if ( instance == null )
 		{
 			instance = new PlayerPool();
 		}

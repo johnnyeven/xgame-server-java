@@ -8,35 +8,34 @@ import com.xgame.server.game.ProtocolPackage;
 import com.xgame.server.pool.BufferPool;
 
 public class ReadCompletionHandler implements
-		CompletionHandler<Integer, WorldSession>
+		CompletionHandler< Integer, WorldSession >
 {
-	
-    public ReadCompletionHandler()
+
+	public ReadCompletionHandler()
 	{
 	}
-	
+
 	@Override
-	public void completed(Integer result,
-			WorldSession attachment)
+	public void completed( Integer result, WorldSession attachment )
 	{
-		if(result > 0)
+		if ( result > 0 )
 		{
-			//处理buffer
+			// 处理buffer
 			ByteBuffer buffer = attachment.getReadBuffer();
 			buffer.flip();
 			buffer.getInt();
 			short protocolId = buffer.getShort();
-			
+
 			ProtocolPackage parameter = new ProtocolPackage();
 			parameter.protocolId = protocolId;
 			parameter.client = attachment.getChannel();
 			parameter.receiveDataLength = result;
 			parameter.receiveData = buffer.duplicate();
 			parameter.offset = 6;
-			
-			attachment.addParameterQueue(parameter);
-			
-			BufferPool.getInstance().releaseBuffer(buffer);
+
+			attachment.addParameterQueue( parameter );
+
+			BufferPool.getInstance().releaseBuffer( buffer );
 			attachment.startRecv();
 		}
 		else
@@ -45,21 +44,22 @@ public class ReadCompletionHandler implements
 			{
 				attachment.getChannel().close();
 			}
-			catch(IOException e)
+			catch ( IOException e )
 			{
 				e.printStackTrace();
 			}
 			finally
 			{
-				BufferPool.getInstance().releaseBuffer(attachment.getReadBuffer());
+				BufferPool.getInstance().releaseBuffer(
+						attachment.getReadBuffer() );
 			}
 		}
 	}
 
 	@Override
-	public void failed(Throwable exc, WorldSession attachment)
+	public void failed( Throwable exc, WorldSession attachment )
 	{
-		BufferPool.getInstance().releaseBuffer(attachment.getReadBuffer());
+		BufferPool.getInstance().releaseBuffer( attachment.getReadBuffer() );
 	}
 
 }

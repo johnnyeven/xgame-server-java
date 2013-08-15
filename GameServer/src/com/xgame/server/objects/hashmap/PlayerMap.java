@@ -8,30 +8,30 @@ import com.xgame.server.objects.Player;
 
 public class PlayerMap
 {
-	private static PlayerMap instance;
-	private Map<UUID, Player> hash = new HashMap<UUID, Player>();
-	
+	private static PlayerMap	instance;
+	private Map< UUID, Player >	hash	= new HashMap< UUID, Player >();
+
 	private PlayerMap()
 	{
 	}
-	
-	public Player get(long guid)
+
+	public Player get( long guid )
 	{
-		if(hash.containsKey(guid))
+		if ( hash.containsKey( guid ) )
 		{
-			return hash.get(guid);
+			return hash.get( guid );
 		}
 		return null;
 	}
-	
-	public void add(Player p)
+
+	public void add( Player p )
 	{
-		hash.put(p.getGuid(), p);
+		hash.put( p.getGuid(), p );
 	}
-	
+
 	public static PlayerMap getInstance()
 	{
-		if(instance == null)
+		if ( instance == null )
 		{
 			instance = new PlayerMap();
 		}
