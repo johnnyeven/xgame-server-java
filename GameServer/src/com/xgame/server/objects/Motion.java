@@ -11,6 +11,7 @@ import com.xgame.server.common.Angle;
 import com.xgame.server.common.Point;
 import com.xgame.server.enums.Action;
 import com.xgame.server.enums.PlayerStatus;
+import com.xgame.server.game.WorldThread;
 import com.xgame.server.game.astar.Node;
 
 public class Motion
@@ -65,8 +66,8 @@ public class Motion
 		boolean xEnd = false;
 		boolean yEnd = false;
 
-		double xSpeed = p.speed * Math.cos( radian );
-		double ySpeed = p.speed * Math.sin( radian );
+		double xSpeed = p.getMoveSpeed() * Math.cos( radian );
+		double ySpeed = p.getMoveSpeed() * Math.sin( radian );
 
 		if ( Math.abs( p.getX() - nextPoint.getX() ) <= xSpeed )
 		{
@@ -78,7 +79,6 @@ public class Motion
 			yEnd = true;
 			ySpeed = 0;
 		}
-		moveTo( p.getX() + xSpeed, p.getY() + ySpeed );
 
 		if ( xEnd && yEnd )
 		{
@@ -86,8 +86,10 @@ public class Motion
 			if ( currentStep >= path.size() )
 			{
 				clearPath();
+				return;
 			}
 		}
+		moveTo( p.getX() + xSpeed, p.getY() + ySpeed );
 	}
 
 	public void clearPath()

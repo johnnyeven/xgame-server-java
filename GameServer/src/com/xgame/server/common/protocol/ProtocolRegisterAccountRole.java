@@ -72,9 +72,9 @@ public class ProtocolRegisterAccountRole implements IProtocol
 		{
 			try
 			{
-				String sql = "INSERT INTO game_account(account_guid, nick_name, current_health, max_health, current_mana, max_mana, current_energy, max_energy, current_x, current_y)values";
+				String sql = "INSERT INTO game_account(account_guid, nick_name, speed, current_health, max_health, current_mana, max_mana, current_energy, max_energy, current_x, current_y)values";
 				sql += "(" + guid + ", '" + nickName
-						+ "', 200, 200, 85, 85, 100, 100, 700, 700)";
+						+ "', 210.00, 200, 200, 85, 85, 100, 100, 700, 700)";
 				PreparedStatement st = DatabaseRouter
 						.getInstance()
 						.getConnection( "gamedb" )

@@ -22,7 +22,7 @@ CREATE  TABLE IF NOT EXISTS `pulse_db_game`.`game_account` (
   `account_cash` BIGINT(20) NOT NULL DEFAULT 0 ,
   `direction` INT NOT NULL DEFAULT 0 COMMENT '朝向' ,
   `action` INT NOT NULL DEFAULT 0 ,
-  `speed` INT NOT NULL DEFAULT 7 ,
+  `speed` DOUBLE(11,2) NOT NULL DEFAULT 210.00 ,
   `current_health` INT NOT NULL DEFAULT 100 ,
   `max_health` INT NOT NULL DEFAULT 100 ,
   `current_mana` INT NOT NULL DEFAULT 85 ,

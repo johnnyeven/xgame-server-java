@@ -186,16 +186,17 @@ public class Map
 		pack.protocolId = EnumProtocol.REGISTER_ACCOUNT_ROLE;
 		pack.parameter.add( new PackageItem( 8, p.accountId ) );
 		pack.parameter.add( new PackageItem( p.name.length(), p.name ) );
-		pack.parameter.add( new PackageItem( 8, (long) 0 ) );
-		pack.parameter.add( new PackageItem( 4, 0 ) );
-		pack.parameter.add( new PackageItem( 4, 200 ) );
-		pack.parameter.add( new PackageItem( 4, 200 ) );
-		pack.parameter.add( new PackageItem( 4, 85 ) );
-		pack.parameter.add( new PackageItem( 4, 85 ) );
-		pack.parameter.add( new PackageItem( 4, 100 ) );
-		pack.parameter.add( new PackageItem( 4, 100 ) );
-		pack.parameter.add( new PackageItem( 8, (double) 700 ) );
-		pack.parameter.add( new PackageItem( 8, (double) 700 ) );
+		pack.parameter.add( new PackageItem( 8, p.accountCash ) );
+		pack.parameter.add( new PackageItem( 4, p.direction ) );
+		pack.parameter.add( new PackageItem( 4, p.getSpeed() ) );
+		pack.parameter.add( new PackageItem( 4, p.health ) );
+		pack.parameter.add( new PackageItem( 4, p.healthMax ) );
+		pack.parameter.add( new PackageItem( 4, p.mana ) );
+		pack.parameter.add( new PackageItem( 4, p.manaMax ) );
+		pack.parameter.add( new PackageItem( 4, p.energy ) );
+		pack.parameter.add( new PackageItem( 4, p.energyMax ) );
+		pack.parameter.add( new PackageItem( 8, p.getX() ) );
+		pack.parameter.add( new PackageItem( 8, p.getY() ) );
 		CommandCenter.send( p.getChannel(), pack );
 	}
 
@@ -237,6 +238,7 @@ public class Map
 							p.name ) );
 					pack.parameter.add( new PackageItem( 8, p.accountCash ) );
 					pack.parameter.add( new PackageItem( 4, p.direction ) );
+					pack.parameter.add( new PackageItem( 4, p.getSpeed() ) );
 					pack.parameter.add( new PackageItem( 4, p.health ) );
 					pack.parameter.add( new PackageItem( 4, p.healthMax ) );
 					pack.parameter.add( new PackageItem( 4, p.mana ) );
@@ -259,6 +261,8 @@ public class Map
 							currentPlayer.accountCash ) );
 					pack.parameter.add( new PackageItem( 4,
 							currentPlayer.direction ) );
+					pack.parameter.add( new PackageItem( 4,
+							currentPlayer.getSpeed() ) );
 					pack.parameter.add( new PackageItem( 4,
 							currentPlayer.health ) );
 					pack.parameter.add( new PackageItem( 4,
@@ -329,6 +333,8 @@ public class Map
 							currentPlayer.accountCash ) );
 					pack.parameter.add( new PackageItem( 4,
 							currentPlayer.direction ) );
+					pack.parameter.add( new PackageItem( 4,
+							currentPlayer.getSpeed() ) );
 					pack.parameter.add( new PackageItem( 4,
 							currentPlayer.health ) );
 					pack.parameter.add( new PackageItem( 4,

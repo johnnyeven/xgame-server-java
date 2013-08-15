@@ -111,7 +111,7 @@ public class ProtocolRequestAccountRole implements IProtocol
 					p.accountId = accountId;
 					p.level = level;
 					p.name = nickName;
-					p.speed = speed;
+					p.setSpeed( speed );
 					p.accountCash = accountCash;
 					p.direction = direction;
 					p.action = action;

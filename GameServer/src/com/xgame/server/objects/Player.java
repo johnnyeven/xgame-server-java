@@ -14,6 +14,7 @@ import com.xgame.server.common.database.DatabaseRouter;
 import com.xgame.server.enums.Direction;
 import com.xgame.server.enums.Action;
 import com.xgame.server.enums.PlayerStatus;
+import com.xgame.server.game.WorldThread;
 import com.xgame.server.game.map.Map;
 import com.xgame.server.network.WorldSession;
 
@@ -22,7 +23,8 @@ public class Player extends WorldObject
 	public long							accountId	= Long.MIN_VALUE;
 	public int							level		= 0;
 	public String						name		= "";
-	public float						speed		= 0;
+	private float						speed		= 0;
+	private double						moveSpeed	= 0;
 	public long							accountCash	= Long.MIN_VALUE;
 	public int							direction	= Direction.DOWN;
 	public int							action		= Action.STOP;
@@ -69,7 +71,7 @@ public class Player extends WorldObject
 				accountCash = rs.getLong( "account_cash" );
 				direction = rs.getInt( "direction" );
 				action = rs.getInt( "action" );
-				speed = rs.getFloat( "speed" );
+				setSpeed(rs.getFloat( "speed" ));
 				health = rs.getInt( "current_health" );
 				healthMax = rs.getInt( "max_health" );
 				mana = rs.getInt( "current_mana" );
@@ -153,5 +155,21 @@ public class Player extends WorldObject
 	public Motion getMotion()
 	{
 		return motion;
+	}
+
+	public float getSpeed()
+	{
+		return speed;
+	}
+
+	public void setSpeed( float speed )
+	{
+		this.speed = speed;
+		moveSpeed = speed * ((double)WorldThread.WORLD_SLEEP_TIME / 1000);
+	}
+
+	public double getMoveSpeed()
+	{
+		return moveSpeed;
 	}
 }

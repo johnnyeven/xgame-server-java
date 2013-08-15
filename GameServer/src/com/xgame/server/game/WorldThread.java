@@ -7,7 +7,7 @@ import com.xgame.server.network.AIOSocketMgr;
 
 public class WorldThread implements Runnable
 {
-	private final int	WORLD_SLEEP_TIME	= 100;
+	public static final int	WORLD_SLEEP_TIME	= 200;
 
 	@Override
 	public void run()

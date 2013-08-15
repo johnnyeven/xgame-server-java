@@ -36,6 +36,7 @@ public class CommandCenter
 		Integer intVal;
 		Long longVal;
 		Double doubleVal;
+		Float floatVal;
 		for ( int i = 0; i < pack.parameter.size(); i++ )
 		{
 			PackageItem item = pack.parameter.get( i );
@@ -87,6 +88,15 @@ public class CommandCenter
 				doubleVal = (double) item.item;
 				buffer.putDouble( doubleVal );
 				dataLength += 8;
+			}
+			else if ( item.item instanceof Float )
+			{
+				buffer.put( (byte) EnumProtocol.TYPE_FLOAT );
+				dataLength += 1;
+
+				floatVal = (float) item.item;
+				buffer.putFloat( floatVal );
+				dataLength += 4;
 			}
 		}
 		buffer.putInt( 0, dataLength );
