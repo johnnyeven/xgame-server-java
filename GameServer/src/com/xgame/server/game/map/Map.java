@@ -166,7 +166,7 @@ public class Map
 		updateVisibility( p, g );
 		// 可见同屏其他玩家
 		// updateOtherVisibility(p, g);
-		
+
 		p.status = PlayerStatus.NORMAL;
 
 		return true;
@@ -261,8 +261,8 @@ public class Map
 							currentPlayer.accountCash ) );
 					pack.parameter.add( new PackageItem( 4,
 							currentPlayer.direction ) );
-					pack.parameter.add( new PackageItem( 4,
-							currentPlayer.getSpeed() ) );
+					pack.parameter.add( new PackageItem( 4, currentPlayer
+							.getSpeed() ) );
 					pack.parameter.add( new PackageItem( 4,
 							currentPlayer.health ) );
 					pack.parameter.add( new PackageItem( 4,
@@ -333,8 +333,8 @@ public class Map
 							currentPlayer.accountCash ) );
 					pack.parameter.add( new PackageItem( 4,
 							currentPlayer.direction ) );
-					pack.parameter.add( new PackageItem( 4,
-							currentPlayer.getSpeed() ) );
+					pack.parameter.add( new PackageItem( 4, currentPlayer
+							.getSpeed() ) );
 					pack.parameter.add( new PackageItem( 4,
 							currentPlayer.health ) );
 					pack.parameter.add( new PackageItem( 4,
