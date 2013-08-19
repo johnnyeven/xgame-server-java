@@ -121,7 +121,7 @@ public class Map
 		gridContainer[x][y] = g;
 	}
 
-	private Grid getGrid( int x, int y )
+	public Grid getGrid( int x, int y )
 	{
 		if ( x >= gridX || y >= gridY )
 		{
@@ -357,7 +357,7 @@ public class Map
 		}
 	}
 
-	private ArrayList< Grid > getViewGrid( Grid g )
+	public ArrayList< Grid > getViewGrid( Grid g )
 	{
 		int x = g.getX();
 		int y = g.getY();

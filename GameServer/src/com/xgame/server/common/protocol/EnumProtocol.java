@@ -13,6 +13,7 @@ public final class EnumProtocol
 	// MOVE
 	public static final int		ACTION_REQUEST_FINDPATH		= 0;
 	public static final int		ACTION_VERIFY_MOVE			= 1;
+	public static final int		ACTION_SEND_PATH			= 2;
 	// MSG
 	public static final int		ACTION_PUBLIC_MSG			= 0;
 	public static final int		ACTION_PRIVATE_MSG			= 1;
@@ -48,6 +49,8 @@ public final class EnumProtocol
 	public static final int		TYPE_DOUBLE					= 5;
 	// MOVE
 	public static final short	REQUEST_FIND_PATH			= ACTION_REQUEST_FINDPATH << 8
+																	| CONTROLLER_MOVE;
+	public static final short	SEND_PATH					= ACTION_SEND_PATH << 8
 																	| CONTROLLER_MOVE;
 	// INFO
 	public static final short	QUICK_START					= ACTION_QUICK_START << 8
