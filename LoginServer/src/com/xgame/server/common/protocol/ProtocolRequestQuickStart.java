@@ -23,6 +23,7 @@ public class ProtocolRequestQuickStart implements IProtocol
 		ProtocolParam parameter = (ProtocolParam)param;
 		
 		int gameId = Integer.MIN_VALUE;
+		long timestamp = Long.MIN_VALUE;
 		for(int i = parameter.offset; i < parameter.receiveDataLength; )
 		{
 			int length = parameter.receiveData.getInt();
@@ -33,6 +34,12 @@ public class ProtocolRequestQuickStart implements IProtocol
 					if(gameId == Integer.MIN_VALUE)
 					{
 						gameId = parameter.receiveData.getInt();
+					}
+					break;
+				case EnumProtocol.TYPE_LONG:
+					if(timestamp == Long.MIN_VALUE)
+					{
+						timestamp = parameter.receiveData.getLong();
 					}
 					break;
 			}

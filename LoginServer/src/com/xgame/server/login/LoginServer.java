@@ -58,7 +58,7 @@ public class LoginServer
     						{
 	    						//¥¶¿Ìbuffer
 	    						buffer.flip();
-	    						int packageLength = buffer.getInt();
+	    						buffer.getInt();
 	    						short protocolId = buffer.getShort();
 	    						
 	    						ProtocolParam parameter = new ProtocolParam();

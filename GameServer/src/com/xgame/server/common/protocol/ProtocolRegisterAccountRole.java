@@ -33,6 +33,7 @@ public class ProtocolRegisterAccountRole implements IProtocol
 
 		long guid = Long.MIN_VALUE;
 		String nickName = null;
+		long timestamp = Long.MIN_VALUE;
 
 		for ( int i = parameter.offset; i < parameter.receiveDataLength; )
 		{
@@ -44,8 +45,13 @@ public class ProtocolRegisterAccountRole implements IProtocol
 					if ( guid == Long.MIN_VALUE )
 					{
 						guid = parameter.receiveData.getLong();
+						break;
 					}
-					break;
+					if ( timestamp == Long.MIN_VALUE )
+					{
+						timestamp = parameter.receiveData.getLong();
+						break;
+					}
 				case EnumProtocol.TYPE_STRING:
 					if ( nickName == null )
 					{

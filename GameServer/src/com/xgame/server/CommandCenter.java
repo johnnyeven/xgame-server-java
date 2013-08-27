@@ -3,6 +3,7 @@ package com.xgame.server;
 import java.nio.ByteBuffer;
 import java.nio.channels.AsynchronousSocketChannel;
 import java.nio.charset.Charset;
+import java.util.Date;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 
@@ -17,9 +18,6 @@ import com.xgame.server.pool.BufferPool;
 public class CommandCenter
 {
 	private static Log	log	= LogFactory.getLog( CommandCenter.class );
-
-	// private static Future<Integer> f;
-	// private static ByteBuffer cache = BufferPool.getInstance().getBuffer();
 
 	public static void send( AsynchronousSocketChannel channel,
 			ServerPackage pack )
@@ -99,6 +97,10 @@ public class CommandCenter
 				dataLength += 4;
 			}
 		}
+		long timestamp = new Date().getTime();
+		buffer.putLong( timestamp );
+		dataLength += 8;
+		
 		buffer.putInt( 0, dataLength );
 		dataLength += 4;
 		buffer.flip();
@@ -116,34 +118,6 @@ public class CommandCenter
 		{
 			e.printStackTrace();
 		}
-		// if(f.isDone() || f.isCancelled())
-		// {
-		// f = channel.write(buffer);
-		//
-		// try
-		// {
-		// int length = f.get();
-		// BufferPool.getInstance().releaseBuffer(buffer);
-		// log.debug("send() Length=" + length);
-		// }
-		// catch (InterruptedException | ExecutionException e)
-		// {
-		// e.printStackTrace();
-		// }
-		// }
-		// else
-		// {
-		// spliceBuffer(buffer);
-		// }
 	}
-
-	// private static void spliceBuffer(ByteBuffer b)
-	// {
-	// if(cache == null)
-	// {
-	// cache = BufferPool.getInstance().getBuffer();
-	// }
-	// cache.put(b.array());
-	// }
 
 }

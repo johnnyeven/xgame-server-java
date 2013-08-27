@@ -3,6 +3,7 @@ package com.xgame.server;
 import java.nio.ByteBuffer;
 import java.nio.channels.AsynchronousSocketChannel;
 import java.nio.charset.Charset;
+import java.util.Date;
 
 import com.xgame.server.common.PackageItem;
 import com.xgame.server.common.ServerPackage;
@@ -59,6 +60,10 @@ public class CommandCenter
 				dataLength += 8;
 			}
 		}
+		long timestamp = new Date().getTime();
+		buffer.putLong( timestamp );
+		dataLength += 8;
+		
 		buffer.putInt(0, dataLength);
 		dataLength += 4;
 		buffer.flip();
