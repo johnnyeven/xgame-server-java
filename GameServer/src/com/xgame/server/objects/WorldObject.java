@@ -2,6 +2,7 @@ package com.xgame.server.objects;
 
 import java.util.UUID;
 
+import com.xgame.server.game.map.Grid;
 import com.xgame.server.game.map.Map;
 import com.xgame.server.game.map.MapManager;
 
@@ -11,6 +12,7 @@ public class WorldObject
 	private int		mapId;
 	private double	currentX;
 	private double	currentY;
+	private Grid	currentGrid;
 
 	public WorldObject()
 	{
@@ -62,6 +64,16 @@ public class WorldObject
 	public void setY( double y )
 	{
 		currentY = y;
+	}
+
+	public Grid getCurrentGrid()
+	{
+		return currentGrid;
+	}
+
+	public void setCurrentGrid( Grid currentGrid )
+	{
+		this.currentGrid = currentGrid;
 	}
 
 }

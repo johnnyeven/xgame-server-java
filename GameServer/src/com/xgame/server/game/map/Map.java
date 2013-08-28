@@ -148,6 +148,26 @@ public class Map
 		return true;
 	}
 
+	public boolean check( Player p )
+	{
+		Grid g1 = p.getCurrentGrid();
+		CoordinatePair coordinate = getCoordinatePair( p.getX(), p.getY() );
+		if ( g1.getX() == coordinate.getX() && g1.getY() == coordinate.getY() )
+		{
+			return false;
+		}
+
+		Grid g = getGrid( (int) coordinate.getX(), (int) coordinate.getY() );
+		if ( g == null )
+		{
+			g = new Grid( (int) coordinate.getX(), (int) coordinate.getY() );
+			setGrid( g, (int) coordinate.getX(), (int) coordinate.getY() );
+		}
+		g1.removeWorldObject( p.getGuid() );
+		g.addWorldObject( p );
+		return true;
+	}
+
 	public boolean updatePlayerStatus( Player p )
 	{
 		if ( p.getMapId() != id )

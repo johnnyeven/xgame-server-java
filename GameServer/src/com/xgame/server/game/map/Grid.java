@@ -61,6 +61,7 @@ public class Grid
 					+ "]Key重复，未添加成功" );
 			return;
 		}
+		o.setCurrentGrid( this );
 		objectMap.put( o.getGuid(), o );
 	}
 

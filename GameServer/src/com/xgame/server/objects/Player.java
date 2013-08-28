@@ -71,7 +71,7 @@ public class Player extends WorldObject
 				accountCash = rs.getLong( "account_cash" );
 				direction = rs.getInt( "direction" );
 				action = rs.getInt( "action" );
-				setSpeed(rs.getFloat( "speed" ));
+				setSpeed( rs.getFloat( "speed" ) );
 				health = rs.getInt( "current_health" );
 				healthMax = rs.getInt( "max_health" );
 				mana = rs.getInt( "current_mana" );
@@ -123,7 +123,13 @@ public class Player extends WorldObject
 
 	public void update( long timeDiff )
 	{
+		if ( action == Action.DIE )
+		{
+			killPlayer();
+			return;
+		}
 		motion.update( timeDiff );
+		getMap().check( this );
 	}
 
 	public void killPlayer()
@@ -165,7 +171,7 @@ public class Player extends WorldObject
 	public void setSpeed( float speed )
 	{
 		this.speed = speed;
-		moveSpeed = speed * ((double)WorldThread.WORLD_SLEEP_TIME / 1000);
+		moveSpeed = speed * ( (double) WorldThread.WORLD_SLEEP_TIME / 1000 );
 	}
 
 	public double getMoveSpeed()

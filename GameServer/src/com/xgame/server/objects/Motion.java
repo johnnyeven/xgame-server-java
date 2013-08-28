@@ -121,9 +121,5 @@ public class Motion
 			p.action = Action.MOVE;
 			log.debug( p.name + " ÒÆ¶¯µ½ x=" + x + ", y=" + y );
 		}
-		else
-		{
-			p.killPlayer();
-		}
 	}
 }
