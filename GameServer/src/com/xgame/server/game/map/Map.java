@@ -45,8 +45,8 @@ public class Map
 		this.id = id;
 		this.config = config;
 
-		gridX = (int) Math.floor( config.width / GRID_WIDTH );
-		gridY = (int) Math.floor( config.height / GRID_HEIGHT );
+		gridX = (int) Math.ceil( (float) config.width / GRID_WIDTH );
+		gridY = (int) Math.ceil( (float) config.height / GRID_HEIGHT );
 
 		gridContainer = new Grid[gridX][gridY];
 		negativePath = new boolean[config.blockNumHeight][config.blockNumWidth];
@@ -115,7 +115,8 @@ public class Map
 	{
 		if ( x >= gridX || y >= gridY )
 		{
-			log.error( "setGrid() 错误的Grid坐标 x=" + x + ", y=" + y );
+			log.error( "setGrid() 错误的Grid坐标 x=" + x + ", y=" + y + ", GridX="
+					+ gridX + ", GridY=" + gridY );
 			return;
 		}
 		gridContainer[x][y] = g;
@@ -125,7 +126,8 @@ public class Map
 	{
 		if ( x >= gridX || y >= gridY )
 		{
-			log.error( "setGrid() 错误的Grid坐标 x=" + x + ", y=" + y );
+			log.error( "setGrid() 错误的Grid坐标 x=" + x + ", y=" + y + ", GridX="
+					+ gridX + ", GridY=" + gridY );
 			return null;
 		}
 		return gridContainer[x][y];
@@ -165,6 +167,7 @@ public class Map
 		}
 		g1.removeWorldObject( p.getGuid() );
 		g.addWorldObject( p );
+		log.debug( p.name + " change grid to x=" + g.getX() + ", y=" + g.getY() );
 		return true;
 	}
 
