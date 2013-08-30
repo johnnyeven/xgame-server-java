@@ -75,5 +75,10 @@ public class WorldObject
 	{
 		this.currentGrid = currentGrid;
 	}
+	
+	public void update( long timeDiff )
+	{
+		
+	}
 
 }

@@ -119,7 +119,7 @@ public class Motion
 			p.setX( x );
 			p.setY( y );
 			p.action = Action.MOVE;
-			log.debug( p.name + " 移动到 x=" + x + ", y=" + y );
+//			log.debug( p.name + " 移动到 x=" + x + ", y=" + y );
 		}
 	}
 }

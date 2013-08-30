@@ -18,7 +18,7 @@ import com.xgame.server.game.WorldThread;
 import com.xgame.server.game.map.Map;
 import com.xgame.server.network.WorldSession;
 
-public class Player extends WorldObject
+public class Player extends InteractiveObject
 {
 	public long							accountId	= Long.MIN_VALUE;
 	public int							level		= 0;
@@ -45,6 +45,7 @@ public class Player extends WorldObject
 
 	public Player()
 	{
+		super();
 		motion = new Motion( this );
 	}
 
@@ -128,6 +129,7 @@ public class Player extends WorldObject
 			killPlayer();
 			return;
 		}
+		super.update( timeDiff );
 		motion.update( timeDiff );
 		getMap().check( this );
 	}

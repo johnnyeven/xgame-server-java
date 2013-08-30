@@ -107,7 +107,7 @@ public class Map
 
 	public static CoordinatePair getCoordinatePair( double x, double y )
 	{
-		return new CoordinatePair( Math.ceil( x / GRID_WIDTH ), Math.ceil( y
+		return new CoordinatePair( Math.floor( x / GRID_WIDTH ), Math.floor( y
 				/ GRID_HEIGHT ) );
 	}
 
@@ -126,7 +126,7 @@ public class Map
 	{
 		if ( x >= gridX || y >= gridY )
 		{
-			log.error( "setGrid() 错误的Grid坐标 x=" + x + ", y=" + y + ", GridX="
+			log.error( "getGrid() 错误的Grid坐标 x=" + x + ", y=" + y + ", GridX="
 					+ gridX + ", GridY=" + gridY );
 			return null;
 		}
