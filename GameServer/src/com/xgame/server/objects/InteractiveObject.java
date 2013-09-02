@@ -26,35 +26,6 @@ public class InteractiveObject extends WorldObject
 		dropedInteractive = new ArrayList< WorldObject >();
 		newInteractive = new ArrayList< WorldObject >();
 	}
-	
-	public void init()
-	{
-		Grid g = getCurrentGrid();
-		ArrayList< Grid > glist = getMap().getViewGrid( g );
-		Grid currentGrid;
-		Iterator< Entry< UUID, WorldObject >> iten;
-		Entry< UUID, WorldObject > en;
-		WorldObject obj;
-		int i = 0;
-		for ( ; i < glist.size(); i++ )
-		{
-			currentGrid = glist.get( i );
-			if ( currentGrid == null )
-			{
-				continue;
-			}
-			iten = currentGrid.getWorldObjectIterator();
-			while ( iten.hasNext() )
-			{
-				en = iten.next();
-				obj = en.getValue();
-				if ( obj != this )
-				{
-					lastInteractiveList.add( en.getValue() );
-				}
-			}
-		}
-	}
 
 	public void update( long timeDiff )
 	{

@@ -31,7 +31,6 @@ public class ObjectManager
 	{
 		if ( target instanceof InteractiveObject )
 		{
-			( (InteractiveObject) target ).init();
 			EventManager.getInstance().addEventListener( ( (InteractiveObject) target ), AOIEvent.AOI_ENTER, AOIEventHandler.getInstance() );
 			EventManager.getInstance().addEventListener( ( (InteractiveObject) target ), AOIEvent.AOI_LEAVE, AOIEventHandler.getInstance() );
 		}
