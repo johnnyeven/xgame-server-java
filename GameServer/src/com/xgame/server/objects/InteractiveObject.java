@@ -7,6 +7,8 @@ import java.util.Iterator;
 import java.util.Map.Entry;
 import java.util.UUID;
 
+import com.xgame.server.events.AOIEvent;
+import com.xgame.server.events.EventManager;
 import com.xgame.server.game.map.Grid;
 
 public class InteractiveObject extends WorldObject
@@ -24,6 +26,35 @@ public class InteractiveObject extends WorldObject
 		dropedInteractive = new ArrayList< WorldObject >();
 		newInteractive = new ArrayList< WorldObject >();
 	}
+	
+	public void init()
+	{
+		Grid g = getCurrentGrid();
+		ArrayList< Grid > glist = getMap().getViewGrid( g );
+		Grid currentGrid;
+		Iterator< Entry< UUID, WorldObject >> iten;
+		Entry< UUID, WorldObject > en;
+		WorldObject obj;
+		int i = 0;
+		for ( ; i < glist.size(); i++ )
+		{
+			currentGrid = glist.get( i );
+			if ( currentGrid == null )
+			{
+				continue;
+			}
+			iten = currentGrid.getWorldObjectIterator();
+			while ( iten.hasNext() )
+			{
+				en = iten.next();
+				obj = en.getValue();
+				if ( obj != this )
+				{
+					lastInteractiveList.add( en.getValue() );
+				}
+			}
+		}
+	}
 
 	public void update( long timeDiff )
 	{
@@ -31,14 +62,14 @@ public class InteractiveObject extends WorldObject
 		Grid g = getCurrentGrid();
 
 		ArrayList< Grid > glist = getMap().getViewGrid( g );
-		Iterator< Grid > itg = glist.iterator();
 		Grid currentGrid;
 		Iterator< Entry< UUID, WorldObject >> iten;
 		Entry< UUID, WorldObject > en;
 		WorldObject obj;
-		while ( itg.hasNext() )
+		int i = 0;
+		for ( ; i < glist.size(); i++ )
 		{
-			currentGrid = itg.next();
+			currentGrid = glist.get( i );
 			if ( currentGrid == null )
 			{
 				continue;
@@ -55,21 +86,32 @@ public class InteractiveObject extends WorldObject
 			}
 		}
 		compareInteracting();
+		
+		lastInteractiveList.clear();
+		lastInteractiveList.addAll( interactiveList );
 	}
 
 	private void compareInteracting()
 	{
 		diff( lastInteractiveList, interactiveList, dropedInteractive );
 		diff( interactiveList, lastInteractiveList, newInteractive );
-	}
 
-	private static ArrayList< WorldObject > diff( ArrayList< WorldObject > ls,
-			ArrayList< WorldObject > ls2 )
-	{
-		ArrayList< WorldObject > list = new ArrayList< WorldObject >();
-		Collections.copy( list, ls );
-		list.removeAll( ls2 );
-		return list;
+		WorldObject current;
+		int i = 0;
+		for ( ; i < newInteractive.size(); i++ )
+		{
+			current = newInteractive.get( i );
+			AOIEvent evt = new AOIEvent(AOIEvent.AOI_ENTER);
+			evt.who = current;
+			EventManager.getInstance().dispatchEvent( this, evt );
+		}
+		for ( i = 0; i < dropedInteractive.size(); i++ )
+		{
+			current = dropedInteractive.get( i );
+			AOIEvent evt = new AOIEvent(AOIEvent.AOI_LEAVE);
+			evt.who = current;
+			EventManager.getInstance().dispatchEvent( this, evt );
+		}
 	}
 
 	private static ArrayList< WorldObject > diff( ArrayList< WorldObject > ls,
@@ -78,12 +120,13 @@ public class InteractiveObject extends WorldObject
 		if ( target != null )
 		{
 			target.clear();
+			target.addAll( ls );
 		}
 		else
 		{
-			target = new ArrayList< WorldObject >();
+			target = new ArrayList< WorldObject >(ls);
 		}
-		Collections.copy( target, ls );
+		
 		target.removeAll( ls2 );
 		return target;
 	}

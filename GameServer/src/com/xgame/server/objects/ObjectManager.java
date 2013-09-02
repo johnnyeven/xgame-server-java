@@ -4,6 +4,9 @@ import java.util.Iterator;
 import java.util.UUID;
 import java.util.Map.Entry;
 
+import com.xgame.server.events.AOIEvent;
+import com.xgame.server.events.AOIEventHandler;
+import com.xgame.server.events.EventManager;
 import com.xgame.server.objects.hashmap.PlayerMap;
 
 public class ObjectManager
@@ -26,10 +29,16 @@ public class ObjectManager
 
 	public void addObject( WorldObject target )
 	{
+		if ( target instanceof InteractiveObject )
+		{
+			( (InteractiveObject) target ).init();
+			EventManager.getInstance().addEventListener( ( (InteractiveObject) target ), AOIEvent.AOI_ENTER, AOIEventHandler.getInstance() );
+			EventManager.getInstance().addEventListener( ( (InteractiveObject) target ), AOIEvent.AOI_LEAVE, AOIEventHandler.getInstance() );
+		}
+		
 		if ( target instanceof Player )
 		{
 			PlayerMap.getInstance().add( (Player) target );
-			;
 		}
 	}
 
@@ -61,8 +70,8 @@ public class ObjectManager
 	{
 		return PlayerMap.getInstance().get( guid );
 	}
-	
-	public void update(long timeDiff)
+
+	public void update( long timeDiff )
 	{
 		Iterator< Entry< UUID, Player >> it = PlayerMap.getInstance()
 				.getIterator();

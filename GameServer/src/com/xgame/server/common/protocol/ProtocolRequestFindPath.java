@@ -73,8 +73,6 @@ public class ProtocolRequestFindPath implements IProtocol
 			Map m = session.getPlayer().getMap();
 			ArrayList< Node > path = m.getAstar().find( startX, startY, endX,
 					endY );
-			log.debug( "[RequestFindPath] start x=" + startX + ", y=" + startY
-					+ "; end x=" + endX + ", y=" + endY );
 			log.debug( "[RequestFindPath] path=" + path );
 
 			if ( path != null )
