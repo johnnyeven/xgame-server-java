@@ -9,6 +9,8 @@ import java.nio.channels.CompletionHandler;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Future;
 
 import com.xgame.server.common.database.DatabaseRouter;
 import com.xgame.server.common.protocol.*;
@@ -39,9 +41,15 @@ public class LoginServer
     
     public void startCompletionPort()
     {
-    	System.out.println("服务器已启动");
-    	
-    	server.accept(null, new CompletionHandler<AsynchronousSocketChannel, Object>() {
+		if(server.isOpen())
+		{
+			System.out.println("open");
+		}
+		else
+		{
+			System.out.println("close");
+		}
+    	server.accept(server, new CompletionHandler<AsynchronousSocketChannel, Object>() {
     		
     		ByteBuffer buffer = ByteBuffer.allocate(65535);
     		public void completed(AsynchronousSocketChannel result,Object attachment)
@@ -104,9 +112,9 @@ public class LoginServer
     		public void failed(Throwable exc, Object attachment)
     		{
     			exc.printStackTrace();
-    			server.accept(null, this);
     		}
     	});
+    	System.out.println("服务器已启动");
     	
     	try
     	{
