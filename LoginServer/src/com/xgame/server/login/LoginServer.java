@@ -31,7 +31,7 @@ public class LoginServer
 		
 		try
 		{
-			server = AsynchronousServerSocketChannel.open().bind(new InetSocketAddress("192.168.0.105", PORT), 100);
+			server = AsynchronousServerSocketChannel.open().bind(new InetSocketAddress("192.168.0.107", PORT), 100);
 		}
 		catch(IOException e)
 		{

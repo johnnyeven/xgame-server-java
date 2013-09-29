@@ -23,7 +23,7 @@ public class AIOSocketMgr
 	private AcceptCompletionHandler			acceptHandler;
 	private ReadCompletionHandler			readHandler;
 	private AuthSessionCompletionHandler	authHandler;
-	public final static String				HOST			= "192.168.0.105";
+	public final static String				HOST			= "192.168.0.107";
 	public final static int					PORT			= 9050;
 	public static int						counter			= 0;
 
