@@ -4,49 +4,70 @@ import java.util.HashMap;
 
 public class ProtocolRouter
 {
-	private HashMap<Short, Class<?>> protocolList;
-	
-	public ProtocolRouter()
+	private static ProtocolRouter		instance		= null;
+	private static boolean				allowInstance	= false;
+
+	private HashMap< Short, Class< ? >>	protocolList;
+
+	public ProtocolRouter() throws Exception
 	{
-		protocolList = new HashMap<Short, Class<?>>();
-	}
-	
-	public void Bind(Short key, Class<?> value)
-	{
-		protocolList.put(key, value);
-	}
-	
-	public void UnBind(Short key)
-	{
-		if(protocolList.containsKey(key))
+		if ( !allowInstance )
 		{
-			protocolList.remove(key);
+			throw new Exception();
 		}
+		protocolList = new HashMap< Short, Class< ? >>();
 	}
-	
-	public boolean HasBind(Short key)
+
+	public static ProtocolRouter getInstance()
 	{
-		return protocolList.containsKey(key);
-	}
-	
-	public void Trigger(Short key, Object param)
-	{
-		if(protocolList.containsKey(key))
+		if ( instance == null )
 		{
-			Class<?> reflection = protocolList.get(key);
+			allowInstance = true;
 			try
 			{
-				IProtocol protocol = (IProtocol)reflection.newInstance();
-				protocol.Execute(param);
+				instance = new ProtocolRouter();
 			}
-			catch(Exception e)
+			catch ( Exception e )
 			{
 				e.printStackTrace();
 			}
+			allowInstance = false;
 		}
-		else
+		return instance;
+	}
+
+	public void Bind( Short key, Class< ? > value )
+	{
+		protocolList.put( key, value );
+	}
+
+	public void UnBind( Short key )
+	{
+		if ( protocolList.containsKey( key ) )
 		{
-			System.out.println("收到一个不认识的协议号, id=" + key);
+			protocolList.remove( key );
+		}
+	}
+
+	public boolean HasBind( Short key )
+	{
+		return protocolList.containsKey( key );
+	}
+
+	public void Trigger( Short key, Object param1 )
+	{
+		if ( protocolList.containsKey( key ) )
+		{
+			Class< ? > reflection = protocolList.get( key );
+			try
+			{
+				IProtocol protocol = (IProtocol) reflection.newInstance();
+				protocol.Execute( param1 );
+			}
+			catch ( Exception e )
+			{
+				e.printStackTrace();
+			}
 		}
 	}
 }
