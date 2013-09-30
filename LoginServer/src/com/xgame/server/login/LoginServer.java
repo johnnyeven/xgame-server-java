@@ -9,8 +9,6 @@ import java.nio.channels.CompletionHandler;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.Future;
 
 import com.xgame.server.common.database.DatabaseRouter;
 import com.xgame.server.common.protocol.*;
