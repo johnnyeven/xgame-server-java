@@ -18,7 +18,7 @@ public class AIOSocketMgr
 	private AcceptCompletionHandler			acceptHandler;
 	private ReadCompletionHandler			readHandler;
 	public final static String				HOST			= "127.0.0.1";
-	public final static int					PORT			= 9050;
+	public final static int					PORT			= 9040;
 	public static int						counter			= 0;
 
 	private static AIOSocketMgr				instance		= null;

@@ -1,10 +1,5 @@
 package com.xgame.server.login;
 
-import java.nio.channels.AsynchronousSocketChannel;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import com.xgame.server.common.database.DatabaseRouter;
 import com.xgame.server.common.protocol.*;
 import com.xgame.server.network.AIOSocketMgr;
@@ -12,8 +7,6 @@ import com.xgame.server.network.AIOSocketMgr;
 public class LoginServer
 {
 	private ProtocolRouter router;
-    public Map<String, List<AsynchronousSocketChannel>> map= new HashMap<String, List<AsynchronousSocketChannel>>(); 
-    public final static int PORT = 9040;
     
     public LoginServer()
     {

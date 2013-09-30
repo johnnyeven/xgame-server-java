@@ -7,6 +7,9 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.UUID;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 import com.xgame.server.CommandCenter;
 import com.xgame.server.common.database.DatabaseRouter;
 import com.xgame.server.login.ProtocolParam;
@@ -16,6 +19,8 @@ import com.xgame.server.common.ServerPackage;
 
 public class ProtocolRequestQuickStart implements IProtocol
 {
+	private static Log	log	= LogFactory
+			.getLog( ProtocolRequestQuickStart.class );
 
 	@Override
 	public void Execute(Object param)
@@ -45,14 +50,13 @@ public class ProtocolRequestQuickStart implements IProtocol
 			}
 			i += (length + 5);
 		}
-		System.out.println("[QuickStart] GameId=" + gameId);
 		
 		if(gameId != Integer.MIN_VALUE)
 		{
 			String guid = getGuid().substring(0, 8);
 			String name = "G" + guid;
 			String pass = encode("MD5", guid);
-			System.out.println("[QuickStart] Name=" + name + ", Pass=" + pass);
+			log.info("[QuickStart] Name=" + name + ", Pass=" + pass);
 			
 			try
 			{
