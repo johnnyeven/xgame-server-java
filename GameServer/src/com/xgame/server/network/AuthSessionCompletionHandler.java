@@ -6,7 +6,6 @@ import java.nio.channels.CompletionHandler;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.Date;
 
 import org.apache.commons.logging.Log;
@@ -18,7 +17,6 @@ import com.xgame.server.common.PackageItem;
 import com.xgame.server.common.ServerPackage;
 import com.xgame.server.common.database.DatabaseRouter;
 import com.xgame.server.common.protocol.EnumProtocol;
-import com.xgame.server.game.ProtocolPackage;
 import com.xgame.server.game.World;
 import com.xgame.server.pool.BufferPool;
 import com.xgame.server.pool.ServerPackagePool;
